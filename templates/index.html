@@ -1,0 +1,9 @@
+<!-- <div class="text">{{ text }}</div> -->
+<div class="text">
+  <span class="letter" ng-class="{ done : item.done, current : $index == index }" ng-repeat="item in letters">{{ item.letter }}</span>
+</div>
+
+<!-- <div class="text typed">{{ typed }}</div> -->
+
+<pre>{{ wpm }}</pre>
+<sup>on index {{ index }}</sup>
