@@ -17,11 +17,11 @@ angular
   .controller('KeyboardIndex', KeyboardIndex)
   
 function KeyboardIndex($scope, $timeout) {
-  
+
   document.onkeypress = function(e) {
     e = e || window.event;
     var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
-    
+
     var char = String.fromCharCode(charCode);
     $scope.register(char);
     $scope.$digest();
@@ -45,7 +45,9 @@ function KeyboardIndex($scope, $timeout) {
   $scope.size = 5;
   
   $scope.generateText = function() {
-    var txt = "Pretty much, Im writing a program that will run the same code on each word in an array. I have made an array with about 50 words just to try it, and it works great. Does anyone know of a way to get all words in the English Language (or at least a fairly large amount, like the contents of a Dictionary) into a Java array?";
+    // var txt = angular.element('#words').text();
+    var txt = document.getElementById('words').innerText;
+
     var words = txt
       .replace(/\W/g, '-')
       .replace(/-{2,}/g, '-')
