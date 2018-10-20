@@ -1,3 +1,12 @@
+import angular from 'angular';
+import _ from 'lodash';
+import './style.css';
+import template from './templates/index.html.js';
+
+window.angular = angular;
+
+const routeProvider = require('angular-route');
+const resourceProvider = require('angular-resource');
 
 angular
   .module('myapp', [
@@ -5,9 +14,10 @@ angular
     'ngResource'
   ])
   .config(['$routeProvider', function($routeProvider) {
+    debugger;
     $routeProvider.
       when('/', {
-        templateUrl: 'templates/index.html',
+        template: template,
         controller: 'KeyboardIndex'
       }).
       otherwise({
