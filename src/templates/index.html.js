@@ -1,5 +1,4 @@
-<!-- add space -->
-
+export default `
 <div id="words" style='display:none'>
   th
   and
@@ -1011,3 +1010,4 @@
 
 <pre>{{ wpm }}</pre>
 <sup>on index {{ index }}</sup>
+`
