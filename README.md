@@ -3,7 +3,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 Demo: https://vimark1.github.io/typist/
 
 <h2>Introduction:</h2>
-<br>
 <h3>What is it exactly?</h3>
 <br>
 Add here...
