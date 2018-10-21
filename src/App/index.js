@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import sampleSize from 'lodash.samplesize';
-
+import {HeaderComponent} from '../header'
+import {Profile} from '../header/profile';
 import Text from '../Text';
 import WordsPerMinute from '../WordsPerMinute';
 import TypingLocation from '../TypingLocation';
@@ -42,11 +43,11 @@ export default class App extends Component {
 
   keyDownHandler = e => {
     const charCode = (typeof e.which === 'number') ? e.which : e.keyCode;
-    
+
     if(charCode === 8) {
       this.backspace();
     }
-    
+
     if(charCode === 27) {
       this.completed();
     }
@@ -77,7 +78,7 @@ export default class App extends Component {
       index: index - 1,
     });
   };
-  
+
   completed = function() {
     this.generateText();
     this.setState({
@@ -128,7 +129,7 @@ export default class App extends Component {
           letter
       ));
 
-      
+
       stateUpdate.letters = updatedLetters;
       stateUpdate.index = index + 1;
       stateUpdate.typed = `${typed}${char}`;
@@ -143,7 +144,7 @@ export default class App extends Component {
       if (index === text.length - 1) {
         const { start, wpm } = this.state;
         const calc = this.calcTime(start, new Date());
-        
+
         stateUpdate.wpm = wpm.concat(calc);
         isCompleted = true;
       }
@@ -156,9 +157,11 @@ export default class App extends Component {
     const { letters, index, wpm } = this.state;
     return (
       <div className="App">
+        <HeaderComponent/>
         <Text letters={letters} index={index} />
         <WordsPerMinute wordsPerMinute={wpm} />
         <TypingLocation location={index} />
+        <Profile/>
       </div>
     );
   }
