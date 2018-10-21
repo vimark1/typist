@@ -1,26 +1,26 @@
 {
-  "name": "keyboard-practice",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "name": "typist",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "https://fpereira1.github.io/typist",
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "lodash.samplesize": "^4.2.0",
+    "prop-types": "^15.6.2",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "react-scripts": "2.0.5"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-scripts test",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "eject": "react-scripts eject"
   },
-  "author": "Filype Pereira <pereira.filype@gmail.com>",
-  "license": "MIT",
-  "dependencies": {
-    "angular": "^1.5.7",
-    "angular-resource": "^1.5.7",
-    "angular-route": "^1.5.7",
-    "lodash": "^4.17.11",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2",
-    "react-scripts": "2.0.5"
+  "eslintConfig": {
+    "extends": "react-app"
   },
   "homepage": "https://fpereira1.github.io/typist",
   "browserslist": [
