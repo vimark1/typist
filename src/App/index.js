@@ -4,12 +4,13 @@ import sampleSize from 'lodash.samplesize';
 import Text from '../Text';
 import WordsPerMinute from '../WordsPerMinute';
 import TypingLocation from '../TypingLocation';
+import TotalWords from '../TotalWords';
 
 import words from '../data/words';
 
 export default class App extends Component {
   state = {
-    size: 5,
+    size: 10,
     stats: {
       keys: [],
       success: [],
@@ -42,12 +43,12 @@ export default class App extends Component {
 
   keyDownHandler = e => {
     const charCode = (typeof e.which === 'number') ? e.which : e.keyCode;
-    
-    if(charCode === 8) {
+
+    if (charCode === 8) {
       this.backspace();
     }
-    
-    if(charCode === 27) {
+
+    if (charCode === 27) {
       this.completed();
     }
   }
@@ -60,8 +61,8 @@ export default class App extends Component {
     const newLetters = newText
       .split('')
       .map(letter => ({
-        letter : letter,
-        done : false
+        letter: letter,
+        done: false
       }));
 
     this.setState({
@@ -72,13 +73,13 @@ export default class App extends Component {
 
   backspace = () => {
     const { index } = this.index;
-    if(index === 0) return;
+    if (index === 0) return;
     this.setState({
       index: index - 1,
     });
   };
-  
-  completed = function() {
+
+  completed = function () {
     this.generateText();
     this.setState({
       index: 0,
@@ -128,7 +129,7 @@ export default class App extends Component {
           letter
       ));
 
-      
+
       stateUpdate.letters = updatedLetters;
       stateUpdate.index = index + 1;
       stateUpdate.typed = `${typed}${char}`;
@@ -143,7 +144,7 @@ export default class App extends Component {
       if (index === text.length - 1) {
         const { start, wpm } = this.state;
         const calc = this.calcTime(start, new Date());
-        
+
         stateUpdate.wpm = wpm.concat(calc);
         isCompleted = true;
       }
@@ -153,12 +154,13 @@ export default class App extends Component {
   }
 
   render() {
-    const { letters, index, wpm } = this.state;
+    const { letters, index, wpm, size } = this.state;
     return (
       <div className="App">
         <Text letters={letters} index={index} />
         <WordsPerMinute wordsPerMinute={wpm} />
         <TypingLocation location={index} />
+        <TotalWords size={size} />
       </div>
     );
   }
