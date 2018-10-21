@@ -156,6 +156,7 @@ export default class App extends Component {
     const { letters, index, wpm } = this.state;
     return (
       <div className="App">
+        <h2>v0.0.1</h2>
         <Text letters={letters} index={index} />
         <WordsPerMinute wordsPerMinute={wpm} />
         <TypingLocation location={index} />
