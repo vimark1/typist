@@ -22,7 +22,6 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "homepage": "https://fpereira1.github.io/typist",
   "browserslist": [
     ">0.2%",
     "not dead",
@@ -31,5 +30,15 @@
   ],
   "devDependencies": {
     "gh-pages": "^2.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vimark1/typist.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vimark1/typist/issues"
   }
 }
