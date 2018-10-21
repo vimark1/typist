@@ -1,3 +1,9 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Typist
 
-Demo: https://vimark1.github.io/typist/
+This is a typing  challenge wherein you app in which you have to type the words shown.  
+Note that the space between words only require a spacebar and you have to type the exact spelling of the word displayed.  
+Presently, it is just a basic implementation of the idea and is under development.  
+
+_This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app)._
+
+**Check the demo [here](https://vimark1.github.io/typist/)**
