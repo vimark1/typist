@@ -1,25 +1,25 @@
 import React from 'react';
-import Text from '../';
 import renderer from 'react-test-renderer';
+import Text from '..';
 
 describe('Text', () => {
   it('renders correctly', () => {
     const letters = [
       {
         done: true,
-        letter: "h"
+        letter: 'h',
       },
       {
         done: false,
-        letter: "i"
-      }
+        letter: 'i',
+      },
     ];
     const index = 0;
     const component = renderer.create(
-      <Text {...{ letters, index }} />
+      <Text {...{ letters, index }} />,
     );
 
-    let tree = component.toJSON();
+    const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
-  })
-})
+  });
+});

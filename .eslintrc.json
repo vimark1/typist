@@ -1,3 +1,16 @@
 {
-    "extends": "airbnb"
+  "extends": ["airbnb", "plugin:jest/recommended"],
+  "plugins": ["jest"],
+  "env": {
+    "browser": true
+  },
+  "rules":{
+    "no-use-before-define": 0,
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", ".jsx"]
+      }
+    ]
+  }
 }

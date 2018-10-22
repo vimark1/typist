@@ -11,7 +11,7 @@ class Signup extends React.Component {
       email: '',
       password: '',
       loading: false,
-      error: {}
+      error: {},
     };
   }
 
@@ -24,17 +24,19 @@ class Signup extends React.Component {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(auth => {
+      .then((auth) => {
         this.setState({ loading: false });
         this.props.signupSuccess();
       })
-      .catch(error => {
+      .catch((error) => {
         console.log('error', error);
         this.setState({ error, loading: false });
       });
   }
 
   render() {
+    const { loading, error } = this.state;
+
     return (
       <div className={cx('email-signup')}>
         <div className={cx('u-form-group')}>
@@ -53,11 +55,11 @@ class Signup extends React.Component {
         </div>
         <div className={cx('u-form-group')}>
           <button onClick={() => this.signup()}>
-            {this.state.loading ? 'Please wait...' : 'Signup'}
+            {loading ? 'Please wait...' : 'Signup'}
           </button>
         </div>
         <div className={cx('u-form-group error')}>
-          {this.state.error.message}
+          {error.message}
         </div>
       </div>
     );
@@ -65,7 +67,7 @@ class Signup extends React.Component {
 }
 
 Signup.propTypes = {
-  signupSuccess: PropTypes.func.isRequired
+  signupSuccess: PropTypes.func.isRequired,
 };
 
 export default Signup;
