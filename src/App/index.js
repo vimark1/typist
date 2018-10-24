@@ -28,7 +28,11 @@ export default class App extends Component {
     typed: '',
     start: new Date(),
     wpm: [],
-    activePage: 'app'
+    score: 0,
+    activePage: 'app',
+    authError: false,
+    error: '',
+    dbSessionId: ''
   };
 
   componentDidMount() {
@@ -149,14 +153,48 @@ export default class App extends Component {
       if (index === text.length - 1) {
         const { start, wpm } = this.state;
         const calc = this.calcTime(start, new Date());
-
         stateUpdate.wpm = wpm.concat(calc);
+        const score = Math.round(
+          stateUpdate.wpm.reduce((a, b) => a + b) / stateUpdate.wpm.length
+        );
+        stateUpdate.score = score;
         isCompleted = true;
       }
 
       this.setState(stateUpdate, () => isCompleted && this.completed());
+      if (isCompleted) this.saveScore();
     }
   };
+
+  async saveScore() {
+    try {
+      const { user } = this.props;
+      if (!user.uid) return this.setState({ authError: true });
+      this.setState({ authError: false, error: '' });
+      const { wpm, score, dbSessionId } = this.state;
+      const object = {
+        wpm,
+        score,
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+      };
+      const ref = firebase
+        .database()
+        .ref('user-score')
+        .child(user.uid + 1);
+      if (dbSessionId) {
+        await ref.child(dbSessionId).update(object);
+      } else {
+        const response = await ref.push(object);
+        this.setState({ dbSessionId: response.key });
+      }
+    } catch (err) {
+      console.log('err', err);
+      this.setState({
+        error:
+          'Something went wrong while saving score, please contact support!'
+      });
+    }
+  }
 
   changeActivePage(page) {
     this.setState({ activePage: page });
@@ -168,6 +206,7 @@ export default class App extends Component {
 
   signinSuccess() {
     this.changeActivePage('app');
+    this.setState({ authError: '' });
   }
 
   signout() {
@@ -176,7 +215,7 @@ export default class App extends Component {
 
   render() {
     const { user } = this.props;
-    const { letters, index, wpm } = this.state;
+    const { letters, index, wpm, score, error, authError } = this.state;
     const MenuItem = ({ title, keyword, active, left, onPress }) => (
       <li
         className={cx('menu-item', { active: active === keyword, left: left })}
@@ -232,6 +271,13 @@ export default class App extends Component {
             <Text letters={letters} index={index} />
             <WordsPerMinute wordsPerMinute={wpm} />
             <TypingLocation location={index} />
+            <pre>Score: {score}</pre>
+            {authError && (
+              <div className="error center">
+                Please signin to save your score!
+              </div>
+            )}
+            {error && <div className="error center">{error}</div>}
           </div>
         )}
       </div>
