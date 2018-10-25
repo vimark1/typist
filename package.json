@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "https://vimark1.github.io/typist",
+  "main": "public/electron.js",
   "dependencies": {
     "classnames": "^2.2.6",
     "firebase": "^5.5.5",
@@ -14,6 +15,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:electron": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "predeploy": "npm run build",
@@ -30,8 +32,11 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "concurrently": "^4.0.1",
+    "electron": "^3.0.6",
     "gh-pages": "^2.0.1",
-    "react-test-renderer": "^16.5.2"
+    "react-test-renderer": "^16.5.2",
+    "wait-on": "^3.1.0"
   },
   "repository": {
     "type": "git",
