@@ -2,9 +2,10 @@
   "name": "typist",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://fpereira1.github.io/typist",
+  "homepage": "https://vimark1.github.io/typist",
   "dependencies": {
     "classnames": "^2.2.6",
+    "firebase": "^5.5.5",
     "lodash.samplesize": "^4.2.0",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
@@ -29,7 +30,8 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "gh-pages": "^2.0.1"
+    "gh-pages": "^2.0.1",
+    "react-test-renderer": "^16.5.2"
   },
   "repository": {
     "type": "git",

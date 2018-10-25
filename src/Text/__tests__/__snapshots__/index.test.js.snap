@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Text renders correctly 1`] = `
+<div
+  className="text"
+>
+  <span
+    className="letter done current"
+  >
+    h
+  </span>
+  <span
+    className="letter"
+  >
+    i
+  </span>
+</div>
+`;
