@@ -9,8 +9,11 @@ import TotalWords from '../TotalWords';
 import words from '../data/words';
 
 export default class App extends Component {
+
+  meaningfulWords = words.filter(word => word.length >= 3);
+
   state = {
-    size: 10,
+    size: 5,
     stats: {
       keys: [],
       success: [],
@@ -22,6 +25,7 @@ export default class App extends Component {
     typed: '',
     start: new Date(),
     wpm: [],
+    wordList: []
   };
 
   componentDidMount() {
@@ -53,11 +57,8 @@ export default class App extends Component {
     }
   }
 
-  generateText = () => {
-    const { size } = this.state;
-
-    const meaningfulWords = words.filter(word => word.length >= 3);
-    const newText = sampleSize(meaningfulWords, size).join(' ');
+  generateText = (wordList) => {
+    const newText = wordList.join(' ');
     const newLetters = newText
       .split('')
       .map(letter => ({
@@ -68,6 +69,7 @@ export default class App extends Component {
     this.setState({
       text: newText,
       letters: newLetters,
+      wordList
     });
   }
 
@@ -80,7 +82,9 @@ export default class App extends Component {
   };
 
   completed = function () {
-    this.generateText();
+    const { size } = this.state;
+    const wordList = sampleSize(this.meaningfulWords, size);
+    this.generateText(wordList);
     this.setState({
       index: 0,
       typed: '',
@@ -153,6 +157,30 @@ export default class App extends Component {
     }
   }
 
+  increment = () => {
+    const { size, wordList } = this.state;
+    const newWord = sampleSize(this.meaningfulWords, 1);
+    this.setState({
+      size: size + 1,
+      wordList: [...wordList, ...newWord]
+    }, () => {
+      this.generateText(this.state.wordList);
+    });
+  }
+
+  decrement = () => {
+    const { size, wordList } = this.state;
+
+    if (size > 1) {
+      this.setState({
+        size: size - 1,
+        wordList: [...wordList.slice(0, wordList.length - 1)]
+      }, () => {
+        this.generateText(this.state.wordList);
+      });
+    }
+  }
+
   render() {
     const { letters, index, wpm, size } = this.state;
     return (
@@ -160,7 +188,11 @@ export default class App extends Component {
         <Text letters={letters} index={index} />
         <WordsPerMinute wordsPerMinute={wpm} />
         <TypingLocation location={index} />
-        <TotalWords size={size} />
+        <TotalWords
+          size={size}
+          increment={this.increment}
+          decrement={this.decrement}
+        />
       </div>
     );
   }
