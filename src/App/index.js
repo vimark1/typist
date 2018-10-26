@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import sampleSize from 'lodash.samplesize';
 import cx from 'classnames';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import Text from '../Text';
