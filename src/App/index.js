@@ -7,6 +7,7 @@ import 'firebase/auth';
 import Text from '../Text';
 import WordsPerMinute from '../WordsPerMinute';
 import TypingLocation from '../TypingLocation';
+import TotalWords from '../TotalWords';
 import Signup from '../Signup';
 import Signin from '../Signin';
 
@@ -15,6 +16,9 @@ import words from '../data/words';
 import './style.css';
 
 export default class App extends Component {
+
+  meaningfulWords = words.filter(word => word.length >= 3);
+
   state = {
     size: 5,
     stats: {
@@ -28,6 +32,7 @@ export default class App extends Component {
     typed: '',
     start: new Date(),
     wpm: [],
+    wordList: [],
     score: 0,
     activePage: 'app',
     authError: false,
@@ -52,7 +57,7 @@ export default class App extends Component {
   };
 
   keyDownHandler = e => {
-    const charCode = typeof e.which === 'number' ? e.which : e.keyCode;
+    const charCode = (typeof e.which === 'number') ? e.which : e.keyCode;
 
     if (charCode === 8) {
       this.backspace();
@@ -63,19 +68,19 @@ export default class App extends Component {
     }
   };
 
-  generateText = () => {
-    const { size } = this.state;
-
-    const meaningfulWords = words.filter(word => word.length >= 3);
-    const newText = sampleSize(meaningfulWords, size).join(' ');
-    const newLetters = newText.split('').map(letter => ({
-      letter: letter,
-      done: false
-    }));
+  generateText = (wordList) => {
+    const newText = wordList.join(' ');
+    const newLetters = newText
+      .split('')
+      .map(letter => ({
+        letter: letter,
+        done: false
+      }));
 
     this.setState({
       text: newText,
-      letters: newLetters
+      letters: newLetters,
+      wordList
     });
   };
 
@@ -87,8 +92,10 @@ export default class App extends Component {
     });
   };
 
-  completed = function() {
-    this.generateText();
+  completed = function () {
+    const { size } = this.state;
+    const wordList = sampleSize(this.meaningfulWords, size);
+    this.generateText(wordList);
     this.setState({
       index: 0,
       typed: '',
@@ -128,15 +135,14 @@ export default class App extends Component {
         fails: stats.fails.concat(stat)
       };
     } else {
-      const updatedLetters = letters.map(
-        (letter, idx) =>
-          idx === index
-            ? {
-                ...letter,
-                done: true
-              }
-            : letter
-      );
+      const updatedLetters = letters.map((letter, idx) => (
+        idx === index ?
+          {
+            ...letter,
+            done: true,
+          } :
+          letter
+      ));
 
       stateUpdate.letters = updatedLetters;
       stateUpdate.index = index + 1;
@@ -212,9 +218,33 @@ export default class App extends Component {
     firebase.auth().signOut();
   }
 
+  increment = () => {
+    const { size, wordList } = this.state;
+    const newWord = sampleSize(this.meaningfulWords, 1);
+    this.setState({
+      size: size + 1,
+      wordList: [...wordList, ...newWord]
+    }, () => {
+      this.generateText(this.state.wordList);
+    });
+  }
+
+  decrement = () => {
+    const { size, wordList } = this.state;
+
+    if (size > 1) {
+      this.setState({
+        size: size - 1,
+        wordList: [...wordList.slice(0, wordList.length - 1)]
+      }, () => {
+        this.generateText(this.state.wordList);
+      });
+    }
+  }
+
   render() {
     const { user } = this.props;
-    const { letters, index, wpm, score, error, authError } = this.state;
+    const { letters, index, wpm, size, score, error, authError } = this.state;
     const MenuItem = ({ title, keyword, active, left, onPress }) => (
       <li
         className={cx('menu-item', { active: active === keyword, left: left })}
@@ -270,6 +300,13 @@ export default class App extends Component {
             <Text letters={letters} index={index} />
             <WordsPerMinute wordsPerMinute={wpm} />
             <TypingLocation location={index} />
+
+            <TotalWords
+              size={size}
+              increment={this.increment}
+              decrement={this.decrement}
+            />
+
             <pre>Score: {score}</pre>
             {authError && (
               <div className="error center">
