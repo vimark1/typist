@@ -997,5 +997,5 @@ export default [
   'servants',
   'calling',
   'fallen',
-  '368'
+  '368',
 ];

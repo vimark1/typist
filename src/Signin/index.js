@@ -4,6 +4,8 @@ import cx from 'classnames';
 import firebase from 'firebase';
 import 'firebase/auth';
 
+import { signinWithGoogle } from '../lib/google_signin';
+
 class Signin extends React.Component {
   constructor(props) {
     super(props);
@@ -11,8 +13,16 @@ class Signin extends React.Component {
       email: '',
       password: '',
       loading: false,
-      error: {}
+      error: {},
     };
+  }
+
+  signinWithGoogle() {
+    signinWithGoogle((isLoading) => {
+      this.setState({ ...this.state, loading: isLoading });
+    }, (error) => {
+      this.setState({ loading: false, error })
+    }, this.props.signinSuccess)
   }
 
   signin() {
@@ -23,17 +33,19 @@ class Signin extends React.Component {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then(auth => {
+      .then((auth) => {
         this.setState({ loading: false });
         this.props.signinSuccess();
       })
-      .catch(error => {
+      .catch((error) => {
         console.log('error', error);
         this.setState({ error, loading: false });
       });
   }
 
   render() {
+    const { loading, error } = this.state;
+
     return (
       <div className={cx('email-signin')}>
         <div className={cx('u-form-group')}>
@@ -52,11 +64,14 @@ class Signin extends React.Component {
         </div>
         <div className={cx('u-form-group')}>
           <button onClick={() => this.signin()}>
-            {this.state.loading ? 'Please wait...' : 'Signin'}
+            {loading ? 'Please wait...' : 'Signin'}
           </button>
         </div>
         <div className={cx('u-form-group error')}>
-          {this.state.error.message}
+          {error.message}
+        </div>
+        <div>
+          <img alt='Sign In with Google' src='btn_google_signin_dark_normal_web.png' onClick={() => this.signinWithGoogle()} />
         </div>
       </div>
     );
@@ -64,7 +79,7 @@ class Signin extends React.Component {
 }
 
 Signin.propTypes = {
-  signinSuccess: PropTypes.func.isRequired
+  signinSuccess: PropTypes.func.isRequired,
 };
 
 export default Signin;

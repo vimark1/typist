@@ -7,3 +7,9 @@ Note that the space between words only require a spacebar and you have to type t
 Presently, it is just a basic implementation of the idea and is under development.
 
 **Demo: https://vimark1.github.io/typist/**
+
+
+## Contributing
+
+Contributions welcome; Please submit all pull requests the against master
+branch. Or create an issue with a new feature!

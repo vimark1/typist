@@ -1,0 +1,8 @@
+{
+  "apiKey": "AIzaSyCTrTNKkca5ooAwm0nOMvIh3EHOkbvIn90",
+  "authDomain": "typist-dev.firebaseapp.com",
+  "databaseURL": "https://typist-dev.firebaseio.com",
+  "projectId": "typist-dev",
+  "storageBucket": "typist-dev.appspot.com",
+  "messagingSenderId": "451704177467"
+}

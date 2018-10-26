@@ -28,6 +28,12 @@
   float: left;
 }
 
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .email-signin,
 .email-signup {
   position: relative;
