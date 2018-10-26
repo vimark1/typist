@@ -5,8 +5,6 @@ import firebase from 'firebase';
 import 'firebase/auth';
 
 import Text from '../Text';
-import WordsPerMinute from '../WordsPerMinute';
-import TypingLocation from '../TypingLocation';
 import TotalWords from '../TotalWords';
 import Signup from '../Signup';
 import Signin from '../Signin';
@@ -244,7 +242,7 @@ export default class App extends Component {
 
   render() {
     const { user } = this.props;
-    const { letters, index, wpm, size, score, error, authError } = this.state;
+    const { letters, index, size, score, error, authError } = this.state;
     const MenuItem = ({ title, keyword, active, left, onPress }) => (
       <li
         className={cx('menu-item', { active: active === keyword, left: left })}

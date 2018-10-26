@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`TypingLocation renders correctly 1`] = `
-<sup>
-  on index 
-  10
-</sup>
-`;
