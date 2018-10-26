@@ -1,6 +1,6 @@
 import React from 'react';
-import Letter from '../';
 import renderer from 'react-test-renderer';
+import Letter from '..';
 
 describe('Letter', () => {
   it('renders correctly', () => {
@@ -8,10 +8,10 @@ describe('Letter', () => {
     const done = false;
     const isCurrent = false;
     const component = renderer.create(
-      <Letter {...{ done, letter, isCurrent }} />
+      <Letter {...{ done, letter, isCurrent }} />,
     );
 
-    let tree = component.toJSON();
+    const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
-  })
-})
+  });
+});

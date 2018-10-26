@@ -6,7 +6,7 @@ import './style.css';
 
 const Text = ({ done, letter, isCurrent }) => (
   <span
-    className={cx('letter', { done : done, current : isCurrent })}
+    className={cx('letter', { done, current: isCurrent })}
   >
     {letter}
   </span>

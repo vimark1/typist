@@ -9,11 +9,11 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import firebaseCred from './firebase-cred.json';
 
-var config = firebaseCred;
+const config = firebaseCred;
 
 firebase.initializeApp(config);
 
-firebase.auth().onAuthStateChanged(user => {
+firebase.auth().onAuthStateChanged((user) => {
   ReactDOM.render(<App user={user || {}} />, document.getElementById('root'));
 });
 

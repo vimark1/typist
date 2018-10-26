@@ -188,7 +188,6 @@ export default class App extends Component {
         });
 
     } catch (err) {
-      console.log('err', err);
       this.setState({
         error:
           'Something went wrong while saving score, please contact support!'

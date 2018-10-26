@@ -2,7 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const WordsPerMinute = ({ wordsPerMinute }) => (
-  <pre>[{wordsPerMinute.join(', ')}]</pre>
+  <pre>
+    [
+    {wordsPerMinute.join(', ')}
+    ]
+  </pre>
 );
 
 WordsPerMinute.propTypes = {
