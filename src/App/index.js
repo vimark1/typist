@@ -298,8 +298,8 @@ export default class App extends Component {
         {this.state.activePage === 'app' && (
           <div className="App">
             <Text letters={letters} index={index} />
-            <WordsPerMinute wordsPerMinute={wpm} />
-            <TypingLocation location={index} />
+
+            <p>Last score: {score}</p>
 
             <TotalWords
               size={size}
@@ -307,7 +307,6 @@ export default class App extends Component {
               decrement={this.decrement}
             />
 
-            <pre>Score: {score}</pre>
             {authError && (
               <div className="error center">
                 Please signin to save your score!
