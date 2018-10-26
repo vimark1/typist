@@ -1,8 +1,8 @@
 {
   "name": "typist",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "private": true,
-  "homepage": "https://fpereira1.github.io/typist",
+  "homepage": "https://typistapp.netlify.com",
   "dependencies": {
     "classnames": "^2.2.6",
     "firebase": "^5.5.5",
@@ -14,12 +14,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "prebuild": "node scripts/write-firebase-file.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "eject": "react-scripts eject",
-    "lint": "node_modules/.bin/eslint ."
+    "lint": "node_modules/.bin/eslint .",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -37,7 +36,6 @@
     "eslint-plugin-jest": "^21.25.1",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
-    "gh-pages": "^2.0.1",
     "react-test-renderer": "^16.5.2"
   },
   "repository": {

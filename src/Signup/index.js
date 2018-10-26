@@ -4,6 +4,8 @@ import cx from 'classnames';
 import firebase from 'firebase';
 import 'firebase/auth';
 
+import { signinWithGoogle } from '../lib/google_signin';
+
 class Signup extends React.Component {
   constructor(props) {
     super(props);
@@ -34,6 +36,14 @@ class Signup extends React.Component {
       });
   }
 
+  signupWithGoogle() {
+    signinWithGoogle((isLoading) => {
+      this.setState({ ...this.state, loading: isLoading });
+    }, (error) => {
+      this.setState({ loading: false, error })
+    }, this.props.signupSuccess)
+  }
+
   render() {
     const { loading, error } = this.state;
 
@@ -60,6 +70,9 @@ class Signup extends React.Component {
         </div>
         <div className={cx('u-form-group error')}>
           {error.message}
+        </div>
+        <div>
+          <img alt='Sign Up with Google' src='btn_google_signin_dark_normal_web.png' onClick={() => this.signupWithGoogle()} />
         </div>
       </div>
     );
