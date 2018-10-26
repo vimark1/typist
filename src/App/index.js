@@ -31,8 +31,7 @@ export default class App extends Component {
     score: 0,
     activePage: 'app',
     authError: false,
-    error: '',
-    dbSessionId: ''
+    error: ''
   };
 
   componentDidMount() {
@@ -171,22 +170,23 @@ export default class App extends Component {
       const { user } = this.props;
       if (!user.uid) return this.setState({ authError: true });
       this.setState({ authError: false, error: '' });
-      const { wpm, score, dbSessionId } = this.state;
-      const object = {
-        wpm,
-        score,
-        timestamp: firebase.database.ServerValue.TIMESTAMP
-      };
-      const ref = firebase
+
+      const { score } = this.state;
+
+      // a string in the format 2018-10-26
+      const sessionId = (new Date()).toISOString().slice(0,10);
+
+      // store record in Firebase
+      await firebase
         .database()
         .ref('user-score')
-        .child(user.uid + 1);
-      if (dbSessionId) {
-        await ref.child(dbSessionId).update(object);
-      } else {
-        const response = await ref.push(object);
-        this.setState({ dbSessionId: response.key });
-      }
+        .child(user.uid)
+        .child(sessionId)
+        .push({
+          score,
+          timestamp: firebase.database.ServerValue.TIMESTAMP
+        });
+
     } catch (err) {
       console.log('err', err);
       this.setState({
