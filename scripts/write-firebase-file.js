@@ -1,14 +1,13 @@
 const fs = require('fs');
 const path = require('path');
-let { BRANCH } = process.env;
+const { BRANCH } = process.env;
 
 if (!BRANCH) {
   console.log('No branch setup');
   return;
 }
 
-BRANCH = BRANCH || 'default';
-const config = process.env[`FIREBASE_JSON_${BRANCH}`];
+const config = process.env[`FIREBASE_JSON_${BRANCH}`] || process.env.FIREBASE_JSON_default;
 
 console.log(`Writting file for ${BRANCH}`);
 console.log({ config });
