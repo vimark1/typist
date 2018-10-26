@@ -69,7 +69,7 @@ class Signin extends React.Component {
           {this.state.error.message}
         </div>
         <div>
-          <img alt='Sign In with Google' src='/btn_google_signin_dark_normal_web.png' onClick={() => this.signinWithGoogle()} />
+          <img alt='Sign In with Google' src='btn_google_signin_dark_normal_web.png' onClick={() => this.signinWithGoogle()} />
         </div>
       </div>
     );
