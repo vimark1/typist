@@ -14,10 +14,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "prebuild": "node scripts/write-firebase-file.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -30,7 +29,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "gh-pages": "^2.0.1",
     "react-test-renderer": "^16.5.2"
   },
   "repository": {
