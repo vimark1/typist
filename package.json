@@ -14,10 +14,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "prebuild": "node scripts/write-firebase-file.js",
+    "lint": "eslint ./src/",
+    "prebuild": "npm-s lint depoly:firebase",
+    "deploy:firebase": "node scripts/write-firebase-file.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "lint": "node_modules/.bin/eslint .",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -31,7 +32,7 @@
   ],
   "devDependencies": {
     "eslint": "^5.7.0",
-    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-react-app": "^3.0.4",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jest": "^21.25.1",
     "eslint-plugin-jsx-a11y": "^6.1.2",

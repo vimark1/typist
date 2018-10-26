@@ -6,10 +6,8 @@ export function signinWithGoogle(setLoading, setError, callback) {
   setLoading(true);
   firebase.auth().signInWithPopup(provider).then(auth => {
     setLoading(false);
-    console.log('signup success');
     callback()
   }).catch(function(error) {
-    console.log('error', error);
     setError(error);
   });
 }
