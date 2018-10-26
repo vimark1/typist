@@ -263,14 +263,14 @@ export default class App extends Component {
             />
             {!user.uid && (
               <MenuItem
-                title="Signup"
+                title="Sign Up"
                 keyword="signup"
                 active={this.state.activePage}
               />
             )}
             {!user.uid && (
               <MenuItem
-                title="Signin"
+                title="Sign In"
                 keyword="signin"
                 active={this.state.activePage}
               />
@@ -307,7 +307,7 @@ export default class App extends Component {
 
             {authError && (
               <div className="error center">
-                Please signin to save your score!
+                Please sign in to save your score!
               </div>
             )}
             {error && <div className="error center">{error}</div>}

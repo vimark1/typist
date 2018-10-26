@@ -12,20 +12,25 @@ class Signup extends React.Component {
     this.state = {
       email: '',
       password: '',
+      displayName: '',
       loading: false,
       error: {},
     };
   }
 
   signup() {
-    const { email, password } = this.state;
-    console.log({ email, password });
+    const { email, password, displayName } = this.state;
+    console.log({ email, password, displayName });
     if (!email) return;
     if (!password) return;
+    if (!displayName) {
+        this.setState({displayName: email})
+    }
     this.setState({ loading: true, error: {} });
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
+      .updateProfile({displayName: displayName, photoURL: null})
       .then((auth) => {
         this.setState({ loading: false });
         this.props.signupSuccess();
@@ -48,33 +53,40 @@ class Signup extends React.Component {
     const { loading, error } = this.state;
 
     return (
-      <div className={cx('email-signup')}>
-        <div className={cx('u-form-group')}>
-          <input
-            type="email"
-            placeholder="Email"
-            onChange={event => this.setState({ email: event.target.value })}
-          />
+        <div className={cx('email-signup')}>
+            <div className={cx('u-form-group')}>
+                <input
+                    type="displayName"
+                    placeholder="Display Name (optional)"
+                    onChange={event => this.setState({ displayName: event.target.value })}
+                />
+            </div>
+            <div className={cx('u-form-group')}>
+                <input
+                    type="email"
+                    placeholder="Email"
+                    onChange={event => this.setState({ email: event.target.value })}
+                />
+            </div>
+            <div className={cx('u-form-group')}>
+                <input
+                    type="password"
+                    placeholder="Password"
+                    onChange={event => this.setState({ password: event.target.value })}
+                />
+            </div>
+            <div className={cx('u-form-group')}>
+                <button onClick={() => this.signup()}>
+                    {loading ? 'Please wait...' : 'Sign Up'}
+                </button>
+            </div>
+            <div className={cx('u-form-group error')}>
+                {error.message}
+            </div>
+            <div>
+                <img alt='Sign Up with Google' src='btn_google_signin_dark_normal_web.png' onClick={() => this.signupWithGoogle()} />
+            </div>
         </div>
-        <div className={cx('u-form-group')}>
-          <input
-            type="password"
-            placeholder="Password"
-            onChange={event => this.setState({ password: event.target.value })}
-          />
-        </div>
-        <div className={cx('u-form-group')}>
-          <button onClick={() => this.signup()}>
-            {loading ? 'Please wait...' : 'Signup'}
-          </button>
-        </div>
-        <div className={cx('u-form-group error')}>
-          {error.message}
-        </div>
-        <div>
-          <img alt='Sign Up with Google' src='btn_google_signin_dark_normal_web.png' onClick={() => this.signupWithGoogle()} />
-        </div>
-      </div>
     );
   }
 }
