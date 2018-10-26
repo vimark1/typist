@@ -2,7 +2,7 @@
   "name": "typist",
   "version": "0.3.0",
   "private": true,
-  "homepage": "https://vimark1.github.io/typist",
+  "homepage": "https://typistapp.netlify.com",
   "dependencies": {
     "classnames": "^2.2.6",
     "firebase": "^5.5.5",
