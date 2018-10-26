@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 
 export function signinWithGoogle(setLoading, setError, callback) {
   var provider = new firebase.auth.GoogleAuthProvider();
