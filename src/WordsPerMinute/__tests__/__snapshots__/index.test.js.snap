@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`WordsPerMinute renders correctly 1`] = `
-<pre>
-  [
-  10, 20
-  ]
-</pre>
-`;
