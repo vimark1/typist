@@ -1,0 +1,16 @@
+{
+  "name": "typist",
+  "scripts": {
+    "postdeploy": "npm run build"
+  },
+  "env": {
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+
+  ]
+}
