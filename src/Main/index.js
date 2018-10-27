@@ -169,7 +169,7 @@ export default class Main extends Component {
   updateScoreboard(user, score) {
     const limit = 10;
     const topScorersRef = firebase.database().ref('top-scorers');
-      topScorersRef.on('value', snapshot => {
+      topScorersRef.once('value', snapshot => {
         let topScores = snapshot.val() || [];
         topScores.push({user: user, score: score})
         topScores.sort((a, b) => {
