@@ -72,19 +72,18 @@ class Signin extends React.Component {
             {loading ? 'Please wait...' : 'Sign In'}
           </button>
         </div>
+        <p>OR</p>
+        <div>
+          <button onClick={() => this.signinWithGoogle()}>
+            <img alt='Sign In with Google' src='btn_google_signin_dark_normal_web.png' />
+          </button>
+        </div>
         <div className={cx('u-form-group error')}>
           {error.message}
-        </div>
-        <div>
-          <img alt='Sign In with Google' src='btn_google_signin_dark_normal_web.png' onClick={() => this.signinWithGoogle()} />
         </div>
       </div>
     );
   }
 }
-
-Signin.propTypes = {
-  signinSuccess: PropTypes.func.isRequired,
-};
 
 export default Signin;
