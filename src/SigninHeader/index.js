@@ -6,7 +6,7 @@ import 'firebase/auth';
 
 import Avatar from 'react-avatar';
 
-// import './style.css';
+import './style.css';
 
 export default class SigninHeader extends Component {
 
@@ -30,32 +30,30 @@ export default class SigninHeader extends Component {
       </li>
     );
     return (
-      <div className={cx('navbar')}>
-        <ul className={cx('menu')}>
-        {!user.uid && (
-          <MenuItem
-          title="Sign up"
-          path="signup"
-          />
-        )}
-        {!user.uid && (
-          <MenuItem
-          title="Sign In"
-          path="signin"
-          />
-        )}
-        {user.uid && (
-          <li className={cx('menu-item')} onClick={() => this.signout()}>
-          Logout
-          </li>
-        )}
-        {user.uid && (
-          <li className={cx('menu-item')} title={user.displayName || user.email}>
-            <Avatar name={user.displayName} email={user.email} googleId={this.googleId} round={true} size="40" />
-          </li>
-        )}
-        </ul>
-      </div>
+      <ul className={cx('menu')}>
+      {!user.uid && (
+        <MenuItem
+        title="Sign up"
+        path="signup"
+        />
+      )}
+      {!user.uid && (
+        <MenuItem
+        title="Sign In"
+        path="signin"
+        />
+      )}
+      {user.uid && (
+        <li className={cx('menu-item')} onClick={() => this.signout()}>
+        Logout
+        </li>
+      )}
+      {user.uid && (
+        <li className={cx('menu-item')} title={user.displayName || user.email}>
+          <Avatar name={user.displayName} email={user.email} googleId={this.googleId} round={true} size="40" />
+        </li>
+      )}
+      </ul>
     );
   }
 }

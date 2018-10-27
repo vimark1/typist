@@ -1,16 +1,47 @@
 body {
-  max-width: 800px;
   margin: 0 auto;
   padding: 0;
   font-family: Lato;
   -webkit-font-smoothing: antialiased;
-  background-color: #f0f0f0;
+  background-color: whitesmoke;
   font-weight: 400;
-  color: #333;
-  padding-top: 16vh;
+  color: rgb(50, 54, 72);
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.header {
+  background: #fff;
+  margin: 0;
+  padding: 16px 4vw;
+  margin-bottom: 10vh;
+}
+
+.header h1 {
+  display: inline-block;
+  margin: 0;
+  float: left;
+}
+
+.header h1 a {
+  background: #1c299d;
+  color: #fff !important;
+  text-decoration: none;
+  padding: 8px 20px;
+}
+
+.header .menu {
+  float: right;
+}
+
+.clear {
+  clear: both;
+}
+
+.main {
+  max-width: 65vw;
+  margin: 0 auto;
 }

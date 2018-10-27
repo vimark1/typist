@@ -15,19 +15,24 @@ export default class App extends Component {
 
     return (
       <div>
-      <h1>
-        <Link to='/'>Typist</Link>
-      </h1>
-      <SigninHeader user={user} />
-      <Switch>
-        <Route exact path='/' component={() => {
-          return <Main user={user} />
-        }} />
-        <Route exact path='/about' component={About} />
-        <Route exact path='/profile' component={Profile} />
-        <Route exact path='/signin' component={Signin} />
-        <Route exact path='/signup' component={Signup} />
-      </Switch>
+      <div className="header">
+        <h1>
+          <Link to='/'>Typist</Link>
+        </h1>
+        <SigninHeader user={user} />
+        <br class="clear" />
+      </div>
+      <div className="main">
+        <Switch>
+          <Route exact path='/' component={() => {
+            return <Main user={user} />
+          }} />
+          <Route exact path='/about' component={About} />
+          <Route exact path='/profile' component={Profile} />
+          <Route exact path='/signin' component={Signin} />
+          <Route exact path='/signup' component={Signup} />
+        </Switch>
+      </div>
       </div>
     );
   }
