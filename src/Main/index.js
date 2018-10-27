@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import sampleSize from 'lodash.samplesize';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/database';
 
 import Text from '../Text';
 import TotalWords from '../TotalWords';
@@ -188,6 +189,7 @@ export default class Main extends Component {
         });
 
     } catch (err) {
+      console.error(err);
       this.setState({
         error:
           'Something went wrong while saving score, please contact support!'
