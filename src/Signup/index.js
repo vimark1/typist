@@ -88,6 +88,7 @@ class Signup extends React.Component {
             type="password"
             placeholder="Password"
             onChange={event => this.setState({ password: event.target.value })}
+            onKeyPress={e => (e.key === 'Enter') && this.signup()}
           />
         </div>
         <div className={cx('u-form-group')}>
