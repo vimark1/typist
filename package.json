@@ -27,8 +27,7 @@
     "react-scripts": "2.0.5",
     "redux": "^4.0.1",
     "redux-promise": "^0.6.0",
-    "react-timeago": "^4.1.9",
-
+    "react-timeago": "^4.1.9"
   },
   "devDependencies": {
     "auto-changelog": "^1.8.1",
