@@ -4,12 +4,20 @@ import cx from 'classnames';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
+import Avatar from 'react-avatar';
+
 // import './style.css';
 
 export default class SigninHeader extends Component {
 
   signout() {
     firebase.auth().signOut();
+  }
+
+  get googleId() {
+    const { user } = this.props;
+    const googleData = user.providerData.find(item => item.providerId === 'google.com') || {};
+    return googleData.uid;
   }
 
   render() {
@@ -42,8 +50,8 @@ export default class SigninHeader extends Component {
           </li>
         )}
         {user.uid && (
-          <li className={cx('menu-item')} onClick={() => {}}>
-          {user.displayName || user.email}
+          <li className={cx('menu-item')} title={user.displayName || user.email}>
+            <Avatar name={user.displayName} email={user.email} googleId={this.googleId} round={true} size="40" />
           </li>
         )}
         </ul>
