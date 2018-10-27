@@ -171,7 +171,10 @@ export default class Main extends Component {
     const topScorersRef = firebase.database().ref('top-scorers');
       topScorersRef.once('value', snapshot => {
         let topScores = snapshot.val() || [];
-        topScores.push({user: user, score: score})
+        topScores.push({user: {
+          uid: user.uid,
+          displayName: user.displayName,
+        }, score: score})
         topScores.sort((a, b) => {
           if(a.score === b.score) { return 0; }
           return a.score < b.score ? -1 : 1;
