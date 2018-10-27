@@ -16,7 +16,6 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import firebaseCred from './firebase-cred.json';
-import configureStore from './store/configureStore';
 
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 
