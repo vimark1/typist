@@ -20,7 +20,7 @@ export default class App extends Component {
           <Link to='/'>Typist</Link>
         </h1>
         <SigninHeader user={user} />
-        <br class="clear" />
+        <br className="clear" />
       </div>
       <div className="main">
         <Switch>
@@ -28,7 +28,9 @@ export default class App extends Component {
             return <Main user={user} />
           }} />
           <Route exact path='/about' component={About} />
-          <Route exact path='/profile' component={Profile} />
+          <Route exact path='/profile' component={() => {
+            return <Profile user={user} />
+          }} />
           <Route exact path='/signin' component={Signin} />
           <Route exact path='/signup' component={Signup} />
         </Switch>

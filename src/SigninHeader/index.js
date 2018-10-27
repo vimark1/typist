@@ -4,7 +4,7 @@ import cx from 'classnames';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-import Avatar from 'react-avatar';
+import Avatar from '../Avatar';
 
 import './style.css';
 
@@ -12,12 +12,6 @@ export default class SigninHeader extends Component {
 
   signout() {
     firebase.auth().signOut();
-  }
-
-  get googleId() {
-    const { user } = this.props;
-    const googleData = user.providerData.find(item => item.providerId === 'google.com') || {};
-    return googleData.uid;
   }
 
   render() {
@@ -50,7 +44,9 @@ export default class SigninHeader extends Component {
       )}
       {user.uid && (
         <li className={cx('menu-item')} title={user.displayName || user.email}>
-          <Avatar name={user.displayName} email={user.email} googleId={this.googleId} round={true} size="40" />
+          <Link to='/profile'>
+            <Avatar user={user} round={true} size="40" />
+          </Link>
         </li>
       )}
       </ul>
