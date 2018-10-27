@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -30,7 +29,7 @@ class Signup extends React.Component {
 
     try {
       // create user
-      const user = await firebase
+      const { user } = await firebase
         .auth()
         .createUserWithEmailAndPassword(email, password);
 
@@ -43,6 +42,7 @@ class Signup extends React.Component {
     } catch(error) {
       console.log('error', error);
       this.setState({ error, loading: false });
+      return;
     }
 
     this.setState({ loading: false });
