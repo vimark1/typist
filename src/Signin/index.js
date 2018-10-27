@@ -17,12 +17,17 @@ class Signin extends React.Component {
     };
   }
 
+  onSuccess() {
+    this.setState({ loading: false });
+    this.props.history.push('/');
+  }
+
   signinWithGoogle() {
     signinWithGoogle((isLoading) => {
       this.setState({ ...this.state, loading: isLoading });
     }, (error) => {
       this.setState({ loading: false, error })
-    }, this.props.signinSuccess)
+    }, this.onSuccess.bind(this))
   }
 
   signin() {
@@ -34,8 +39,7 @@ class Signin extends React.Component {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then((auth) => {
-        this.setState({ loading: false });
-        this.props.signinSuccess();
+        this.onSuccess();
       })
       .catch((error) => {
         console.log('error', error);
@@ -52,6 +56,7 @@ class Signin extends React.Component {
           <input
             type="email"
             placeholder="Email"
+            autoFocus
             onChange={event => this.setState({ email: event.target.value })}
           />
         </div>
@@ -64,7 +69,7 @@ class Signin extends React.Component {
         </div>
         <div className={cx('u-form-group')}>
           <button onClick={() => this.signin()}>
-            {loading ? 'Please wait...' : 'Signin'}
+            {loading ? 'Please wait...' : 'Sign In'}
           </button>
         </div>
         <div className={cx('u-form-group error')}>

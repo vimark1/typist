@@ -28,7 +28,7 @@ class Signup extends React.Component {
       .createUserWithEmailAndPassword(email, password)
       .then((auth) => {
         this.setState({ loading: false });
-        this.props.signupSuccess();
+        this.onSuccess();
       })
       .catch((error) => {
         console.log('error', error);
@@ -41,7 +41,12 @@ class Signup extends React.Component {
       this.setState({ ...this.state, loading: isLoading });
     }, (error) => {
       this.setState({ loading: false, error })
-    }, this.props.signupSuccess)
+    }, this.onSuccess.bind(this))
+  }
+
+  onSuccess() {
+    this.setState({ loading: false });
+    this.props.history.push('/');
   }
 
   render() {
@@ -53,6 +58,7 @@ class Signup extends React.Component {
           <input
             type="email"
             placeholder="Email"
+            autoFocus
             onChange={event => this.setState({ email: event.target.value })}
           />
         </div>
@@ -65,7 +71,7 @@ class Signup extends React.Component {
         </div>
         <div className={cx('u-form-group')}>
           <button onClick={() => this.signup()}>
-            {loading ? 'Please wait...' : 'Signup'}
+            {loading ? 'Please wait...' : 'Sign up'}
           </button>
         </div>
         <div className={cx('u-form-group error')}>
