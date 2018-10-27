@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route, Link } from 'react-router-dom'
+import { Switch, Route, Redirect, Link } from 'react-router-dom'
 
 import Main from '../Main';
 import About from '../About';
@@ -9,6 +9,19 @@ import SigninHeader from '../SigninHeader';
 import Signup from '../Signup';
 
 export default class App extends Component {
+
+  redirectToHome() {
+    return (
+      <Redirect to='/' />
+    );
+  }
+  signupSuccess() {
+    return this.redirectToHome();
+  }
+
+  signinSuccess() {
+    return this.redirectToHome();
+  }
 
   render() {
     const { user } = this.props;
@@ -25,8 +38,12 @@ export default class App extends Component {
         }} />
         <Route exact path='/about' component={About} />
         <Route exact path='/profile' component={Profile} />
-        <Route exact path='/signin' component={Signin} />
-        <Route exact path='/signup' component={Signup} />
+        <Route exact path='/signin' component={() => {
+          return <Signin signinSuccess={() => this.signinSuccess()} />
+        }} />
+        <Route exact path='/signup' component={() => {
+          return <Signup signupSuccess={() => this.signupSuccess()} />
+        }} />
       </Switch>
       </div>
     );
