@@ -18,27 +18,35 @@ class Signup extends React.Component {
     };
   }
 
-  signup() {
+  async signup() {
     const { email, password, displayName } = this.state;
-    console.log({ email, password, displayName });
+
     if (!email) return;
     if (!password) return;
     if (!displayName) {
         this.setState({displayName: email})
     }
     this.setState({ loading: true, error: {} });
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .updateProfile({displayName: displayName, photoURL: null})
-      .then((auth) => {
-        this.setState({ loading: false });
-        this.onSuccess();
-      })
-      .catch((error) => {
-        console.log('error', error);
-        this.setState({ error, loading: false });
+
+    try {
+      // create user
+      const user = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password);
+
+      // set display name
+      await user.updateProfile({
+        displayName: displayName,
+        photoURL: null
       });
+
+    } catch(error) {
+      console.log('error', error);
+      this.setState({ error, loading: false });
+    }
+
+    this.setState({ loading: false });
+    this.onSuccess();
   }
 
   signupWithGoogle() {
@@ -96,9 +104,5 @@ class Signup extends React.Component {
     );
   }
 }
-
-Signup.propTypes = {
-  signupSuccess: PropTypes.func.isRequired,
-};
 
 export default Signup;
