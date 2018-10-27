@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -12,28 +11,42 @@ class Signup extends React.Component {
     this.state = {
       email: '',
       password: '',
+      displayName: '',
       loading: false,
       error: {},
     };
   }
 
-  signup() {
-    const { email, password } = this.state;
-    console.log({ email, password });
+  async signup() {
+    const { email, password, displayName } = this.state;
+
     if (!email) return;
     if (!password) return;
+    if (!displayName) {
+        this.setState({displayName: email})
+    }
     this.setState({ loading: true, error: {} });
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then((auth) => {
-        this.setState({ loading: false });
-        this.onSuccess();
-      })
-      .catch((error) => {
-        console.log('error', error);
-        this.setState({ error, loading: false });
+
+    try {
+      // create user
+      const { user } = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password);
+
+      // set display name
+      await user.updateProfile({
+        displayName: displayName,
+        photoURL: null
       });
+
+    } catch(error) {
+      console.log('error', error);
+      this.setState({ error, loading: false });
+      return;
+    }
+
+    this.setState({ loading: false });
+    this.onSuccess();
   }
 
   signupWithGoogle() {
@@ -56,9 +69,16 @@ class Signup extends React.Component {
       <div className={cx('email-signup')}>
         <div className={cx('u-form-group')}>
           <input
+            type="displayName"
+            placeholder="Display Name (optional)"
+            autoFocus
+            onChange={event => this.setState({ displayName: event.target.value })}
+          />
+        </div>
+        <div className={cx('u-form-group')}>
+          <input
             type="email"
             placeholder="Email"
-            autoFocus
             onChange={event => this.setState({ email: event.target.value })}
           />
         </div>
@@ -84,9 +104,5 @@ class Signup extends React.Component {
     );
   }
 }
-
-Signup.propTypes = {
-  signupSuccess: PropTypes.func.isRequired,
-};
 
 export default Signup;
