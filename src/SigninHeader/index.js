@@ -4,7 +4,9 @@ import cx from 'classnames';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-// import './style.css';
+import Avatar from '../Avatar';
+
+import './style.css';
 
 export default class SigninHeader extends Component {
 
@@ -22,32 +24,32 @@ export default class SigninHeader extends Component {
       </li>
     );
     return (
-      <div className={cx('navbar')}>
-        <ul className={cx('menu')}>
-        {!user.uid && (
-          <MenuItem
-          title="Sign up"
-          path="signup"
-          />
-        )}
-        {!user.uid && (
-          <MenuItem
-          title="Sign In"
-          path="signin"
-          />
-        )}
-        {user.uid && (
-          <li className={cx('menu-item')} onClick={() => this.signout()}>
-          Logout
-          </li>
-        )}
-        {user.uid && (
-          <li className={cx('menu-item')} onClick={() => {}}>
-          {user.displayName || user.email}
-          </li>
-        )}
-        </ul>
-      </div>
+      <ul className={cx('menu')}>
+      {!user.uid && (
+        <MenuItem
+        title="Sign up"
+        path="signup"
+        />
+      )}
+      {!user.uid && (
+        <MenuItem
+        title="Sign In"
+        path="signin"
+        />
+      )}
+      {user.uid && (
+        <li className={cx('menu-item')} onClick={() => this.signout()}>
+        Logout
+        </li>
+      )}
+      {user.uid && (
+        <li className={cx('menu-item')} title={user.displayName || user.email}>
+          <Link to='/profile'>
+            <Avatar user={user} round={true} size="40" />
+          </Link>
+        </li>
+      )}
+      </ul>
     );
   }
 }
