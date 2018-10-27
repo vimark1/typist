@@ -166,6 +166,24 @@ export default class Main extends Component {
     }
   };
 
+  updateScoreboard(user, score) {
+    const limit = 10;
+    const topScorersRef = firebase.database().ref('top-scorers');
+      topScorersRef.once('value', snapshot => {
+        let topScores = snapshot.val() || [];
+        topScores.push({user: {
+          uid: user.uid,
+          displayName: user.displayName,
+        }, score: score})
+        topScores.sort((a, b) => {
+          if(a.score === b.score) { return 0; }
+          return a.score > b.score ? -1 : 1;
+        });
+        topScores = topScores.slice(0, limit);
+        topScorersRef.set(topScores);
+      })
+  }
+
   async saveScore() {
     try {
       const { user } = this.props;
@@ -187,6 +205,8 @@ export default class Main extends Component {
           score,
           timestamp: firebase.database.ServerValue.TIMESTAMP
         });
+
+      this.updateScoreboard(user, score)
 
     } catch (err) {
       console.error(err);

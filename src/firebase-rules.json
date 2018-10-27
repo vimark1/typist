@@ -1,5 +1,9 @@
 {
   "rules": {
+    "top-scorers": {
+      ".read": true,
+      ".write": true
+    },
     "user-score": {
       "$uid": {
         ".read": "$uid === auth.uid",

@@ -7,6 +7,7 @@ import Profile from '../Profile';
 import Signin from '../Signin';
 import SigninHeader from '../SigninHeader';
 import Signup from '../Signup';
+import ScoreBoard from '../ScoreBoard';
 
 export default class App extends Component {
 
@@ -19,6 +20,7 @@ export default class App extends Component {
         <h1>
           <Link to='/'>Typist</Link>
         </h1>
+        <Link to="/scoreboard" style={{float: 'right'}}>ScoreBoard</Link>
         <SigninHeader user={user} />
         <br className="clear" />
       </div>
@@ -33,6 +35,7 @@ export default class App extends Component {
           }} />
           <Route exact path='/signin' component={Signin} />
           <Route exact path='/signup' component={Signup} />
+          <Route exact path='/scoreboard' component={ScoreBoard} />
         </Switch>
       </div>
       </div>
