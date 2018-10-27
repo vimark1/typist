@@ -32,7 +32,7 @@ export default class SigninHeader extends Component {
         )}
         {!user.uid && (
           <MenuItem
-          title="Signin"
+          title="Sign In"
           path="signin"
           />
         )}
