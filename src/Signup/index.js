@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import 'firebase/auth';
 
 import { signinWithGoogle } from '../lib/google_signin';
@@ -33,7 +33,7 @@ class Signup extends React.Component {
       .updateProfile({displayName: displayName, photoURL: null})
       .then((auth) => {
         this.setState({ loading: false });
-        this.props.signupSuccess();
+        this.onSuccess();
       })
       .catch((error) => {
         console.log('error', error);
@@ -46,47 +46,53 @@ class Signup extends React.Component {
       this.setState({ ...this.state, loading: isLoading });
     }, (error) => {
       this.setState({ loading: false, error })
-    }, this.props.signupSuccess)
+    }, this.onSuccess.bind(this))
+  }
+
+  onSuccess() {
+    this.setState({ loading: false });
+    this.props.history.push('/');
   }
 
   render() {
     const { loading, error } = this.state;
 
     return (
-        <div className={cx('email-signup')}>
-            <div className={cx('u-form-group')}>
-                <input
-                    type="displayName"
-                    placeholder="Display Name (optional)"
-                    onChange={event => this.setState({ displayName: event.target.value })}
-                />
-            </div>
-            <div className={cx('u-form-group')}>
-                <input
-                    type="email"
-                    placeholder="Email"
-                    onChange={event => this.setState({ email: event.target.value })}
-                />
-            </div>
-            <div className={cx('u-form-group')}>
-                <input
-                    type="password"
-                    placeholder="Password"
-                    onChange={event => this.setState({ password: event.target.value })}
-                />
-            </div>
-            <div className={cx('u-form-group')}>
-                <button onClick={() => this.signup()}>
-                    {loading ? 'Please wait...' : 'Sign Up'}
-                </button>
-            </div>
-            <div className={cx('u-form-group error')}>
-                {error.message}
-            </div>
-            <div>
-                <img alt='Sign Up with Google' src='btn_google_signin_dark_normal_web.png' onClick={() => this.signupWithGoogle()} />
-            </div>
+      <div className={cx('email-signup')}>
+        <div className={cx('u-form-group')}>
+          <input
+            type="displayName"
+            placeholder="Display Name (optional)"
+            autoFocus
+            onChange={event => this.setState({ displayName: event.target.value })}
+          />
         </div>
+        <div className={cx('u-form-group')}>
+          <input
+            type="email"
+            placeholder="Email"
+            onChange={event => this.setState({ email: event.target.value })}
+          />
+        </div>
+        <div className={cx('u-form-group')}>
+          <input
+            type="password"
+            placeholder="Password"
+            onChange={event => this.setState({ password: event.target.value })}
+          />
+        </div>
+        <div className={cx('u-form-group')}>
+          <button onClick={() => this.signup()}>
+            {loading ? 'Please wait...' : 'Sign up'}
+          </button>
+        </div>
+        <div className={cx('u-form-group error')}>
+          {error.message}
+        </div>
+        <div>
+          <img alt='Sign Up with Google' src='btn_google_signin_dark_normal_web.png' onClick={() => this.signupWithGoogle()} />
+        </div>
+      </div>
     );
   }
 }

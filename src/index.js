@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import firebase from 'firebase/app';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom'
+
 import 'firebase/auth';
 
 import './index.css';
@@ -8,13 +11,23 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import firebaseCred from './firebase-cred.json';
+import configureStore from './store/configureStore';
 
 const config = firebaseCred;
+const store = configureStore();
 
 firebase.initializeApp(config);
 
 firebase.auth().onAuthStateChanged((user) => {
-  ReactDOM.render(<App user={user || {}} />, document.getElementById('root'));
+  ReactDOM.render((
+    <BrowserRouter>
+      <Provider store={store}>
+        <App user={user || {}} />
+      </Provider>
+    </BrowserRouter>
+    ),
+    document.getElementById('root')
+  );
 });
 
 // If you want your app to work offline and load faster, you can change
