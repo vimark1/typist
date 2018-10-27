@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
+import { GoogleButton } from 'react-google-button';
 import { signinWithGoogle } from '../lib/google_signin';
 
 class Signin extends React.Component {
@@ -72,19 +72,16 @@ class Signin extends React.Component {
             {loading ? 'Please wait...' : 'Sign In'}
           </button>
         </div>
+        <p>OR</p>
+        <div>
+          <GoogleButton style={{ margin: '0 auto' }} onClick={() => this.signinWithGoogle()} />
+        </div>
         <div className={cx('u-form-group error')}>
           {error.message}
-        </div>
-        <div>
-          <img alt='Sign In with Google' src='btn_google_signin_dark_normal_web.png' onClick={() => this.signinWithGoogle()} />
         </div>
       </div>
     );
   }
 }
-
-Signin.propTypes = {
-  signinSuccess: PropTypes.func.isRequired,
-};
 
 export default Signin;

@@ -3,6 +3,7 @@ import cx from 'classnames';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
+import { GoogleButton } from 'react-google-button';
 import { signinWithGoogle } from '../lib/google_signin';
 
 class Signup extends React.Component {
@@ -94,11 +95,12 @@ class Signup extends React.Component {
             {loading ? 'Please wait...' : 'Sign up'}
           </button>
         </div>
+       <p>OR</p>
+        <div>
+          <GoogleButton style={{ margin: '0 auto' }} onClick={() => this.signupWithGoogle()} />
+        </div>
         <div className={cx('u-form-group error')}>
           {error.message}
-        </div>
-        <div>
-          <img alt='Sign Up with Google' src='btn_google_signin_dark_normal_web.png' onClick={() => this.signupWithGoogle()} />
         </div>
       </div>
     );
