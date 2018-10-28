@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/vimark1/typist.svg?branch=master)](https://travis-ci.com/vimark1/typist) [![Join the chat at https://gitter.im/vimark1-typist/Lobby](https://badges.gitter.im/vimark1-typist/Lobby.svg)](https://gitter.im/vimark1-typist/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Touch typing practice web app in which you type short words and aim to achieve higher scores.
+Touch typing practice web app in which you type short words and aim to achieve better scores.
 
 **Demo: https://typistapp.netlify.com/**
 
