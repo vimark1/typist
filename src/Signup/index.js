@@ -18,19 +18,13 @@ class Signup extends React.Component {
     };
   }
 
-  signupEnter(e) {
-    if (e.keyCode === 13) {
-      this.signup()
-    }
-
-  }
-
   async signup() {
     const { email, password, displayName } = this.state;
+
     if (!email) return;
     if (!password) return;
     if (!displayName) {
-      this.setState({ displayName: email })
+        this.setState({displayName: email})
     }
     this.setState({ loading: true, error: {} });
 
@@ -46,7 +40,7 @@ class Signup extends React.Component {
         photoURL: null
       });
 
-    } catch (error) {
+    } catch(error) {
       console.log('error', error);
       this.setState({ error, loading: false });
       return;
@@ -94,7 +88,6 @@ class Signup extends React.Component {
             type="password"
             placeholder="Password"
             onChange={event => this.setState({ password: event.target.value })}
-            onKeyDown={this.signupEnter.bind(this)}
           />
         </div>
         <div className={cx('u-form-group')}>
@@ -102,7 +95,7 @@ class Signup extends React.Component {
             {loading ? 'Please wait...' : 'Sign up'}
           </button>
         </div>
-        <p>OR</p>
+       <p>OR</p>
         <div>
           <GoogleButton style={{ margin: '0 auto' }} onClick={() => this.signupWithGoogle()} />
         </div>
