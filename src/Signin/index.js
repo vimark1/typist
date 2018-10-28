@@ -29,6 +29,12 @@ class Signin extends React.Component {
       this.setState({ loading: false, error })
     }, this.onSuccess.bind(this))
   }
+  signinEnter(e) {
+    if (e.keyCode === 13) {
+      this.signin()
+    }
+
+  }
 
   signin() {
     const { email, password } = this.state;
@@ -65,6 +71,7 @@ class Signin extends React.Component {
             type="password"
             placeholder="Password"
             onChange={event => this.setState({ password: event.target.value })}
+            onKeyDown={this.signinEnter.bind(this)}
           />
         </div>
         <div className={cx('u-form-group')}>
