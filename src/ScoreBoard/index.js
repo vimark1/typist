@@ -14,7 +14,6 @@ class ScoreBoard extends React.Component {
     componentDidMount() {
         const topScorersRef = firebase.database().ref('top-scorers');
         topScorersRef.on('value', snapshot => {
-            console.log(snapshot.val())
             this.setState({
                 top10: snapshot.val()
             })
