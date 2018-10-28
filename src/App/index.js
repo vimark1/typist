@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Switch, Route, Link } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 
 import Main from '../Main';
 import About from '../About';
 import Profile from '../Profile';
 import Signin from '../Signin';
-import SigninHeader from '../SigninHeader';
+import Header from '../Header';
 import Signup from '../Signup';
 import ScoreBoard from '../ScoreBoard';
 
@@ -16,14 +16,8 @@ export default class App extends Component {
 
     return (
       <div>
-      <div className="header">
-        <h1>
-          <Link to='/'>Typist</Link>
-        </h1>
-        <Link to="/scoreboard" style={{float: 'right'}}>ScoreBoard</Link>
-        <SigninHeader user={user} />
-        <br className="clear" />
-      </div>
+      <Header user={user} />
+
       <div className="main">
         <Switch>
           <Route exact path='/' component={() => {

@@ -14,31 +14,69 @@ code {
 }
 
 .header {
+  display: flex;
   background: #fff;
   margin: 0;
-  padding: 16px 4vw;
+  padding: 0 4vw;
   margin-bottom: 10vh;
+  flex-direction: row;
+  min-height: 68px;
 }
 
-.header h1 {
-  display: inline-block;
+.header .logo {
+  width: 25%;
+  align-self: center;
+}
+
+.header .logo  h1 {
   margin: 0;
-  float: left;
 }
 
-.header h1 a {
+.header .logo a {
   background: #1c299d;
   color: #fff !important;
   text-decoration: none;
-  padding: 8px 20px;
+  padding: 2px 20px;
 }
 
 .header .menu {
-  float: right;
+  width: 75%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
-.clear {
-  clear: both;
+.menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu.options {
+  justify-content: flex-start;
+}
+
+.menu-item {
+  color: #666;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  cursor: pointer;
+  align-self: center;
+}
+
+.menu-item a {
+  color: #666;
+  text-decoration: none;
+}
+
+.menu-item:hover:not(.active) {
+  background-color: #ddd;
+}
+
+.menu-item.active {
+  color: white;
+  background-color: #4caf50;
 }
 
 .main {
