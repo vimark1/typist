@@ -4,7 +4,6 @@ import sampleSize from 'lodash.samplesize';
 import firebase from 'firebase/app';
 
 import Text from '../Text';
-import TotalWords from '../TotalWords';
 
 import words from '../data/words';
 
@@ -15,7 +14,6 @@ export default class Main extends Component {
   meaningfulWords = words.filter(word => word.length >= 3);
 
   state = {
-    size: 5,
     stats: {
       keys: [],
       success: [],
@@ -88,8 +86,9 @@ export default class Main extends Component {
   };
 
   completed = function () {
-    const { size } = this.state;
-    const wordList = sampleSize(this.meaningfulWords, size);
+    const { user } = this.props;
+    const { totalWords } = user.preferences;
+    const wordList = sampleSize(this.meaningfulWords, totalWords);
     this.generateText(wordList);
     this.setState({
       index: 0,
@@ -99,12 +98,13 @@ export default class Main extends Component {
   };
 
   calcTime = (start, end) => {
-    const { size } = this.state;
+    const { user } = this.props;
+    const { totalWords } = user.preferences;
     const startSec = start.getTime() / 1000;
     const endSec = end.getTime() / 1000;
     const seconds = Math.round(endSec - startSec);
 
-    return Math.round((60 * size) / seconds);
+    return Math.round((60 * totalWords) / seconds);
   };
 
   register = char => {
@@ -217,44 +217,14 @@ export default class Main extends Component {
     }
   }
 
-  increment = () => {
-    const { size, wordList } = this.state;
-    const newWord = sampleSize(this.meaningfulWords, 1);
-    this.setState({
-      size: size + 1,
-      wordList: [...wordList, ...newWord]
-    }, () => {
-      this.generateText(this.state.wordList);
-    });
-  }
-
-  decrement = () => {
-    const { size, wordList } = this.state;
-
-    if (size > 1) {
-      this.setState({
-        size: size - 1,
-        wordList: [...wordList.slice(0, wordList.length - 1)]
-      }, () => {
-        this.generateText(this.state.wordList);
-      });
-    }
-  }
-
   render() {
-    const { letters, index, size, score, error, authError } = this.state;
+    const { letters, index, score, error, authError } = this.state;
 
     return (
       <div className="App">
         <Text letters={letters} index={index} />
 
         <p>Last score: {score}</p>
-
-        <TotalWords
-          size={size}
-          increment={this.increment}
-          decrement={this.decrement}
-        />
 
         {authError && (
           <div className="error center">

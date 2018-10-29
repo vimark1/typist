@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import ReactGA from 'react-ga'
 import Avatar from '../Avatar';
 import TimeAgo from 'react-timeago';
+import TotalWords from '../TotalWords';
+import firebase from 'firebase/app';
 
 export default class Profile extends Component {
 
@@ -12,7 +14,8 @@ export default class Profile extends Component {
     const { user } = props || {};
     this.state = {
       success: '',
-      displayName: user.displayName
+      displayName: user.displayName,
+      totalWords: user.totalWords || 5,
     };
   }
 
@@ -23,12 +26,43 @@ export default class Profile extends Component {
   async doUpdateProfile(event) {
     event.preventDefault();
     const { user } = this.props;
-    await user.updateProfile({
-      displayName: this.state.displayName
-    });
+    const { displayName } = this.state;
+    await user.updateProfile({ displayName });
     this.setState({
       success: 'Profile updated'
     });
+  }
+
+  async doUpdatePreferences(event) {
+    event.preventDefault();
+    const { user } = this.props;
+    const { totalWords } = this.state;
+    await firebase
+      .database()
+      .ref('user-prefs')
+      .child(user.uid)
+      .set({ totalWords })
+      .catch((error) => console.error(error));
+    this.setState({
+      success: 'Preferences updated'
+    });
+  }
+
+  increment = () => {
+    const { totalWords } = this.state;
+    this.setState({
+      totalWords: totalWords + 1,
+    });
+  }
+
+  decrement = () => {
+    const { totalWords } = this.state;
+
+    if (totalWords > 1) {
+      this.setState({
+        totalWords: totalWords - 1,
+      });
+    }
   }
 
   render() {
@@ -57,9 +91,16 @@ export default class Profile extends Component {
                 onChange={event => this.setState({ displayName: event.target.value })}
               />
             </div>
-
             <button type="submit">Update profile</button>
            </form>
+
+            <h4>Preferences</h4>
+            <TotalWords
+              size={this.state.totalWords}
+              increment={this.increment}
+              decrement={this.decrement}
+            />
+            <button onClick={this.doUpdatePreferences.bind(this)}>Update preferences</button>
          </div>
        )}
       </div>
