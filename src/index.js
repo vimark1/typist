@@ -22,7 +22,7 @@ const store = configureStore();
 ReactGA.initialize(ga, {debug: false});
 firebase.initializeApp(config);
 
-firebase.auth().onAuthStateChanged(async (user) => {
+firebase.auth().onAuthStateChanged((user) => {
   ReactDOM.render((
     <BrowserRouter>
       <Provider store={store}>
