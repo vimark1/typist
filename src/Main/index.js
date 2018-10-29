@@ -86,8 +86,8 @@ export default class Main extends Component {
   };
 
   completed = function () {
-    const { user } = this.props;
-    const { totalWords } = user.preferences;
+    const { preferences } = this.props;
+    const { totalWords } = preferences;
     const wordList = sampleSize(this.meaningfulWords, totalWords);
     this.generateText(wordList);
     this.setState({
@@ -98,8 +98,8 @@ export default class Main extends Component {
   };
 
   calcTime = (start, end) => {
-    const { user } = this.props;
-    const { totalWords } = user.preferences;
+    const { preferences } = this.props;
+    const { totalWords } = preferences;
     const startSec = start.getTime() / 1000;
     const endSec = end.getTime() / 1000;
     const seconds = Math.round(endSec - startSec);

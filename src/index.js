@@ -23,18 +23,6 @@ ReactGA.initialize(ga, {debug: false});
 firebase.initializeApp(config);
 
 firebase.auth().onAuthStateChanged(async (user) => {
-  // default to totalWords = 5
-  let userPrefs = { totalWords: 5 };
-  
-  // fetch user preferences
-  const userPrefsRef = firebase.database().ref(`user-prefs`).child(user.uid);
-  await userPrefsRef.once('value', snapshot => {
-    userPrefs = snapshot.val();
-  }).catch((err) => console.error(err));
-  
-  // update user.preferences based off of preferences stored in firebase
-  user.preferences = userPrefs;
-  
   ReactDOM.render((
     <BrowserRouter>
       <Provider store={store}>

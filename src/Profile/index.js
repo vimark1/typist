@@ -4,7 +4,6 @@ import ReactGA from 'react-ga'
 import Avatar from '../Avatar';
 import TimeAgo from 'react-timeago';
 import TotalWords from '../TotalWords';
-import firebase from 'firebase/app';
 
 export default class Profile extends Component {
 
@@ -12,10 +11,11 @@ export default class Profile extends Component {
     super(props);
 
     const { user } = props || {};
+    const { preferences } = props;
     this.state = {
       success: '',
       displayName: user.displayName,
-      totalWords: user.totalWords || 5,
+      totalWords: preferences.totalWords || 5,
     };
   }
 
@@ -35,16 +35,12 @@ export default class Profile extends Component {
 
   async doUpdatePreferences(event) {
     event.preventDefault();
-    const { user } = this.props;
+    const { updatePreferences } = this.props;
     const { totalWords } = this.state;
-    await firebase
-      .database()
-      .ref('user-prefs')
-      .child(user.uid)
-      .set({ totalWords })
-      .catch((error) => console.error(error));
+    updatePreferences({ totalWords });
     this.setState({
-      success: 'Preferences updated'
+      success: 'Preferences updated',
+      totalWords,
     });
   }
 
