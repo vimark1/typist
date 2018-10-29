@@ -73,7 +73,7 @@ class Signin extends React.Component {
         </div>
         <div className={cx('u-form-group')}>
           <button onClick={() => this.signin()}>
-            {loading ? 'Please wait...' : 'Sign In'}
+            {loading ? 'Please wait...' : 'Log In'}
           </button>
         </div>
         <p>OR</p>

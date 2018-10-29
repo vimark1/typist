@@ -258,7 +258,7 @@ export default class Main extends Component {
 
         {authError && (
           <div className="error center">
-          Please sign in to save your score!
+          Please log in to save your score!
           </div>
         )}
         {error && <div className="error center">{error}</div>}
