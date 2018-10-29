@@ -28,7 +28,8 @@ export default class Main extends Component {
     wordList: [],
     score: 0,
     authError: false,
-    error: ''
+    error: '',
+    sessionsCompleted: 0,
   };
 
   componentDidMount() {
@@ -160,7 +161,10 @@ export default class Main extends Component {
       }
 
       this.setState(stateUpdate, () => isCompleted && this.completed());
-      if (isCompleted) this.saveScore();
+      if (isCompleted) {
+        this.saveScore();
+        this.incrementSessions();
+      }
     }
   };
 
@@ -213,6 +217,13 @@ export default class Main extends Component {
           'Something went wrong while saving score, please contact support!'
       });
     }
+  }
+  
+  incrementSessions = () => {
+    const { sessionsCompleted } = this.state;
+    this.setState({
+      sessionsCompleted: sessionsCompleted + 1,
+    })
   }
 
   increment = () => {
