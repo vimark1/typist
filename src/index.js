@@ -19,7 +19,7 @@ import ga from './ga-cred.json';
 const config = firebaseCred;
 const store = configureStore();
 
-ReactGA.initialize(ga, {debug: true});
+ReactGA.initialize(ga, {debug: false});
 firebase.initializeApp(config);
 
 firebase.auth().onAuthStateChanged((user) => {
