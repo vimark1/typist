@@ -96,7 +96,7 @@ class Signup extends React.Component {
         </div>
         <div className={cx('u-form-group')}>
           <button onClick={() => this.signup()}>
-            {loading ? 'Please wait...' : 'Sign up'}
+            {loading ? 'Please wait...' : 'Register'}
           </button>
         </div>
        <p>OR</p>
