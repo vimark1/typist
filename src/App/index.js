@@ -8,6 +8,7 @@ import Signin from '../Signin';
 import Header from '../Header';
 import Signup from '../Signup';
 import ScoreBoard from '../ScoreBoard';
+import LineChartStat from '../LineChartStat';
 
 export default class App extends Component {
 
@@ -30,6 +31,7 @@ export default class App extends Component {
           <Route exact path='/signin' component={Signin} />
           <Route exact path='/signup' component={Signup} />
           <Route exact path='/scoreboard' component={ScoreBoard} />
+          <Route exact path='/linechart' component={LineChartStat} />
         </Switch>
       </div>
       </div>

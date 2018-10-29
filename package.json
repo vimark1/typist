@@ -24,6 +24,7 @@
     "react-dom": "^16.6.0",
     "react-ga": "^2.5.3",
     "react-google-button": "^0.5.3",
+    "react-linechart": "^1.1.12",
     "react-redux": "^5.1.0",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.0.5",
