@@ -19,7 +19,7 @@ export default class Header extends Component {
 
   render() {
     const {user} = this.props;
-    const loggedIn = !!user.uid;
+    const loggedIn = user && !!user.uid;
     return (<div className="header">
       <div className="logo">
         <h1>
@@ -33,7 +33,7 @@ export default class Header extends Component {
         <MenuItem path="/signup" display={!loggedIn}>Register</MenuItem>
         <MenuItem path="/signin" display={!loggedIn}>Log in</MenuItem>
         <MenuItem path="/" display={loggedIn} onClick={() => this.signout()}>Logout</MenuItem>
-        <MenuItem path="/profile" display={loggedIn} title={user.displayName || user.email}>
+        <MenuItem path="/profile" display={loggedIn}>
           <Avatar user={user} round={true} size="40"/>
         </MenuItem>
       </ul>

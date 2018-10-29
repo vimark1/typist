@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import React, { Component } from 'react';
 import ReactGA from 'react-ga'
-import Avatar from '../Avatar';
+import Avatar from '../../components/Avatar';
 import TimeAgo from 'react-timeago';
 
 export default class Profile extends Component {

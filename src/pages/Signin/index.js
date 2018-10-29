@@ -4,7 +4,7 @@ import cx from 'classnames';
 import firebase from 'firebase/app';
 
 import { GoogleButton } from 'react-google-button';
-import { signinWithGoogle } from '../lib/google_signin';
+import { signinWithGoogle } from '../../lib/google_signin';
 
 class Signin extends React.Component {
   constructor(props) {
