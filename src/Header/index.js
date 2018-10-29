@@ -31,7 +31,7 @@ export default class Header extends Component {
       </div>
       <ul className={cx('menu')}>
         <MenuItem path="/signup" display={!loggedIn}>Register</MenuItem>
-        <MenuItem path="/signin" display={!loggedIn}>Log In</MenuItem>
+        <MenuItem path="/signin" display={!loggedIn}>Log in</MenuItem>
         <MenuItem path="/" display={loggedIn} onClick={() => this.signout()}>Logout</MenuItem>
         <MenuItem path="/profile" display={loggedIn} title={user.displayName || user.email}>
           <Avatar user={user} round={true} size="40"/>
