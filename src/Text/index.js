@@ -7,10 +7,9 @@ import './style.css';
 
 const Text = ({ letters, index }) => (
   <div className="text">
-  {letters.map(
-    (letter, idx) =>
-      <Letter key={idx} isCurrent={idx === index} {...letter} />
-  )}
+    {letters.map(
+      (letter, idx) => <Letter key={idx} isCurrent={idx === index} {...letter} />,
+    )}
   </div>
 );
 

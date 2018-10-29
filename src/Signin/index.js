@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import ReactGA from 'react-ga';
 import cx from 'classnames';
-import firebase from 'firebase';
-import 'firebase/auth';
+import firebase from 'firebase/app';
 
+import { GoogleButton } from 'react-google-button';
 import { signinWithGoogle } from '../lib/google_signin';
 
 class Signin extends React.Component {
@@ -13,8 +13,17 @@ class Signin extends React.Component {
       email: '',
       password: '',
       loading: false,
-      error: {}
+      error: {},
     };
+  }
+
+  componentDidMount() {
+    ReactGA.pageview('/signin');
+  }
+
+  onSuccess() {
+    this.setState({ loading: false });
+    this.props.history.push('/');
   }
 
   signinWithGoogle() {
@@ -22,7 +31,7 @@ class Signin extends React.Component {
       this.setState({ ...this.state, loading: isLoading });
     }, (error) => {
       this.setState({ loading: false, error })
-    }, this.props.signinSuccess)
+    }, this.onSuccess.bind(this))
   }
 
   signin() {
@@ -33,23 +42,25 @@ class Signin extends React.Component {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then(auth => {
-        this.setState({ loading: false });
-        this.props.signinSuccess();
+      .then((auth) => {
+        this.onSuccess();
       })
-      .catch(error => {
+      .catch((error) => {
         console.log('error', error);
         this.setState({ error, loading: false });
       });
   }
 
   render() {
+    const { loading, error } = this.state;
+
     return (
       <div className={cx('email-signin')}>
         <div className={cx('u-form-group')}>
           <input
             type="email"
             placeholder="Email"
+            autoFocus
             onChange={event => this.setState({ email: event.target.value })}
           />
         </div>
@@ -62,22 +73,19 @@ class Signin extends React.Component {
         </div>
         <div className={cx('u-form-group')}>
           <button onClick={() => this.signin()}>
-            {this.state.loading ? 'Please wait...' : 'Signin'}
+            {loading ? 'Please wait...' : 'Log In'}
           </button>
         </div>
-        <div className={cx('u-form-group error')}>
-          {this.state.error.message}
-        </div>
+        <p>OR</p>
         <div>
-          <img alt='Sign In with Google' src='/btn_google_signin_dark_normal_web.png' onClick={() => this.signinWithGoogle()} />
+          <GoogleButton style={{ margin: '0 auto' }} onClick={() => this.signinWithGoogle()} />
+        </div>
+        <div className={cx('u-form-group error')}>
+          {error.message}
         </div>
       </div>
     );
   }
 }
-
-Signin.propTypes = {
-  signinSuccess: PropTypes.func.isRequired
-};
 
 export default Signin;

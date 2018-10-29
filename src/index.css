@@ -1,16 +1,85 @@
 body {
-  max-width: 800px;
   margin: 0 auto;
   padding: 0;
   font-family: Lato;
   -webkit-font-smoothing: antialiased;
-  background-color: #f0f0f0;
+  background-color: whitesmoke;
   font-weight: 400;
-  color: #333;
-  padding-top: 10%;
+  color: rgb(50, 54, 72);
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.header {
+  display: flex;
+  background: #fff;
+  margin: 0;
+  padding: 0 4vw;
+  margin-bottom: 10vh;
+  flex-direction: row;
+  min-height: 68px;
+}
+
+.header .logo {
+  width: 25%;
+  align-self: center;
+}
+
+.header .logo  h1 {
+  margin: 0;
+}
+
+.header .logo a {
+  background: #1c299d;
+  color: #fff !important;
+  text-decoration: none;
+  padding: 2px 20px;
+}
+
+.header .menu {
+  width: 75%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu.options {
+  justify-content: flex-start;
+}
+
+.menu-item {
+  color: #666;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  cursor: pointer;
+  align-self: center;
+}
+
+.menu-item a {
+  color: #666;
+  text-decoration: none;
+}
+
+.menu-item:hover:not(.active) {
+  background-color: #ddd;
+}
+
+.menu-item.active {
+  color: white;
+  background-color: #4caf50;
+}
+
+.main {
+  max-width: 65vw;
+  margin: 0 auto;
 }

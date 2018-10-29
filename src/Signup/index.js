@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import ReactGA from 'react-ga';
 import cx from 'classnames';
-import firebase from 'firebase';
-import 'firebase/auth';
+import firebase from 'firebase/app';
 
+import { GoogleButton } from 'react-google-button';
 import { signinWithGoogle } from '../lib/google_signin';
 
 class Signup extends React.Component {
@@ -12,28 +12,46 @@ class Signup extends React.Component {
     this.state = {
       email: '',
       password: '',
+      displayName: '',
       loading: false,
-      error: {}
+      error: {},
     };
   }
 
-  signup() {
-    const { email, password } = this.state;
-    console.log({ email, password });
+  componentDidMount() {
+    ReactGA.pageview('/signup');
+  }
+
+  async signup() {
+    const { email, password, displayName } = this.state;
+
     if (!email) return;
     if (!password) return;
+    if (!displayName) {
+        this.setState({displayName: email})
+    }
     this.setState({ loading: true, error: {} });
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then(auth => {
-        this.setState({ loading: false });
-        this.props.signupSuccess();
-      })
-      .catch(error => {
-        console.log('error', error);
-        this.setState({ error, loading: false });
+
+    try {
+      // create user
+      const { user } = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password);
+
+      // set display name
+      await user.updateProfile({
+        displayName: displayName,
+        photoURL: null
       });
+
+    } catch(error) {
+      console.log('error', error);
+      this.setState({ error, loading: false });
+      return;
+    }
+
+    this.setState({ loading: false });
+    this.onSuccess();
   }
 
   signupWithGoogle() {
@@ -41,12 +59,27 @@ class Signup extends React.Component {
       this.setState({ ...this.state, loading: isLoading });
     }, (error) => {
       this.setState({ loading: false, error })
-    }, this.props.signupSuccess)
+    }, this.onSuccess.bind(this))
+  }
+
+  onSuccess() {
+    this.setState({ loading: false });
+    this.props.history.push('/');
   }
 
   render() {
+    const { loading, error } = this.state;
+
     return (
       <div className={cx('email-signup')}>
+        <div className={cx('u-form-group')}>
+          <input
+            type="displayName"
+            placeholder="Display Name (optional)"
+            autoFocus
+            onChange={event => this.setState({ displayName: event.target.value })}
+          />
+        </div>
         <div className={cx('u-form-group')}>
           <input
             type="email"
@@ -63,22 +96,19 @@ class Signup extends React.Component {
         </div>
         <div className={cx('u-form-group')}>
           <button onClick={() => this.signup()}>
-            {this.state.loading ? 'Please wait...' : 'Signup'}
+            {loading ? 'Please wait...' : 'Register'}
           </button>
         </div>
-        <div className={cx('u-form-group error')}>
-          {this.state.error.message}
-        </div>
+       <p>OR</p>
         <div>
-          <img alt='Sign Up with Google' src='/btn_google_signin_dark_normal_web.png' onClick={() => this.signupWithGoogle()} />
+          <GoogleButton style={{ margin: '0 auto' }} onClick={() => this.signupWithGoogle()} />
+        </div>
+        <div className={cx('u-form-group error')}>
+          {error.message}
         </div>
       </div>
     );
   }
 }
-
-Signup.propTypes = {
-  signupSuccess: PropTypes.func.isRequired
-};
 
 export default Signup;
