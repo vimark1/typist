@@ -1,7 +1,7 @@
 import React from 'react';
+import ReactGA from 'react-ga';
 import cx from 'classnames';
 import firebase from 'firebase/app';
-import 'firebase/auth';
 
 import { GoogleButton } from 'react-google-button';
 import { signinWithGoogle } from '../lib/google_signin';
@@ -15,6 +15,10 @@ class Signin extends React.Component {
       loading: false,
       error: {},
     };
+  }
+
+  componentDidMount() {
+    ReactGA.pageview('/signin');
   }
 
   onSuccess() {

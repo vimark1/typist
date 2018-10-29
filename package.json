@@ -22,6 +22,7 @@
     "react": "^16.6.0",
     "react-avatar": "^3.4.6",
     "react-dom": "^16.6.0",
+    "react-ga": "^2.5.3",
     "react-google-button": "^0.5.3",
     "react-redux": "^5.1.0",
     "react-router-dom": "^4.3.1",

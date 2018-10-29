@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactGA from 'react-ga';
 import firebase from 'firebase/app'
 
 class ScoreBoard extends React.Component {
@@ -12,6 +13,7 @@ class ScoreBoard extends React.Component {
     }
 
     componentDidMount() {
+      ReactGA.pageview('/scoreboard');
         const topScorersRef = firebase.database().ref('top-scorers');
         topScorersRef.on('value', snapshot => {
             this.setState({
