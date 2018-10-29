@@ -192,7 +192,7 @@ export default class Main extends Component {
       if (!user.uid) return this.setState({ authError: true });
       this.setState({ authError: false, error: '' });
 
-      const { score } = this.state;
+      const { score, sessionsCompleted } = this.state;
 
       // a string in the format 2018-10-26
       const sessionId = (new Date()).toISOString().slice(0,10);
@@ -205,6 +205,16 @@ export default class Main extends Component {
         .child(sessionId)
         .push({
           score,
+          timestamp: firebase.database.ServerValue.TIMESTAMP
+        });
+      
+      await firebase
+        .database()
+        .ref('user-completed-sessions')
+        .child(user.uid)
+        .child(sessionId)
+        .push({
+          sessionsCompleted,
           timestamp: firebase.database.ServerValue.TIMESTAMP
         });
 
@@ -251,13 +261,14 @@ export default class Main extends Component {
   }
 
   render() {
-    const { letters, index, size, score, error, authError } = this.state;
+    const { letters, index, size, score, error, authError, sessionsCompleted } = this.state;
 
     return (
       <div className="App">
         <Text letters={letters} index={index} />
 
         <p>Last score: {score}</p>
+        <p>Sessions completed: {sessionsCompleted}</p>
 
         <TotalWords
           size={size}
