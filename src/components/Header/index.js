@@ -19,7 +19,7 @@ export default class Header extends Component {
 
   render() {
     const {user} = this.props;
-    const loggedIn = !!user.uid;
+    const loggedIn = user && !!user.uid;
     return (<div className="header">
       <div className="logo">
         <h1>
