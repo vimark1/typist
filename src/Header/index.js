@@ -30,8 +30,8 @@ export default class Header extends Component {
         <NavLink className="menu-item" to="/scoreboard">Scoreboard</NavLink>
       </div>
       <ul className={cx('menu')}>
-        <MenuItem path="/signup" display={!loggedIn}>Sign up</MenuItem>
-        <MenuItem path="/signin" display={!loggedIn}>Sign In</MenuItem>
+          <MenuItem path="/ signup" display={!loggedIn}><p style={{color:"#1c299d"}}>Register</p></MenuItem>
+          <MenuItem path="/signin" display={!loggedIn}><p style={{color:"#1c299d"}}>Log In</p></MenuItem>
         <MenuItem path="/" display={loggedIn} onClick={() => this.signout()}>Logout</MenuItem>
         <MenuItem path="/profile" display={loggedIn} title={user.displayName || user.email}>
           <Avatar user={user} round={true} size="40"/>
