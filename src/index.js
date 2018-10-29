@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import firebase from 'firebase/app';
+import ReactGA from 'react-ga';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom'
 
 import 'firebase/auth';
+import 'firebase/database';
 
 import './index.css';
 
@@ -12,10 +14,12 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import firebaseCred from './firebase-cred.json';
 import configureStore from './store/configureStore';
+import ga from './ga-cred.json';
 
 const config = firebaseCred;
 const store = configureStore();
 
+ReactGA.initialize(ga, {debug: false});
 firebase.initializeApp(config);
 
 firebase.auth().onAuthStateChanged((user) => {

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
+import ReactGA from 'react-ga';
 import sampleSize from 'lodash.samplesize';
 import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/database';
 
 import Text from '../Text';
 import TotalWords from '../TotalWords';
@@ -35,6 +34,7 @@ export default class Main extends Component {
   };
 
   componentDidMount() {
+    ReactGA.pageview('/');
     document.addEventListener('keypress', this.keyPressHandler);
     document.addEventListener('keydown', this.keyDownHandler);
     this.completed();
