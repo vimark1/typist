@@ -1,12 +1,19 @@
 .container {
     display: flex;
-    width: 160px;
-    justify-content: space-between;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    padding-bottom: 10px;
+    background-color: whitesmoke;
 }
-
+.container strong {
+    width: 26px;
+    text-align: center;
+}
 .btn{
     background-color: grey;
     color: white;
     border: none;
     border-radius: 50%;
+    margin: 0 10px;
 }

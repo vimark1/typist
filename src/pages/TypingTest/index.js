@@ -246,7 +246,7 @@ export default class Main extends Component {
       <div className="App">
         <Text letters={letters} index={index} />
 
-        <p>Last score: {score}</p>
+        <p class="score">Last score: {score}</p>
 
         <TotalWords
           size={size}
