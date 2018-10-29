@@ -3,16 +3,14 @@ import ReactGA from 'react-ga';
 import sampleSize from 'lodash.samplesize';
 import firebase from 'firebase/app';
 
-import Text from '../Text';
-import TotalWords from '../TotalWords';
+import Text from './components/Text';
+import TotalWords from './components/TotalWords';
 
-import words from '../data/words';
+import words from '../../data/words';
 
 import './style.css';
 
 export default class Main extends Component {
-
-  meaningfulWords = words.filter(word => word.length >= 3);
 
   state = {
     size: 5,
@@ -89,7 +87,7 @@ export default class Main extends Component {
 
   completed = function () {
     const { size } = this.state;
-    const wordList = sampleSize(this.meaningfulWords, size);
+    const wordList = sampleSize(words, size);
     this.generateText(wordList);
     this.setState({
       index: 0,
@@ -219,7 +217,7 @@ export default class Main extends Component {
 
   increment = () => {
     const { size, wordList } = this.state;
-    const newWord = sampleSize(this.meaningfulWords, 1);
+    const newWord = sampleSize(words, 1);
     this.setState({
       size: size + 1,
       wordList: [...wordList, ...newWord]
