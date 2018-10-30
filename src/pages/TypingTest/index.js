@@ -78,25 +78,15 @@ export default class Main extends Component {
   };
 
   backspace = () => {
-    const { index,letters } = this.state;
+    let { index,letters } = this.state;
     if (index === 0) return;
    
     let newIdx = index - 1;
-    const updatedLetters = letters.map((letter, idx) => (
-      idx <= newIdx ?
-        {
-          ...letter,
-          done: true,
-        } :
-        {
-          ...letter,
-          done: false,
-        }
-    ));     
+    letters[newIdx].done = false; 
 
     this.setState({
       index: newIdx,
-      letters: updatedLetters
+      letters: letters 
     });
   };
 
