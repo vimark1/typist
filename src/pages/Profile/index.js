@@ -1,34 +1,76 @@
 import cx from 'classnames';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import ReactGA from 'react-ga'
 import Avatar from '../../components/Avatar';
 import TimeAgo from 'react-timeago';
+import TotalWords from '../../components/TotalWords';
+import { userPreferencesUpdateRequestAction } from '../../actions/userPreferences';
 
-export default class Profile extends Component {
-
+class Profile extends Component {
   constructor(props) {
     super(props);
 
     const { user } = props || {};
+    const { preferences } = props;
     this.state = {
       success: '',
-      displayName: user.displayName
+      displayName: user.displayName,
+      totalWords: preferences.totalWords || 5,
     };
+
+    this.increment = this.increment.bind(this);
+    this.decrement = this.decrement.bind(this);
   }
 
   componentDidMount() {
     ReactGA.pageview('/profile');
   }
 
+  componentDidUpdate(prevProps) {
+    const { preferences } = this.props;
+
+    if (prevProps.preferences.totalWords !== preferences.totalWords) {
+      this.setState({ totalWords: preferences.totalWords });
+    }
+  }
+
   async doUpdateProfile(event) {
     event.preventDefault();
     const { user } = this.props;
-    await user.updateProfile({
-      displayName: this.state.displayName
-    });
+    const { displayName } = this.state;
+    await user.updateProfile({ displayName });
     this.setState({
       success: 'Profile updated'
     });
+  }
+
+  async doUpdatePreferences(event) {
+    event.preventDefault();
+    const { user, updateUserPreferences } = this.props;
+    const { totalWords } = this.state;
+    updateUserPreferences(user.uid, { totalWords });
+    this.setState({
+      success: 'Preferences updated',
+      totalWords,
+    });
+  }
+
+  increment() {
+    const { totalWords } = this.state;
+    this.setState({
+      totalWords: totalWords + 1,
+    });
+  }
+
+  decrement() {
+    const { totalWords } = this.state;
+
+    if (totalWords > 1) {
+      this.setState({
+        totalWords: totalWords - 1,
+      });
+    }
   }
 
   render() {
@@ -36,7 +78,7 @@ export default class Profile extends Component {
     return (
       <div>
        {this.state.success && (
-         <p style={{ color: 'white', background: 'green' }}>{this.state.success}</p>
+         <p style={{ padding: '10px', color: 'white', background: '#4BB543' }}>{this.state.success}</p>
        )}
        {user.uid && (
          <div>
@@ -57,12 +99,30 @@ export default class Profile extends Component {
                 onChange={event => this.setState({ displayName: event.target.value })}
               />
             </div>
-
             <button type="submit">Update profile</button>
            </form>
+
+            <h4>Preferences</h4>
+            <TotalWords
+              size={this.state.totalWords}
+              increment={this.increment}
+              decrement={this.decrement}
+            />
+            <button onClick={this.doUpdatePreferences.bind(this)}>Update preferences</button>
          </div>
        )}
       </div>
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  preferences: state.userPreferences.preferences,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  updateUserPreferences: (uid, preferences) =>
+    dispatch(userPreferencesUpdateRequestAction({ uid, preferences})),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

@@ -2,18 +2,13 @@ import React, { Component } from 'react';
 import ReactGA from 'react-ga';
 import sampleSize from 'lodash.samplesize';
 import firebase from 'firebase/app';
-
 import Text from './components/Text';
-import TotalWords from './components/TotalWords';
-
 import words from '../../data/words';
 
 import './style.css';
 
 export default class Main extends Component {
-
   state = {
-    size: 5,
     stats: {
       keys: [],
       success: [],
@@ -36,7 +31,13 @@ export default class Main extends Component {
     ReactGA.pageview('/');
     document.addEventListener('keypress', this.keyPressHandler);
     document.addEventListener('keydown', this.keyDownHandler);
-    this.completed();
+    if (!this.props.preferencesLoading) this.completed();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!this.props.preferencesLoading && prevProps.preferencesLoading) {
+      this.completed();
+    }
   }
 
   componentWillUnmount() {
@@ -86,16 +87,21 @@ export default class Main extends Component {
   };
 
   backspace = () => {
-    const { index } = this.state;
+    let { index,letters } = this.state;
     if (index === 0) return;
+   
+    let newIdx = index - 1;
+    letters[newIdx].done = false; 
+
     this.setState({
-      index: index - 1
+      index: newIdx,
+      letters: letters 
     });
   };
 
   completed = function () {
-    const { size } = this.state;
-    const wordList = sampleSize(words, size);
+    const { totalWords } = this.props.preferences;
+    const wordList = sampleSize(words, totalWords);
     this.generateText(wordList);
     this.setState({
       index: 0,
@@ -105,12 +111,13 @@ export default class Main extends Component {
   };
 
   calcTime = (start, end) => {
-    const { size } = this.state;
+    const { preferences } = this.props;
+    const { totalWords } = preferences;
     const startSec = start.getTime() / 1000;
     const endSec = end.getTime() / 1000;
     const seconds = Math.round(endSec - startSec);
 
-    return Math.round((60 * size) / seconds);
+    return Math.round((60 * totalWords) / seconds);
   };
 
   register = char => {
@@ -137,12 +144,15 @@ export default class Main extends Component {
       };
     } else {
       const updatedLetters = letters.map((letter, idx) => (
-        idx === index ?
+        idx <= index ?
           {
             ...letter,
             done: true,
           } :
-          letter
+          {
+            ...letter,
+            done: false,
+          }
       ));
 
       stateUpdate.letters = updatedLetters;
@@ -239,32 +249,8 @@ export default class Main extends Component {
     }
   }
 
-  increment = () => {
-    const { size, wordList } = this.state;
-    const newWord = sampleSize(words, 1);
-    this.setState({
-      size: size + 1,
-      wordList: [...wordList, ...newWord]
-    }, () => {
-      this.generateText(this.state.wordList);
-    });
-  }
-
-  decrement = () => {
-    const { size, wordList } = this.state;
-
-    if (size > 1) {
-      this.setState({
-        size: size - 1,
-        wordList: [...wordList.slice(0, wordList.length - 1)]
-      }, () => {
-        this.generateText(this.state.wordList);
-      });
-    }
-  }
-
   render() {
-    const { letters, index, size, score, error, authError, sessionsCompleted } = this.state;
+    const { letters, index, score, error, authError, sessionsCompleted } = this.state;
 
     return (
       <div className="App">
@@ -272,12 +258,6 @@ export default class Main extends Component {
 
         <p>Last score: {score}</p>
         <p>Sessions completed: {sessionsCompleted}</p>
-
-        <TotalWords
-          size={size}
-          increment={this.increment}
-          decrement={this.decrement}
-        />
 
         {authError && (
           <div className="error center">

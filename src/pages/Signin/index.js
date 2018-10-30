@@ -5,6 +5,8 @@ import firebase from 'firebase/app';
 
 import { GoogleButton } from 'react-google-button';
 import { signinWithGoogle } from '../../lib/google_signin';
+import FormItem from '../../components/FormItem';
+import bind from '../../utils/bind';
 
 class Signin extends React.Component {
   constructor(props) {
@@ -15,15 +17,28 @@ class Signin extends React.Component {
       loading: false,
       error: {},
     };
+    bind(this, ['setEmail', 'setPassword', 'signin', 'signinWithGoogle']);
   }
 
   componentDidMount() {
     ReactGA.pageview('/signin');
   }
 
+  onSubmit(event) {
+    event.preventDefault();
+  }
+
   onSuccess() {
     this.setState({ loading: false });
     this.props.history.push('/');
+  }
+
+  setEmail(event) {
+    this.setState({ email: event.target.value })
+  }
+
+  setPassword(event) {
+    this.setState({ password: event.target.value })
   }
 
   signinWithGoogle() {
@@ -34,51 +49,33 @@ class Signin extends React.Component {
     }, this.onSuccess.bind(this))
   }
 
-  signin() {
+  async signin() {
     const { email, password } = this.state;
     if (!email) return;
     if (!password) return;
     this.setState({ loading: true, error: {} });
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then((auth) => {
-        this.onSuccess();
-      })
-      .catch((error) => {
-        console.log('error', error);
-        this.setState({ error, loading: false });
-      });
+    try {
+      await firebase.auth().signInWithEmailAndPassword(email, password);
+      this.onSuccess();
+    } catch(error) {
+      console.log('error', error);
+      this.setState({ error, loading: false });
+    }
   }
 
   render() {
     const { loading, error } = this.state;
-
+    const buttonText = loading ? 'Please wait...' : 'Log In';
     return (
-      <div className={cx('email-signin')}>
-        <div className={cx('u-form-group')}>
-          <input
-            type="email"
-            placeholder="Email"
-            autoFocus
-            onChange={event => this.setState({ email: event.target.value })}
-          />
-        </div>
-        <div className={cx('u-form-group')}>
-          <input
-            type="password"
-            placeholder="Password"
-            onChange={event => this.setState({ password: event.target.value })}
-          />
-        </div>
-        <div className={cx('u-form-group')}>
-          <button onClick={() => this.signin()}>
-            {loading ? 'Please wait...' : 'Log In'}
-          </button>
-        </div>
+      <div className="email-signin">
+        <form onSubmit={this.onSubmit}>
+          <FormItem type="email" placeholder="Email" autoFocus handler={this.setEmail} />
+          <FormItem type="password" placeholder="Password" handler={this.setPassword} />
+          <FormItem type="button" placeholder={buttonText} handler={this.signin} />
+        </form>
         <p>OR</p>
         <div>
-          <GoogleButton style={{ margin: '0 auto' }} onClick={() => this.signinWithGoogle()} />
+          <GoogleButton style={{ margin: '0 auto' }} onClick={this.signinWithGoogle} />
         </div>
         <div className={cx('u-form-group error')}>
           {error.message}
