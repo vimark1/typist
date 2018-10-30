@@ -1,10 +1,12 @@
 import React from 'react';
+import ReactGA from 'react-ga';
 import cx from 'classnames';
 import firebase from 'firebase/app';
-import 'firebase/auth';
 
 import { GoogleButton } from 'react-google-button';
-import { signinWithGoogle } from '../lib/google_signin';
+import { signinWithGoogle } from '../../lib/google_signin';
+import FormItem from '../../components/FormItem';
+import bind from '../../utils/bind';
 
 class Signup extends React.Component {
   constructor(props) {
@@ -16,6 +18,27 @@ class Signup extends React.Component {
       loading: false,
       error: {},
     };
+    bind(this, ['setDisplayName', 'setEmail', 'setPassword', 'signup', 'signupWithGoogle']);
+  }
+
+  componentDidMount() {
+    ReactGA.pageview('/signup');
+  }
+
+  onSubmit(event) {
+    event.preventDefault();
+  }
+
+  setDisplayName(event) {
+    this.setState({ displayName: event.target.value });
+  }
+
+  setEmail(event) {
+    this.setState({ email: event.target.value });
+  }
+
+  setPassword(event) {
+    this.setState({ password: event.target.value });
   }
 
   async signup() {
@@ -30,8 +53,7 @@ class Signup extends React.Component {
 
     try {
       // create user
-      const { user } = await firebase
-        .auth()
+      const { user } = await firebase.auth()
         .createUserWithEmailAndPassword(email, password);
 
       // set display name
@@ -40,14 +62,13 @@ class Signup extends React.Component {
         photoURL: null
       });
 
+      this.onSuccess();
     } catch(error) {
       console.log('error', error);
-      this.setState({ error, loading: false });
-      return;
+      this.setState({ error });
     }
 
     this.setState({ loading: false });
-    this.onSuccess();
   }
 
   signupWithGoogle() {
@@ -65,39 +86,19 @@ class Signup extends React.Component {
 
   render() {
     const { loading, error } = this.state;
+    const buttonText = loading ? 'Please wait...' : 'Register';
 
     return (
       <div className={cx('email-signup')}>
-        <div className={cx('u-form-group')}>
-          <input
-            type="displayName"
-            placeholder="Display Name (optional)"
-            autoFocus
-            onChange={event => this.setState({ displayName: event.target.value })}
-          />
-        </div>
-        <div className={cx('u-form-group')}>
-          <input
-            type="email"
-            placeholder="Email"
-            onChange={event => this.setState({ email: event.target.value })}
-          />
-        </div>
-        <div className={cx('u-form-group')}>
-          <input
-            type="password"
-            placeholder="Password"
-            onChange={event => this.setState({ password: event.target.value })}
-          />
-        </div>
-        <div className={cx('u-form-group')}>
-          <button onClick={() => this.signup()}>
-            {loading ? 'Please wait...' : 'Sign up'}
-          </button>
-        </div>
+        <form method="POST" onSubmit={this.onSubmit}>
+          <FormItem placeholder="Display Name (optional)" autoFocus handler={this.setDisplayName} />
+          <FormItem type="email" placeholder="Email" handler={this.setEmail} />
+          <FormItem type="password" placeholder="Password" handler={this.setPassword} />
+          <FormItem type="button" placeholder={buttonText} handler={this.signup} disabled={loading} />
+        </form>
        <p>OR</p>
         <div>
-          <GoogleButton style={{ margin: '0 auto' }} onClick={() => this.signupWithGoogle()} />
+          <GoogleButton style={{ margin: '0 auto' }} onClick={this.signupWithGoogle} />
         </div>
         <div className={cx('u-form-group error')}>
           {error.message}

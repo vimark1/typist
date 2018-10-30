@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
+import ReactGA from 'react-ga';
 
 export default class About extends Component {
+  componentDidMount() {
+    ReactGA.pageview('/about');
+  }
+
   render() {
     return (
       <div>
@@ -10,4 +15,3 @@ export default class About extends Component {
     );
   }
 }
-

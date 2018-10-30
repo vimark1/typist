@@ -1,6 +1,7 @@
 import cx from 'classnames';
 import React, { Component } from 'react';
-import Avatar from '../Avatar';
+import ReactGA from 'react-ga'
+import Avatar from '../../components/Avatar';
 import TimeAgo from 'react-timeago';
 
 export default class Profile extends Component {
@@ -13,6 +14,10 @@ export default class Profile extends Component {
       success: '',
       displayName: user.displayName
     };
+  }
+
+  componentDidMount() {
+    ReactGA.pageview('/profile');
   }
 
   async doUpdateProfile(event) {
@@ -61,4 +66,3 @@ export default class Profile extends Component {
     );
   }
 }
-
