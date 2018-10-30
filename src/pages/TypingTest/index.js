@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import ReactGA from 'react-ga';
 import sampleSize from 'lodash.samplesize';
 import firebase from 'firebase/app';
@@ -8,7 +7,7 @@ import words from '../../data/words';
 
 import './style.css';
 
-class Main extends Component {
+export default class Main extends Component {
   meaningfulWords = words.filter(word => word.length >= 3);
   state = {
     stats: {
@@ -32,7 +31,13 @@ class Main extends Component {
     ReactGA.pageview('/');
     document.addEventListener('keypress', this.keyPressHandler);
     document.addEventListener('keydown', this.keyDownHandler);
-    this.completed();
+    if (!this.props.preferencesLoading) this.completed();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!this.props.preferencesLoading && prevProps.preferencesLoading) {
+      this.completed();
+    }
   }
 
   componentWillUnmount() {
@@ -84,7 +89,6 @@ class Main extends Component {
 
   completed = function () {
     const { totalWords } = this.props.preferences;
-    console.log(totalWords);
     const wordList = sampleSize(this.meaningfulWords, totalWords);
     this.generateText(wordList);
     this.setState({
@@ -233,9 +237,3 @@ class Main extends Component {
     );
   }
 }
-
-const mapStateToProps = (state) => ({
-  preferences: state.userPreferences.preferences,
-});
-
-export default connect(mapStateToProps, {})(Main);

@@ -6,13 +6,12 @@ import { Provider } from 'react-redux';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 import Header from './components/Header';
-import TypingTest from './pages/TypingTest';
+import TypingTest from './pages/TypingTest/container';
 import About from './pages/About';
 import Profile from './pages/Profile';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import ScoreBoard from './pages/ScoreBoard';
-
 
 import 'firebase/auth';
 import 'firebase/database';
