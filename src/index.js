@@ -35,7 +35,6 @@ firebase.auth().onAuthStateChanged((user) => {
       <Provider store={store}>
         <div>
           <Header user={user}/>
-
           <div className="main">
             <Switch>
               <Route exact path='/' render={() => <TypingTest user={user}/>}/>
