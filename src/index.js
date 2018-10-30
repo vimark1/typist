@@ -3,15 +3,22 @@ import ReactDOM from 'react-dom';
 import firebase from 'firebase/app';
 import ReactGA from 'react-ga';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
+
+import Header from './components/Header';
+import TypingTest from './pages/TypingTest';
+import About from './pages/About';
+import Profile from './pages/Profile';
+import Signin from './pages/Signin';
+import Signup from './pages/Signup';
+import ScoreBoard from './pages/ScoreBoard';
+
 
 import 'firebase/auth';
 import 'firebase/database';
 
 import './index.css';
 
-import App from './App';
-import * as serviceWorker from './serviceWorker';
 import firebaseCred from './firebase-cred.json';
 import configureStore from './store/configureStore';
 import ga from './ga-cred.json';
@@ -26,15 +33,22 @@ firebase.auth().onAuthStateChanged((user) => {
   ReactDOM.render((
     <BrowserRouter>
       <Provider store={store}>
-        <App user={user || {}} />
+        <div>
+          <Header user={user}/>
+          <div className="main">
+            <Switch>
+              <Route exact path='/' render={() => <TypingTest user={user}/>}/>
+              <Route exact path='/about' component={About}/>
+              <Route exact path='/profile' render={() => <Profile user={user}/>}/>
+              <Route exact path='/signin' component={Signin}/>
+              <Route exact path='/signup' component={Signup}/>
+              <Route exact path='/scoreboard' component={ScoreBoard}/>
+            </Switch>
+          </div>
+        </div>
       </Provider>
     </BrowserRouter>
     ),
     document.getElementById('root')
   );
 });
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();

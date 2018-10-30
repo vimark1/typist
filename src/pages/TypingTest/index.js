@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import ReactGA from 'react-ga';
 import sampleSize from 'lodash.samplesize';
 import firebase from 'firebase/app';
-
-import Text from '../Text';
-
-import words from '../data/words';
+import Text from './components/Text';
+import words from '../../data/words';
 
 import './style.css';
 
-export default class Main extends Component {
-
+class Main extends Component {
   meaningfulWords = words.filter(word => word.length >= 3);
-
   state = {
     stats: {
       keys: [],
@@ -86,8 +83,8 @@ export default class Main extends Component {
   };
 
   completed = function () {
-    const { preferences } = this.props;
-    const { totalWords } = preferences;
+    const { totalWords } = this.props.preferences;
+    console.log(totalWords);
     const wordList = sampleSize(this.meaningfulWords, totalWords);
     this.generateText(wordList);
     this.setState({
@@ -236,3 +233,9 @@ export default class Main extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  preferences: state.userPreferences.preferences,
+});
+
+export default connect(mapStateToProps, {})(Main);

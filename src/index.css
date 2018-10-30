@@ -83,3 +83,16 @@ code {
   max-width: 65vw;
   margin: 0 auto;
 }
+
+.hidden {
+  display: none;
+}
+
+.email-signin, .email-signup {
+  position: relative;
+  float: left;
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+  text-align: center;
+}

@@ -13,13 +13,18 @@ const MenuItem = ({children, path, title, onClick, display}) => display
 
 export default class Header extends Component {
 
+  constructor(props) {
+    super(props);
+    this.signout = this.signout.bind(this);
+  }
+
   signout() {
     firebase.auth().signOut();
   }
 
   render() {
     const {user} = this.props;
-    const loggedIn = !!user.uid;
+    const loggedIn = user && !!user.uid;
     return (<div className="header">
       <div className="logo">
         <h1>
@@ -29,11 +34,11 @@ export default class Header extends Component {
       <div className="menu options">
         <NavLink className="menu-item" to="/scoreboard">Scoreboard</NavLink>
       </div>
-      <ul className={cx('menu')}>
+      <ul className="menu">
         <MenuItem path="/signup" display={!loggedIn}>Register</MenuItem>
-        <MenuItem path="/signin" display={!loggedIn}>Log In</MenuItem>
-        <MenuItem path="/" display={loggedIn} onClick={() => this.signout()}>Logout</MenuItem>
-        <MenuItem path="/profile" display={loggedIn} title={user.displayName || user.email}>
+        <MenuItem path="/signin" display={!loggedIn}>Log in</MenuItem>
+        <li className={cx("menu-item", {hidden: !loggedIn})} onClick={this.signout}>Logout</li>
+        <MenuItem path="/profile" display={loggedIn}>
           <Avatar user={user} round={true} size="40"/>
         </MenuItem>
       </ul>

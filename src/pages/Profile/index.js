@@ -1,12 +1,13 @@
 import cx from 'classnames';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import ReactGA from 'react-ga'
-import Avatar from '../Avatar';
+import Avatar from '../../components/Avatar';
 import TimeAgo from 'react-timeago';
-import TotalWords from '../TotalWords';
+import TotalWords from '../../components/TotalWords';
+import { userPreferencesUpdateRequestAction } from '../../actions/userPreferences';
 
-export default class Profile extends Component {
-
+class Profile extends Component {
   constructor(props) {
     super(props);
 
@@ -35,9 +36,9 @@ export default class Profile extends Component {
 
   async doUpdatePreferences(event) {
     event.preventDefault();
-    const { updatePreferences } = this.props;
+    const { user, updateUserPreferences } = this.props;
     const { totalWords } = this.state;
-    updatePreferences({ totalWords });
+    updateUserPreferences(user.uid, { totalWords });
     this.setState({
       success: 'Preferences updated',
       totalWords,
@@ -103,3 +104,14 @@ export default class Profile extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  preferences: state.userPreferences.preferences,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  updateUserPreferences: (uid, preferences) =>
+    dispatch(userPreferencesUpdateRequestAction({ uid, preferences})),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
