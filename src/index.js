@@ -30,7 +30,7 @@ ReactGA.initialize(ga, {debug: false});
 firebase.initializeApp(config);
 
 firebase.auth().onAuthStateChanged((user) => {
-  store.dispatch(userPreferencesFetchRequestAction({ uid: user.uid }));
+  store.dispatch(userPreferencesFetchRequestAction({ uid: (user||{}).uid }));
   ReactDOM.render((
     <BrowserRouter>
       <Provider store={store}>
