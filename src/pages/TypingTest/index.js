@@ -78,10 +78,25 @@ export default class Main extends Component {
   };
 
   backspace = () => {
-    const { index } = this.state;
+    const { index,letters } = this.state;
     if (index === 0) return;
+   
+    let newIdx = index - 1;
+    const updatedLetters = letters.map((letter, idx) => (
+      idx <= newIdx ?
+        {
+          ...letter,
+          done: true,
+        } :
+        {
+          ...letter,
+          done: false,
+        }
+    ));     
+
     this.setState({
-      index: index - 1
+      index: newIdx,
+      letters: updatedLetters
     });
   };
 
@@ -129,12 +144,15 @@ export default class Main extends Component {
       };
     } else {
       const updatedLetters = letters.map((letter, idx) => (
-        idx === index ?
+        idx <= index ?
           {
             ...letter,
             done: true,
           } :
-          letter
+          {
+            ...letter,
+            done: false,
+          }
       ));
 
       stateUpdate.letters = updatedLetters;
