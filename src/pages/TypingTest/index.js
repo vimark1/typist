@@ -8,7 +8,6 @@ import words from '../../data/words';
 import './style.css';
 
 export default class Main extends Component {
-  meaningfulWords = words.filter(word => word.length >= 3);
   state = {
     stats: {
       keys: [],
@@ -89,7 +88,7 @@ export default class Main extends Component {
 
   completed = function () {
     const { totalWords } = this.props.preferences;
-    const wordList = sampleSize(this.meaningfulWords, totalWords);
+    const wordList = sampleSize(words, totalWords);
     this.generateText(wordList);
     this.setState({
       index: 0,
