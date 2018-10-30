@@ -44,6 +44,13 @@ export default class Main extends Component {
     document.removeEventListener('keydown', this.keyDownHandler);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const { user } = this.props;
+    if (prevProps.user !== user) {
+      user && this.setSessionsCompleted(user);
+    }
+  }
+
   keyPressHandler = e => {
     const charCode = typeof e.which === 'number' ? e.which : e.keyCode;
     const char = String.fromCharCode(charCode);
@@ -161,10 +168,7 @@ export default class Main extends Component {
       }
 
       this.setState(stateUpdate, () => isCompleted && this.completed());
-      if (isCompleted) {
-        this.saveScore();
-        this.incrementSessions();
-      }
+      if (isCompleted) this.saveScore();
     }
   };
 
@@ -186,13 +190,29 @@ export default class Main extends Component {
       })
   }
 
+  setSessionsCompleted(user) {
+    const sessionsCompletedRef = firebase.database()
+      .ref('user-score')
+      .child(user.uid);
+
+    sessionsCompletedRef.on('value', snapshot => {
+      const data = snapshot.val();
+      const dates = Object.keys(data);
+      const sessionsCompleted = dates
+        .reduce((totalSessions, date) =>  totalSessions + Object.keys(data[date]).length, 0)
+      this.setState({
+        sessionsCompleted,
+      });
+    });
+  }
+
   async saveScore() {
     try {
       const { user } = this.props;
       if (!user.uid) return this.setState({ authError: true });
       this.setState({ authError: false, error: '' });
 
-      const { score, sessionsCompleted } = this.state;
+      const { score } = this.state;
 
       // a string in the format 2018-10-26
       const sessionId = (new Date()).toISOString().slice(0,10);
@@ -207,16 +227,6 @@ export default class Main extends Component {
           score,
           timestamp: firebase.database.ServerValue.TIMESTAMP
         });
-      
-      await firebase
-        .database()
-        .ref('user-completed-sessions')
-        .child(user.uid)
-        .child(sessionId)
-        .push({
-          sessionsCompleted,
-          timestamp: firebase.database.ServerValue.TIMESTAMP
-        });
 
       this.updateScoreboard(user, score)
 
@@ -227,13 +237,6 @@ export default class Main extends Component {
           'Something went wrong while saving score, please contact support!'
       });
     }
-  }
-  
-  incrementSessions = () => {
-    const { sessionsCompleted } = this.state;
-    this.setState({
-      sessionsCompleted: sessionsCompleted + 1,
-    })
   }
 
   increment = () => {

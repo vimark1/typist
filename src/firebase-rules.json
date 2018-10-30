@@ -9,10 +9,6 @@
         ".read": "$uid === auth.uid",
         ".write": "$uid === auth.uid"
       }
-    },
-    "user-completed-sessions": {
-      ".read": true,
-      ".write": true
     }
   }
 }
