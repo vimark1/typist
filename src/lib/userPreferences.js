@@ -6,7 +6,7 @@ export const fetchUserPreferences = (uid) => {
   let userPrefs = { totalWords: 5 };
   // fetch user preferences
   const userPrefsRef = firebase.database().ref(`user-prefs`).child(uid);
-  return userPrefsRef.once('value', snapshot => (snapshot.exists ? snapshot.val() : userPrefs));
+  return userPrefsRef.once('value').then(snapshot => (snapshot.exists ? snapshot.val() : userPrefs));
 };
 
 export const updateUserPreferences = (uid, preferences) => {

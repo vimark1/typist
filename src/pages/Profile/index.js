@@ -24,6 +24,14 @@ class Profile extends Component {
     ReactGA.pageview('/profile');
   }
 
+  componentDidUpdate(prevProps) {
+    const { preferences } = this.props;
+
+    if (prevProps.preferences.totalWords !== preferences.totalWords) {
+      this.setState({ totalWords: preferences.totalWords });
+    }
+  }
+
   async doUpdateProfile(event) {
     event.preventDefault();
     const { user } = this.props;
