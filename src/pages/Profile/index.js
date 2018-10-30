@@ -18,6 +18,9 @@ class Profile extends Component {
       displayName: user.displayName,
       totalWords: preferences.totalWords || 5,
     };
+
+    this.increment = this.increment.bind(this);
+    this.decrement = this.decrement.bind(this);
   }
 
   componentDidMount() {
@@ -53,14 +56,14 @@ class Profile extends Component {
     });
   }
 
-  increment = () => {
+  increment() {
     const { totalWords } = this.state;
     this.setState({
       totalWords: totalWords + 1,
     });
   }
 
-  decrement = () => {
+  decrement() {
     const { totalWords } = this.state;
 
     if (totalWords > 1) {
@@ -75,7 +78,7 @@ class Profile extends Component {
     return (
       <div>
        {this.state.success && (
-         <p style={{ color: 'white', background: 'green' }}>{this.state.success}</p>
+         <p style={{ padding: '10px', color: 'white', background: '#4BB543' }}>{this.state.success}</p>
        )}
        {user.uid && (
          <div>
