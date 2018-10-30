@@ -33,6 +33,15 @@ export default class Main extends Component {
     error: ''
   };
 
+  constructor(props) {
+    super(props);
+    const { pref } = props;
+    this.state = {
+      ...this.state,
+      size: pref.words
+    };
+  }
+
   componentDidMount() {
     ReactGA.pageview('/');
     document.addEventListener('keypress', this.keyPressHandler);

@@ -28,6 +28,7 @@ export default class Header extends Component {
       </div>
       <div className="menu options">
         <NavLink className="menu-item" to="/scoreboard">Scoreboard</NavLink>
+        <MenuItem display = { loggedIn } path="/preferences" > Preferences </MenuItem>
       </div>
       <ul className={cx('menu')}>
         <MenuItem path="/signup" display={!loggedIn}>Sign up</MenuItem>
