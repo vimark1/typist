@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import ReactGA from 'react-ga';
 import sampleSize from 'lodash.samplesize';
 import firebase from 'firebase/app';
@@ -7,25 +8,29 @@ import words from '../../data/words';
 
 import './style.css';
 
-export default class Main extends Component {
-  state = {
-    stats: {
-      keys: [],
-      success: [],
-      fails: []
-    },
-    text: '',
-    index: 0,
-    letters: [],
-    typed: '',
-    start: new Date(),
-    wpm: [],
-    wordList: [],
-    score: 0,
-    authError: false,
-    error: '',
-    sessionsCompleted: 0,
-  };
+class TypingTest extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      size: 5,
+      stats: {
+        keys: [],
+        success: [],
+        fails: []
+      },
+      text: '',
+      index: 0,
+      letters: [],
+      typed: '',
+      start: new Date(),
+      wpm: [],
+      wordList: [],
+      score: 0,
+      error: '',
+      sessionsCompleted: 0,
+    };
+  }
 
   componentDidMount() {
     ReactGA.pageview('/');
@@ -35,6 +40,10 @@ export default class Main extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    const { user } = this.props;
+    if (user && user.uid) {
+      this.setSessionsCompleted(user);
+    }
     if (!this.props.preferencesLoading && prevProps.preferencesLoading) {
       this.completed();
     }
@@ -45,20 +54,13 @@ export default class Main extends Component {
     document.removeEventListener('keydown', this.keyDownHandler);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { user } = this.props;
-    if (prevProps.user !== user) {
-      user && this.setSessionsCompleted(user);
-    }
-  }
-
-  keyPressHandler = e => {
+  keyPressHandler = (e) => {
     const charCode = typeof e.which === 'number' ? e.which : e.keyCode;
     const char = String.fromCharCode(charCode);
     this.register(char);
   };
 
-  keyDownHandler = e => {
+  keyDownHandler = (e) => {
     const charCode = (typeof e.which === 'number') ? e.which : e.keyCode;
 
     if (charCode === 8) {
@@ -70,36 +72,32 @@ export default class Main extends Component {
     }
   };
 
-  generateText = (wordList) => {
-    const newText = wordList.join(' ');
-    const newLetters = newText
-      .split('')
-      .map(letter => ({
-        letter: letter,
-        done: false
-      }));
+  generateText(wordList) {
+    const text = wordList.join(' ');
+    const letters = text.split('')
+      .map(letter => ({ letter, done: false }));
 
     this.setState({
-      text: newText,
-      letters: newLetters,
+      text,
+      letters,
       wordList
     });
-  };
+  }
 
-  backspace = () => {
+  backspace() {
     let { index,letters } = this.state;
     if (index === 0) return;
-   
+
     let newIdx = index - 1;
-    letters[newIdx].done = false; 
+    letters[newIdx].done = false;
 
     this.setState({
       index: newIdx,
-      letters: letters 
+      letters
     });
-  };
+  }
 
-  completed = function () {
+  completed() {
     const { totalWords } = this.props.preferences;
     const wordList = sampleSize(words, totalWords);
     this.generateText(wordList);
@@ -108,28 +106,25 @@ export default class Main extends Component {
       typed: '',
       start: new Date()
     });
-  };
+  }
 
-  calcTime = (start, end) => {
-    const { preferences } = this.props;
-    const { totalWords } = preferences;
+  calcTime(start, end, totalWords) {
     const startSec = start.getTime() / 1000;
     const endSec = end.getTime() / 1000;
     const seconds = Math.round(endSec - startSec);
 
     return Math.round((60 * totalWords) / seconds);
-  };
+  }
 
-  register = char => {
-    const stat = {
-      key: char,
-      ts: +new Date()
-    };
-
+  register(char) {
+    let isCompleted = false;
+    const stat = { key: char, ts: new Date().getTime() };
     const { stats, text, index, letters, typed } = this.state;
 
     const charAtIndex = text.substr(index, 1);
-    const stateUpdate = {
+    const state = {
+      letters: [...letters],
+      index,
       stats: {
         ...stats,
         keys: stats.keys.concat(stat)
@@ -137,50 +132,32 @@ export default class Main extends Component {
     };
 
     if (char !== charAtIndex) {
-      stateUpdate.stats = {
-        ...stats,
-        ...stateUpdate.stats,
-        fails: stats.fails.concat(stat)
-      };
+      state.stats.fails = state.stats.fails.concat(stat);
     } else {
-      const updatedLetters = letters.map((letter, idx) => (
-        idx <= index ?
-          {
-            ...letter,
-            done: true,
-          } :
-          {
-            ...letter,
-            done: false,
-          }
-      ));
+      letters[index].done = true;
 
-      stateUpdate.letters = updatedLetters;
-      stateUpdate.index = index + 1;
-      stateUpdate.typed = `${typed}${char}`;
-      stateUpdate.stats = {
-        ...stats,
-        ...stateUpdate.stats,
-        success: stats.success.concat(stat)
-      };
-
-      let isCompleted = false;
+      state.index += 1;
+      state.typed = `${typed}${char}`;
+      state.stats.success = state.stats.success.concat(stat);
 
       if (index === text.length - 1) {
         const { start, wpm } = this.state;
-        const calc = this.calcTime(start, new Date());
-        stateUpdate.wpm = wpm.concat(calc);
+        const { totalWords } = this.props.preferences;
+        const calc = this.calcTime(start, new Date(), totalWords);
+        state.wpm = wpm.concat(calc);
         const score = Math.round(
-          stateUpdate.wpm.reduce((a, b) => a + b) / stateUpdate.wpm.length
+          state.wpm.reduce((a, b) => a + b) / state.wpm.length
         );
-        stateUpdate.score = score;
+        state.score = score;
         isCompleted = true;
       }
 
-      this.setState(stateUpdate, () => isCompleted && this.completed());
-      if (isCompleted) this.saveScore();
+      if (isCompleted) {
+        this.saveScore();
+      }
     }
-  };
+    this.setState(state, () => isCompleted && this.completed());
+  }
 
   updateScoreboard(user, score) {
     const limit = 10;
@@ -205,22 +182,26 @@ export default class Main extends Component {
       .ref('user-score')
       .child(user.uid);
 
+    const sessionCount = this.state.sessionsCompleted;
+
     sessionsCompletedRef.on('value', snapshot => {
       const data = snapshot.val();
       const dates = Object.keys(data);
       const sessionsCompleted = dates
         .reduce((totalSessions, date) =>  totalSessions + Object.keys(data[date]).length, 0)
-      this.setState({
-        sessionsCompleted,
-      });
+      if (sessionCount !== sessionsCompleted) {
+        this.setState({ sessionsCompleted });
+      }
     });
   }
 
   async saveScore() {
     try {
       const { user } = this.props;
-      if (!user.uid) return this.setState({ authError: true });
-      this.setState({ authError: false, error: '' });
+      if (!(user && user.uid)) {
+        return;
+      }
+      this.setState({ error: '' });
 
       const { score } = this.state;
 
@@ -250,7 +231,9 @@ export default class Main extends Component {
   }
 
   render() {
-    const { letters, index, score, error, authError, sessionsCompleted } = this.state;
+    const { letters, index, score, error, sessionsCompleted } = this.state;
+    const { user } = this.props;
+    const loggedIn = user && user.uid;
 
     return (
       <div className="App">
@@ -259,13 +242,20 @@ export default class Main extends Component {
         <p>Last score: {score}</p>
         <p>Sessions completed: {sessionsCompleted}</p>
 
-        {authError && (
-          <div className="error center">
-          Please log in to save your score!
-          </div>
+        {!loggedIn && (
+          <div className="error center">Please log in to save your score!</div>
         )}
         {error && <div className="error center">{error}</div>}
       </div>
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  preferences: state.userPreferences.preferences,
+  preferencesLoading: state.userPreferences.loading,
+});
+
+export const Unwrapped = TypingTest;
+
+export default connect(mapStateToProps, null)(TypingTest);
