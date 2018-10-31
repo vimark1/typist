@@ -254,4 +254,6 @@ const mapStateToProps = (state) => ({
   preferencesLoading: state.userPreferences.loading,
 });
 
+export const Unwrapped = TypingTest;
+
 export default connect(mapStateToProps, null)(TypingTest);
