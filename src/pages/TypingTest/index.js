@@ -56,13 +56,13 @@ export default class TypingTest extends Component {
     }
   }
 
-  keyPressHandler(e) {
+  keyPressHandler = (e) => {
     const charCode = typeof e.which === 'number' ? e.which : e.keyCode;
     const char = String.fromCharCode(charCode);
     this.register(char);
-  }
+  };
 
-  keyDownHandler(e) {
+  keyDownHandler = (e) => {
     const charCode = (typeof e.which === 'number') ? e.which : e.keyCode;
 
     if (charCode === 8) {
@@ -72,7 +72,7 @@ export default class TypingTest extends Component {
     if (charCode === 27) {
       this.completed();
     }
-  }
+  };
 
   generateText(wordList) {
     const text = wordList.join(' ');
