@@ -1,5 +1,8 @@
 import {combineReducers} from 'redux';
-const sampleReducer = (state = null, action) => state;
-const rootReducer = combineReducers({state: sampleReducer});
+import userPreferencesReducer from './userPreferences';
+
+const rootReducer = combineReducers({
+  userPreferences: userPreferencesReducer,
+});
 
 export default rootReducer;

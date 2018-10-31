@@ -1,6 +1,6 @@
 {
   "name": "typist",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "private": true,
   "main": "public/electron.js",
   "homepage": "https://typistapp.netlify.com",
@@ -20,6 +20,7 @@
     "classnames": "^2.2.6",
     "firebase": "^5.5.6",
     "lodash.samplesize": "^4.2.0",
+    "node-sass": "^4.9.4",
     "prop-types": "^15.6.2",
     "react": "^16.6.0",
     "react-avatar": "^3.4.6",
@@ -30,7 +31,8 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.0.5",
     "react-timeago": "^4.1.9",
-    "redux": "^4.0.1"
+    "redux": "^4.0.1",
+    "redux-saga": "^0.16.2"
   },
   "browserslist": [
     ">0.2%",
