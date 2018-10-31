@@ -4,6 +4,7 @@ import firebase from 'firebase/app';
 import ReactGA from 'react-ga';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { Container } from 'react-grid-system';
 
 import Header from './components/Header';
 import TypingTest from './pages/TypingTest';
@@ -16,7 +17,7 @@ import ScoreBoard from './pages/ScoreBoard';
 import 'firebase/auth';
 import 'firebase/database';
 
-import './index.css';
+import './index.scss';
 
 import firebaseCred from './firebase-cred.json';
 import configureStore from './store/configureStore';
@@ -37,7 +38,7 @@ firebase.auth().onAuthStateChanged((user) => {
       <Provider store={store}>
         <div>
           <Header user={user}/>
-          <div className="main">
+          <Container className="main">
             <Switch>
               <Route exact path='/' render={() => <TypingTest user={user}/>}/>
               <Route exact path='/about' component={About}/>
@@ -46,7 +47,7 @@ firebase.auth().onAuthStateChanged((user) => {
               <Route exact path='/signup' component={Signup}/>
               <Route exact path='/scoreboard' component={ScoreBoard}/>
             </Switch>
-          </div>
+          </Container>
         </div>
       </Provider>
     </BrowserRouter>

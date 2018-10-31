@@ -9,8 +9,7 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 .header {
@@ -21,39 +20,34 @@ code {
   margin-bottom: 10vh;
   flex-direction: row;
   min-height: 68px;
-}
-
-.header .logo {
-  width: 25%;
-  align-self: center;
-}
-
-.header .logo  h1 {
-  margin: 0;
-}
-
-.header .logo a {
-  background: #1c299d;
-  color: #fff !important;
-  text-decoration: none;
-  padding: 2px 20px;
-}
-
-.header .menu {
-  width: 75%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
+  .logo {
+    width: 25%;
+    align-self: center;
+    h1 {
+      margin: 0;
+    }
+    a {
+      background: #1c299d;
+      color: #fff !important;
+      text-decoration: none;
+      padding: 2px 20px;
+    }
+  }
+  .menu {
+    width: 75%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
 }
 
 .menu {
   list-style-type: none;
   margin: 0;
   padding: 0;
-}
-
-.menu.options {
-  justify-content: flex-start;
+  &.options {
+    justify-content: flex-start;
+  }
 }
 
 .menu-item {
@@ -63,25 +57,17 @@ code {
   text-decoration: none;
   cursor: pointer;
   align-self: center;
-}
-
-.menu-item a {
-  color: #666;
-  text-decoration: none;
-}
-
-.menu-item:hover:not(.active) {
-  background-color: #ddd;
-}
-
-.menu-item.active {
-  color: white;
-  background-color: #4caf50;
-}
-
-.main {
-  max-width: 65vw;
-  margin: 0 auto;
+  a {
+    color: #666;
+    text-decoration: none;
+  }
+  &:hover:not(.active) {
+    background-color: #ddd;
+  }
+  &.active {
+    color: white;
+    background-color: #4caf50;
+  }
 }
 
 .hidden {
