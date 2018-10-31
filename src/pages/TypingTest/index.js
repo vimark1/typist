@@ -23,7 +23,8 @@ export default class Main extends Component {
     wordList: [],
     score: 0,
     authError: false,
-    error: ''
+    error: '',
+    sessionsCompleted: 0,
   };
 
   componentDidMount() {
@@ -42,6 +43,13 @@ export default class Main extends Component {
   componentWillUnmount() {
     document.removeEventListener('keypress', this.keyPressHandler);
     document.removeEventListener('keydown', this.keyDownHandler);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { user } = this.props;
+    if (prevProps.user !== user) {
+      user && this.setSessionsCompleted(user);
+    }
   }
 
   keyPressHandler = e => {
@@ -192,6 +200,22 @@ export default class Main extends Component {
       })
   }
 
+  setSessionsCompleted(user) {
+    const sessionsCompletedRef = firebase.database()
+      .ref('user-score')
+      .child(user.uid);
+
+    sessionsCompletedRef.on('value', snapshot => {
+      const data = snapshot.val();
+      const dates = Object.keys(data);
+      const sessionsCompleted = dates
+        .reduce((totalSessions, date) =>  totalSessions + Object.keys(data[date]).length, 0)
+      this.setState({
+        sessionsCompleted,
+      });
+    });
+  }
+
   async saveScore() {
     try {
       const { user } = this.props;
@@ -226,13 +250,14 @@ export default class Main extends Component {
   }
 
   render() {
-    const { letters, index, score, error, authError } = this.state;
+    const { letters, index, score, error, authError, sessionsCompleted } = this.state;
 
     return (
       <div className="App">
         <Text letters={letters} index={index} />
 
         <p>Last score: {score}</p>
+        <p>Sessions completed: {sessionsCompleted}</p>
 
         {authError && (
           <div className="error center">
