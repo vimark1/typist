@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import ReactGA from 'react-ga';
 import sampleSize from 'lodash.samplesize';
 import firebase from 'firebase/app';
@@ -7,7 +8,7 @@ import words from '../../data/words';
 
 import './style.css';
 
-export default class TypingTest extends Component {
+class TypingTest extends Component {
 
   constructor(props) {
     super(props);
@@ -247,3 +248,10 @@ export default class TypingTest extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  preferences: state.userPreferences.preferences,
+  preferencesLoading: state.userPreferences.loading,
+});
+
+export default connect(mapStateToProps, null)(TypingTest);
