@@ -1,7 +1,6 @@
 {
   "name": "typist",
   "version": "0.7.0",
-  "private": true,
   "homepage": "https://typistapp.netlify.com",
   "scripts": {
     "start": "react-scripts start",
