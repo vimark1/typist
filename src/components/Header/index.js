@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
 import cx from 'classnames';
 import firebase from 'firebase/app';
+import { Hidden } from 'react-grid-system';
 
 import Avatar from '../Avatar';
 
@@ -25,12 +26,15 @@ export default class Header extends Component {
   render() {
     const {user} = this.props;
     const loggedIn = user && !!user.uid;
-    return (<div className="header">
-      <div className="logo">
-        <h1>
-          <NavLink to='/'>Typist</NavLink>
-        </h1>
-      </div>
+    return (
+      <div className="header">
+      <Hidden sm xs>
+        <div className="logo">
+          <h1>
+            <NavLink to='/'>Typist</NavLink>
+          </h1>
+        </div>
+      </Hidden>
       <div className="menu options">
         <NavLink className="menu-item" to="/scoreboard">Scoreboard</NavLink>
       </div>

@@ -5,6 +5,8 @@ import ReactGA from 'react-ga'
 import Avatar from '../../components/Avatar';
 import TimeAgo from 'react-timeago';
 import TotalWords from '../../components/TotalWords';
+import { Row, Col } from 'react-grid-system';
+
 import { userPreferencesUpdateRequestAction } from '../../actions/userPreferences';
 
 class Profile extends Component {
@@ -76,42 +78,47 @@ class Profile extends Component {
   render() {
     const { user } = this.props;
     return (
-      <div>
-       {this.state.success && (
-         <p style={{ padding: '10px', color: 'white', background: '#4BB543' }}>{this.state.success}</p>
-       )}
-       {user.uid && (
-         <div>
-           <Avatar user={user} size="230" round={false} />
-           <h3>{user.displayName}</h3>
-           <p>{user.email}</p>
-           <p>
-             Joined <TimeAgo date={user.metadata.creationTime} />
-           </p>
+      <>
+        {this.state.success && (
+          <Row>
+            <Col md={12}>
+              <p style={{ padding: '10px', color: 'white', background: '#4BB543' }}>{this.state.success}</p>
+            </Col>
+          </Row>
+        )}
+        {user.uid && (
+          <Row>
+            <Col md={4}>
+              <Avatar user={user} size="230" round={false} />
+              <h3>{user.displayName}</h3>
+              <p>{user.email}</p>
+              <p>Joined <TimeAgo date={user.metadata.creationTime} /></p>
+            </Col>
+            <Col md={8}>
+              <h2>Profile</h2>
+              <form onSubmit={this.doUpdateProfile.bind(this)}>
+                <div className={cx('u-form-group')}>
+                  <input
+                    type="displayName"
+                    value={this.state.displayName}
+                    placeholder="Display Name (optional)"
+                    onChange={event => this.setState({ displayName: event.target.value })}
+                  />
+                </div>
+                <button type="submit">Update profile</button>
+              </form>
 
-           <form onSubmit={this.doUpdateProfile.bind(this)}>
-
-            <div className={cx('u-form-group')}>
-              <input
-                type="displayName"
-                value={this.state.displayName}
-                placeholder="Display Name (optional)"
-                onChange={event => this.setState({ displayName: event.target.value })}
+              <h2>Preferences</h2>
+              <TotalWords
+                size={this.state.totalWords}
+                increment={this.increment}
+                decrement={this.decrement}
               />
-            </div>
-            <button type="submit">Update profile</button>
-           </form>
-
-            <h4>Preferences</h4>
-            <TotalWords
-              size={this.state.totalWords}
-              increment={this.increment}
-              decrement={this.decrement}
-            />
-            <button onClick={this.doUpdatePreferences.bind(this)}>Update preferences</button>
-         </div>
-       )}
-      </div>
+              <button onClick={this.doUpdatePreferences.bind(this)}>Update preferences</button>
+            </Col>
+          </Row>
+        )}
+      </>
     );
   }
 }
