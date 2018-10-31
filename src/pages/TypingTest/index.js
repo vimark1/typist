@@ -39,6 +39,10 @@ export default class TypingTest extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    const { user } = this.props;
+    if (user && prevProps.user !== user) {
+      user && this.setSessionsCompleted(user);
+    }
     if (!this.props.preferencesLoading && prevProps.preferencesLoading) {
       this.completed();
     }
@@ -47,13 +51,6 @@ export default class TypingTest extends Component {
   componentWillUnmount() {
     document.removeEventListener('keypress', this.keyPressHandler);
     document.removeEventListener('keydown', this.keyDownHandler);
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const { user } = this.props;
-    if (prevProps.user !== user) {
-      user && this.setSessionsCompleted(user);
-    }
   }
 
   keyPressHandler = (e) => {
