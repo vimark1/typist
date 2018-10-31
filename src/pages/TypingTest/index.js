@@ -41,8 +41,8 @@ class TypingTest extends Component {
 
   componentDidUpdate(prevProps) {
     const { user } = this.props;
-    if (user && prevProps.user !== user) {
-      user && this.setSessionsCompleted(user);
+    if (user && user.uid) {
+      this.setSessionsCompleted(user);
     }
     if (!this.props.preferencesLoading && prevProps.preferencesLoading) {
       this.completed();
@@ -182,14 +182,16 @@ class TypingTest extends Component {
       .ref('user-score')
       .child(user.uid);
 
+    const sessionCount = this.state.sessionsCompleted;
+
     sessionsCompletedRef.on('value', snapshot => {
       const data = snapshot.val();
       const dates = Object.keys(data);
       const sessionsCompleted = dates
         .reduce((totalSessions, date) =>  totalSessions + Object.keys(data[date]).length, 0)
-      this.setState({
-        sessionsCompleted,
-      });
+      if (sessionCount !== sessionsCompleted) {
+        this.setState({ sessionsCompleted });
+      }
     });
   }
 
