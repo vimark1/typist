@@ -1,7 +1,7 @@
 import React from 'react';
 import Avatar from 'react-avatar';
 
-import { User } from '../../models';
+import { User } from 'firebase';
 
 export default function({ user, size = '40', round = true}: { user: User, size: string, round: boolean }) {
 

@@ -2,7 +2,17 @@ import React from 'react';
 
 import './style.scss';
 
-class FormItem extends React.Component {
+type FormItemProps = {
+  type?: string;
+  placeholder: string;
+  autoFocus?: boolean;
+  handler: (event?: any) => any | void;
+  disabled?: boolean;
+}
+
+type FormItemState = {}
+
+class FormItem extends React.Component<FormItemProps, FormItemState> {
   render() {
     const {
       type = 'text',

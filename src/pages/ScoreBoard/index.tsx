@@ -2,7 +2,18 @@ import React from 'react';
 import ReactGA from 'react-ga';
 import firebase from 'firebase/app'
 
-class ScoreBoard extends React.Component {
+import { User } from 'firebase';
+
+type UserScore = {
+  user: User;
+  score: number;
+};
+
+type ScoreBoardState = {
+  top10: UserScore[];
+};
+
+class ScoreBoard extends React.Component<{}, ScoreBoardState> {
     constructor(props) {
         super(props);
         this.state = {
