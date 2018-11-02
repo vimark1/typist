@@ -3,12 +3,26 @@ import ReactGA from 'react-ga';
 import cx from 'classnames';
 import firebase from 'firebase/app';
 
-import { GoogleButton } from 'react-google-button';
+import GoogleButton from 'react-google-button';
 import { signinWithGoogle } from '../../lib/google_signin';
 import FormItem from '../../components/FormItem';
 import bind from '../../utils/bind';
 
-class Signup extends React.Component {
+type SignupState = {
+  email: string;
+  password: string;
+  displayName: string;
+  loading: boolean;
+  error: any;
+};
+
+type SignupProps = {
+  history: {
+    push: (path: string) => any
+  }
+};
+
+class Signup extends React.Component<SignupProps, SignupState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -91,7 +105,7 @@ class Signup extends React.Component {
     return (
       <div className={cx('email-signup')}>
         <form method="POST" onSubmit={this.onSubmit}>
-          <FormItem placeholder="Display Name (optional)" autoFocus handler={this.setDisplayName} />
+          <FormItem type="text" placeholder="Display Name (optional)" autoFocus handler={this.setDisplayName} />
           <FormItem type="email" placeholder="Email" handler={this.setEmail} />
           <FormItem type="password" placeholder="Password" handler={this.setPassword} />
           <FormItem type="button" placeholder={buttonText} handler={this.signup} disabled={loading} />

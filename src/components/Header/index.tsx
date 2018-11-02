@@ -5,14 +5,26 @@ import firebase from 'firebase/app';
 import { Hidden } from 'react-grid-system';
 
 import Avatar from '../Avatar';
+import { User } from 'firebase';
 
-const MenuItem = ({children, path, title, onClick, display}) => display
-  ? (<NavLink className="menu-item" to={path} onClick={onClick} title={title}>
+type MenuItemArguments = {
+  children: any;
+  path: string;
+  onClick?: () => any;
+  display: boolean;
+}
+
+type HeaderProps = {
+  user: User;
+}
+
+const MenuItem = ({children, path, onClick, display}: MenuItemArguments) => display
+  ? (<NavLink className="menu-item" to={path} onClick={onClick}>
     {children}
   </NavLink>)
   : null;
 
-export default class Header extends Component {
+export default class Header extends Component<HeaderProps> {
 
   constructor(props) {
     super(props);

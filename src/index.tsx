@@ -17,6 +17,8 @@ import ScoreBoard from './pages/ScoreBoard';
 import 'firebase/auth';
 import 'firebase/database';
 
+import { User } from 'firebase';
+
 import './index.scss';
 
 import firebaseCred from './firebase-cred.json';
@@ -31,13 +33,13 @@ ReactGA.initialize(ga, {debug: false});
 firebase.initializeApp(config);
 
 firebase.auth().onAuthStateChanged((user) => {
-  user = user || {};
+  user = user || {} as User;
   store.dispatch(userPreferencesFetchRequestAction({ uid: user.uid }));
   ReactDOM.render((
     <BrowserRouter>
       <Provider store={store}>
         <div>
-          <Header user={user}/>
+          <Header user={user} />
           <Container className="main">
             <Switch>
               <Route exact path='/' render={() => <TypingTest user={user}/>}/>

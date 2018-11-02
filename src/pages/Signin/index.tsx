@@ -3,12 +3,25 @@ import ReactGA from 'react-ga';
 import cx from 'classnames';
 import firebase from 'firebase/app';
 
-import { GoogleButton } from 'react-google-button';
+import GoogleButton from 'react-google-button';
 import { signinWithGoogle } from '../../lib/google_signin';
 import FormItem from '../../components/FormItem';
 import bind from '../../utils/bind';
 
-class Signin extends React.Component {
+type SigninState = {
+  email: string;
+  password: string;
+  loading: boolean;
+  error: any;
+};
+
+type SigninProps = {
+  history: {
+    push: (path: string) => any
+  }
+};
+
+class Signin extends React.Component<SigninProps, SigninState> {
   constructor(props) {
     super(props);
     this.state = {

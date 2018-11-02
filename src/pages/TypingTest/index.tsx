@@ -6,9 +6,38 @@ import firebase from 'firebase/app';
 import Text from './components/Text';
 import words from '../../data/words';
 
+import { User } from 'firebase';
+
 import './style.css';
 
-class TypingTest extends Component {
+type TypingTestProps = {
+  user: User;
+  preferencesLoading: boolean;
+  preferences: {
+    totalWords: number
+  };
+};
+
+type TypingTestState = {
+  size?: number;
+  text?: string;
+  typed?: string;
+  start?: Date;
+  wpm?: any[];
+  stats: {
+    keys: any[];
+    success: any[];
+    fails: any[];
+  };
+  index: number;
+  letters: any[];
+  wordList?: any[];
+  score?: number;
+  error?: string;
+  sessionsCompleted?: number;
+};
+
+class TypingTest extends Component<TypingTestProps, TypingTestState> {
 
   constructor(props) {
     super(props);
@@ -122,7 +151,7 @@ class TypingTest extends Component {
     const { stats, text, index, letters, typed } = this.state;
 
     const charAtIndex = text.substr(index, 1);
-    const state = {
+    const state: TypingTestState = {
       letters: [...letters],
       index,
       stats: {

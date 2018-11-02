@@ -7,13 +7,27 @@ import TimeAgo from 'react-timeago';
 import TotalWords from '../../components/TotalWords';
 import { Row, Col } from 'react-grid-system';
 
+import { User } from 'firebase';
+
 import { userPreferencesUpdateRequestAction } from '../../actions/userPreferences';
 
-class Profile extends Component {
+type ProfileProps = {
+  user: User;
+  preferences: any;
+  updateUserPreferences: (userUid: string, options: { totalWords: number }) => any;
+};
+
+type ProfileState = {
+  success: string;
+  displayName: string;
+  totalWords: number;
+};
+
+class Profile extends Component<ProfileProps, ProfileState> {
   constructor(props) {
     super(props);
 
-    const { user } = props || {};
+    const { user } = props;
     const { preferences } = props;
     this.state = {
       success: '',
@@ -41,7 +55,7 @@ class Profile extends Component {
     event.preventDefault();
     const { user } = this.props;
     const { displayName } = this.state;
-    await user.updateProfile({ displayName });
+    await user.updateProfile({ displayName, photoURL: null });
     this.setState({
       success: 'Profile updated'
     });
