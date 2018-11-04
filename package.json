@@ -4,7 +4,7 @@
   "homepage": "https://typistapp.netlify.com",
   "scripts": {
     "start": "react-scripts start",
-    "lint": "tslint",
+    "lint": "tslint 'src/**/*.ts?(x)'",
     "deploy:firebase": "node scripts/write-firebase-file.js",
     "prebuild": "run-s lint deploy:firebase",
     "build": "react-scripts build",
