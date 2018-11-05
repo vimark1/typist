@@ -42,22 +42,22 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
   constructor(props) {
     super(props);
     this.state = {
-      size: 5,
-      stats: {
-        keys: [],
-        success: [],
-        fails: []
-      },
-      text: '',
+      error: '',
       index: 0,
       letters: [],
-      typed: '',
-      start: new Date(),
-      wpm: [],
-      wordList: [],
       score: 0,
-      error: '',
       sessionsCompleted: 0,
+      size: 5,
+      start: new Date(),
+      stats: {
+        fails: [],
+        keys: [],
+        success: [],
+      },
+      text: '',
+      typed: '',
+      wordList: [],
+      wpm: [],
     };
   }
 
@@ -65,7 +65,9 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
     ReactGA.pageview('/');
     document.addEventListener('keypress', this.keyPressHandler);
     document.addEventListener('keydown', this.keyDownHandler);
-    if (!this.props.preferencesLoading) this.completed();
+    if (!this.props.preferencesLoading) {
+      this.completed();
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -193,10 +195,10 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
     const topScorersRef = firebase.database().ref('top-scorers');
       topScorersRef.once('value', snapshot => {
         let topScores = snapshot.val() || [];
-        topScores.push({user: {
-          uid: user.uid,
-          displayName: user.displayName,
-        }, score: score})
+        topScores.push({
+          score,
+          user: { displayName: user.displayName, uid: user.uid, },
+        })
         topScores.sort((a, b) => {
           if(a.score === b.score) { return 0; }
           return a.score > b.score ? -1 : 1;
@@ -251,7 +253,6 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
       this.updateScoreboard(user, score)
 
     } catch (err) {
-      console.error(err);
       this.setState({
         error:
           'Something went wrong while saving score, please contact support!'

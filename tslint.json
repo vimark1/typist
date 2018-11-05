@@ -5,6 +5,10 @@
     "tslint-config-prettier",
     "tslint-react-a11y"
   ],
+  "rules": {
+    "object-literal-sort-keys": false,
+    "member-access": false
+  },
   "linterOptions": {
     "exclude": [
       "node_modules/*"
