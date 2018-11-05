@@ -1,20 +1,20 @@
-import React, {Component} from 'react';
-import {NavLink} from 'react-router-dom';
 import cx from 'classnames';
 import firebase from 'firebase/app';
+import React, {Component} from 'react';
 import { Hidden } from 'react-grid-system';
+import {NavLink} from 'react-router-dom';
 
-import Avatar from '../Avatar';
 import { User } from 'firebase';
+import Avatar from '../Avatar';
 
-type MenuItemArguments = {
+interface MenuItemArguments {
   children: any;
   path: string;
   onClick?: () => any;
   display: boolean;
 }
 
-type HeaderProps = {
+interface HeaderProps {
   user: User;
 }
 
@@ -40,7 +40,7 @@ export default class Header extends Component<HeaderProps> {
     const loggedIn = user && !!user.uid;
     return (
       <div className="header">
-      <Hidden sm xs>
+      <Hidden sm={true} xs={true}>
         <div className="logo">
           <h1>
             <NavLink to='/'>Typist</NavLink>

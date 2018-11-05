@@ -2,7 +2,7 @@ import React from 'react';
 
 import './style.scss';
 
-type FormItemProps = {
+interface FormItemProps {
   type?: string;
   placeholder: string;
   autoFocus?: boolean;
@@ -10,7 +10,7 @@ type FormItemProps = {
   disabled?: boolean;
 }
 
-type FormItemState = {}
+interface FormItemState {}
 
 class FormItem extends React.Component<FormItemProps, FormItemState> {
   render() {

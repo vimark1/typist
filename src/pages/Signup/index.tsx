@@ -1,26 +1,26 @@
-import React from 'react';
-import ReactGA from 'react-ga';
 import cx from 'classnames';
 import firebase from 'firebase/app';
+import React from 'react';
+import ReactGA from 'react-ga';
 
 import GoogleButton from 'react-google-button';
-import { signinWithGoogle } from '../../lib/google_signin';
 import FormItem from '../../components/FormItem';
+import { signinWithGoogle } from '../../lib/google_signin';
 import bind from '../../utils/bind';
 
-type SignupState = {
+interface SignupState {
   email: string;
   password: string;
   displayName: string;
   loading: boolean;
   error: any;
-};
+}
 
-type SignupProps = {
+interface SignupProps {
   history: {
     push: (path: string) => any
   }
-};
+}
 
 class Signup extends React.Component<SignupProps, SignupState> {
   constructor(props) {
@@ -58,8 +58,8 @@ class Signup extends React.Component<SignupProps, SignupState> {
   async signup() {
     const { email, password, displayName } = this.state;
 
-    if (!email) return;
-    if (!password) return;
+    if (!email) { return; }
+    if (!password) { return; }
     if (!displayName) {
         this.setState({displayName: email})
     }
@@ -72,7 +72,7 @@ class Signup extends React.Component<SignupProps, SignupState> {
 
       // set display name
       await user.updateProfile({
-        displayName: displayName,
+        displayName,
         photoURL: null
       });
 
@@ -105,7 +105,7 @@ class Signup extends React.Component<SignupProps, SignupState> {
     return (
       <div className={cx('email-signup')}>
         <form method="POST" onSubmit={this.onSubmit}>
-          <FormItem type="text" placeholder="Display Name (optional)" autoFocus handler={this.setDisplayName} />
+          <FormItem type="text" placeholder="Display Name (optional)" autoFocus={true} handler={this.setDisplayName} />
           <FormItem type="email" placeholder="Email" handler={this.setEmail} />
           <FormItem type="password" placeholder="Password" handler={this.setPassword} />
           <FormItem type="button" placeholder={buttonText} handler={this.signup} disabled={loading} />

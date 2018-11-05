@@ -1,24 +1,24 @@
+import firebase from 'firebase/app'
 import React from 'react';
 import ReactGA from 'react-ga';
-import firebase from 'firebase/app'
 
 import { User } from 'firebase';
 
-type UserScore = {
+interface UserScore {
   user: User;
   score: number;
-};
+}
 
-type ScoreBoardState = {
+interface ScoreBoardState {
   top10: UserScore[];
-};
+}
 
 class ScoreBoard extends React.Component<{}, ScoreBoardState> {
     constructor(props) {
         super(props);
         this.state = {
             top10 : [
-                //{user: (user object), score: "12"}
+                // {user: (user object), score: "12"}
             ]
         }
     }
@@ -34,11 +34,11 @@ class ScoreBoard extends React.Component<{}, ScoreBoardState> {
     }
 
     render() {
-        let tableData = this.state.top10.map((row, idx) => {
+        const tableData = this.state.top10.map((row, idx) => {
             return {rank: idx+1, name: row.user.displayName, score: row.score};
         });
 
-        let rows = tableData.map((row, idx) => {
+        const rows = tableData.map((row, idx) => {
             return (<tr key={idx}>
                 <td>{row.rank}</td>
                 <td>{row.name}</td>

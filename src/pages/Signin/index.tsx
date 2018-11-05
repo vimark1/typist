@@ -1,25 +1,25 @@
-import React from 'react';
-import ReactGA from 'react-ga';
 import cx from 'classnames';
 import firebase from 'firebase/app';
+import React from 'react';
+import ReactGA from 'react-ga';
 
 import GoogleButton from 'react-google-button';
-import { signinWithGoogle } from '../../lib/google_signin';
 import FormItem from '../../components/FormItem';
+import { signinWithGoogle } from '../../lib/google_signin';
 import bind from '../../utils/bind';
 
-type SigninState = {
+interface SigninState {
   email: string;
   password: string;
   loading: boolean;
   error: any;
-};
+}
 
-type SigninProps = {
+interface SigninProps {
   history: {
     push: (path: string) => any
   }
-};
+}
 
 class Signin extends React.Component<SigninProps, SigninState> {
   constructor(props) {
@@ -64,8 +64,8 @@ class Signin extends React.Component<SigninProps, SigninState> {
 
   async signin() {
     const { email, password } = this.state;
-    if (!email) return;
-    if (!password) return;
+    if (!email) { return; }
+    if (!password) { return; }
     this.setState({ loading: true, error: {} });
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password);
@@ -82,7 +82,7 @@ class Signin extends React.Component<SigninProps, SigninState> {
     return (
       <div className="email-signin">
         <form onSubmit={this.onSubmit}>
-          <FormItem type="email" placeholder="Email" autoFocus handler={this.setEmail} />
+          <FormItem type="email" placeholder="Email" autoFocus={true} handler={this.setEmail} />
           <FormItem type="password" placeholder="Password" handler={this.setPassword} />
           <FormItem type="button" placeholder={buttonText} handler={this.signin} />
         </form>

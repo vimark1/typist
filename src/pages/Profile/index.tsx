@@ -1,27 +1,27 @@
 import cx from 'classnames';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import ReactGA from 'react-ga'
-import Avatar from '../../components/Avatar';
+import { Col, Row } from 'react-grid-system';
+import { connect } from 'react-redux';
 import TimeAgo from 'react-timeago';
+import Avatar from '../../components/Avatar';
 import TotalWords from '../../components/TotalWords';
-import { Row, Col } from 'react-grid-system';
 
 import { User } from 'firebase';
 
 import { userPreferencesUpdateRequestAction } from '../../actions/userPreferences';
 
-type ProfileProps = {
+interface ProfileProps {
   user: User;
   preferences: any;
   updateUserPreferences: (userUid: string, options: { totalWords: number }) => any;
-};
+}
 
-type ProfileState = {
+interface ProfileState {
   success: string;
   displayName: string;
   totalWords: number;
-};
+}
 
 class Profile extends Component<ProfileProps, ProfileState> {
   constructor(props) {

@@ -2,12 +2,12 @@ import firebase from 'firebase/app';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactGA from 'react-ga';
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Container } from 'react-grid-system';
 import { Provider } from 'react-redux';
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
-import About from './pages/About';
 import Header from './components/Header';
+import About from './pages/About';
 import Profile from './pages/Profile';
 import ScoreBoard from './pages/ScoreBoard';
 import Signin from './pages/Signin';
@@ -21,10 +21,10 @@ import { User } from 'firebase';
 
 import './index.scss';
 
-import configureStore from './store/configureStore';
-import firebaseCred from './firebase-cred.json';
 import { userPreferencesFetchRequestAction } from './actions/userPreferences'
+import firebaseCred from './firebase-cred.json';
 import ga from './ga-cred.json';
+import configureStore from './store/configureStore';
 
 const config = firebaseCred;
 const store = configureStore();

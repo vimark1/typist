@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import ReactGA from 'react-ga';
-import sampleSize from 'lodash.samplesize';
 import firebase from 'firebase/app';
-import Text from './components/Text';
+import sampleSize from 'lodash.samplesize';
+import React, { Component } from 'react';
+import ReactGA from 'react-ga';
+import { connect } from 'react-redux';
 import words from '../../data/words';
+import Text from './components/Text';
 
 import { User } from 'firebase';
 
 import './style.css';
 
-type TypingTestProps = {
+interface TypingTestProps {
   user: User;
   preferencesLoading: boolean;
   preferences: {
     totalWords: number
   };
-};
+}
 
-type TypingTestState = {
+interface TypingTestState {
   size?: number;
   text?: string;
   typed?: string;
@@ -35,7 +35,7 @@ type TypingTestState = {
   score?: number;
   error?: string;
   sessionsCompleted?: number;
-};
+}
 
 class TypingTest extends Component<TypingTestProps, TypingTestState> {
 
@@ -116,10 +116,10 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
   }
 
   backspace() {
-    let { index,letters } = this.state;
-    if (index === 0) return;
+    const { index,letters } = this.state;
+    if (index === 0) { return; }
 
-    let newIdx = index - 1;
+    const newIdx = index - 1;
     letters[newIdx].done = false;
 
     this.setState({
