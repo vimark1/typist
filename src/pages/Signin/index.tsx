@@ -17,8 +17,8 @@ interface SigninState {
 
 interface SigninProps {
   history: {
-    push: (path: string) => any
-  }
+    push: (path: string) => any;
+  };
 }
 
 class Signin extends React.Component<SigninProps, SigninState> {
@@ -47,30 +47,38 @@ class Signin extends React.Component<SigninProps, SigninState> {
   }
 
   setEmail(event) {
-    this.setState({ email: event.target.value })
+    this.setState({ email: event.target.value });
   }
 
   setPassword(event) {
-    this.setState({ password: event.target.value })
+    this.setState({ password: event.target.value });
   }
 
   signinWithGoogle() {
-    signinWithGoogle((isLoading) => {
-      this.setState({ ...this.state, loading: isLoading });
-    }, (error) => {
-      this.setState({ loading: false, error })
-    }, this.onSuccess.bind(this))
+    signinWithGoogle(
+      isLoading => {
+        this.setState({ ...this.state, loading: isLoading });
+      },
+      error => {
+        this.setState({ loading: false, error });
+      },
+      this.onSuccess.bind(this)
+    );
   }
 
   async signin() {
     const { email, password } = this.state;
-    if (!email) { return; }
-    if (!password) { return; }
+    if (!email) {
+      return;
+    }
+    if (!password) {
+      return;
+    }
     this.setState({ loading: true, error: {} });
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password);
       this.onSuccess();
-    } catch(error) {
+    } catch (error) {
       console.log('error', error);
       this.setState({ error, loading: false });
     }
@@ -90,9 +98,7 @@ class Signin extends React.Component<SigninProps, SigninState> {
         <div>
           <GoogleButton style={{ margin: '0 auto' }} onClick={this.signinWithGoogle} />
         </div>
-        <div className={cx('u-form-group error')}>
-          {error.message}
-        </div>
+        <div className={cx('u-form-group error')}>{error.message}</div>
       </div>
     );
   }

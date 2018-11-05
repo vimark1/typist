@@ -955,5 +955,5 @@ export default [
   'filled',
   'servants',
   'calling',
-  'fallen'
+  'fallen',
 ];

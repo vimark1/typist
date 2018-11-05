@@ -15,9 +15,7 @@ describe('Text', () => {
       },
     ];
     const index = 0;
-    const component = renderer.create(
-      <Text {...{ letters, index }} />,
-    );
+    const component = renderer.create(<Text {...{ letters, index }} />);
 
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();

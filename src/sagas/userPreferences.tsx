@@ -1,8 +1,4 @@
-import {
-  call,
-  put,
-  takeLatest,
-} from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 
 import * as actions from '../actions/userPreferences';
 import { fetchUserPreferences, updateUserPreferences } from '../lib/userPreferences';

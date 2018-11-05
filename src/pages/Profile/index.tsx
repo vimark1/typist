@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import React, { Component } from 'react';
-import ReactGA from 'react-ga'
+import ReactGA from 'react-ga';
 import { Col, Row } from 'react-grid-system';
 import { connect } from 'react-redux';
 import TimeAgo from 'react-timeago';
@@ -57,7 +57,7 @@ class Profile extends Component<ProfileProps, ProfileState> {
     const { displayName } = this.state;
     await user.updateProfile({ displayName, photoURL: null });
     this.setState({
-      success: 'Profile updated'
+      success: 'Profile updated',
     });
   }
 
@@ -96,7 +96,9 @@ class Profile extends Component<ProfileProps, ProfileState> {
         {this.state.success && (
           <Row>
             <Col md={12}>
-              <p style={{ padding: '10px', color: 'white', background: '#4BB543' }}>{this.state.success}</p>
+              <p style={{ padding: '10px', color: 'white', background: '#4BB543' }}>
+                {this.state.success}
+              </p>
             </Col>
           </Row>
         )}
@@ -106,7 +108,9 @@ class Profile extends Component<ProfileProps, ProfileState> {
               <Avatar user={user} size="230" round={false} />
               <h3>{user.displayName}</h3>
               <p>{user.email}</p>
-              <p>Joined <TimeAgo date={user.metadata.creationTime} /></p>
+              <p>
+                Joined <TimeAgo date={user.metadata.creationTime} />
+              </p>
             </Col>
             <Col md={8}>
               <h2>Profile</h2>
@@ -137,13 +141,16 @@ class Profile extends Component<ProfileProps, ProfileState> {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   preferences: state.userPreferences.preferences,
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   updateUserPreferences: (uid, preferences) =>
-    dispatch(userPreferencesUpdateRequestAction({ uid, preferences})),
+    dispatch(userPreferencesUpdateRequestAction({ uid, preferences })),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Profile);

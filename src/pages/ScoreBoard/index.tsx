@@ -1,4 +1,4 @@
-import firebase from 'firebase/app'
+import firebase from 'firebase/app';
 import React from 'react';
 import ReactGA from 'react-ga';
 
@@ -14,51 +14,53 @@ interface ScoreBoardState {
 }
 
 class ScoreBoard extends React.Component<{}, ScoreBoardState> {
-    constructor(props) {
-        super(props);
-        this.state = {
-            top10 : [
-                // {user: (user object), score: "12"}
-            ]
-        }
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      top10: [
+        // {user: (user object), score: "12"}
+      ],
+    };
+  }
 
-    componentDidMount() {
-      ReactGA.pageview('/scoreboard');
-        const topScorersRef = firebase.database().ref('top-scorers');
-        topScorersRef.on('value', snapshot => {
-            this.setState({
-                top10: snapshot.val()
-            })
-        })
-    }
+  componentDidMount() {
+    ReactGA.pageview('/scoreboard');
+    const topScorersRef = firebase.database().ref('top-scorers');
+    topScorersRef.on('value', snapshot => {
+      this.setState({
+        top10: snapshot.val(),
+      });
+    });
+  }
 
-    render() {
-        const tableData = this.state.top10.map((row, idx) => {
-            return {rank: idx+1, name: row.user.displayName, score: row.score};
-        });
+  render() {
+    const tableData = this.state.top10.map((row, idx) => {
+      return { rank: idx + 1, name: row.user.displayName, score: row.score };
+    });
 
-        const rows = tableData.map((row, idx) => {
-            return (<tr key={idx}>
-                <td>{row.rank}</td>
-                <td>{row.name}</td>
-                <td>{row.score}</td>
-            </tr>)
-        })
+    const rows = tableData.map((row, idx) => {
+      return (
+        <tr key={idx}>
+          <td>{row.rank}</td>
+          <td>{row.name}</td>
+          <td>{row.score}</td>
+        </tr>
+      );
+    });
 
-        return (<table>
-            <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th>Name</th>
-                    <th>Score</th>
-                </tr>
-            </thead>
-            <tbody>
-                {rows}
-            </tbody>
-        </table>);
-    }
+    return (
+      <table>
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </table>
+    );
+  }
 }
 
 export default ScoreBoard;
