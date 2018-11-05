@@ -11,21 +11,21 @@ export const USER_PREFERENCES_UPDATE_FAILURE = 'USER_PREFERENCES_UPDATE_FAILURE'
 // #region action creators
 const actionCreator = (type, payload) => ({ type, payload });
 
-export const userPreferencesFetchRequestAction =
-  (payload) => actionCreator(USER_PREFERENCES_FETCH_REQUEST, payload);
+export const userPreferencesFetchRequestAction = payload =>
+  actionCreator(USER_PREFERENCES_FETCH_REQUEST, payload);
 
-export const userPreferencesFetchSuccessAction =
-  (payload) => actionCreator(USER_PREFERENCES_FETCH_SUCCESS, payload);
+export const userPreferencesFetchSuccessAction = payload =>
+  actionCreator(USER_PREFERENCES_FETCH_SUCCESS, payload);
 
-export const userPreferencesFetchFailureAction =
-  (payload) => actionCreator(USER_PREFERENCES_FETCH_FAILURE, payload);
+export const userPreferencesFetchFailureAction = payload =>
+  actionCreator(USER_PREFERENCES_FETCH_FAILURE, payload);
 
-export const userPreferencesUpdateRequestAction =
-  (payload) => actionCreator(USER_PREFERENCES_UPDATE_REQUEST, payload);
+export const userPreferencesUpdateRequestAction = payload =>
+  actionCreator(USER_PREFERENCES_UPDATE_REQUEST, payload);
 
-export const userPreferencesUpdateSuccessAction =
-  (payload) => actionCreator(USER_PREFERENCES_UPDATE_SUCCESS, payload);
+export const userPreferencesUpdateSuccessAction = payload =>
+  actionCreator(USER_PREFERENCES_UPDATE_SUCCESS, payload);
 
-export const userPreferencesUpdateFailureAction =
-  (payload) => actionCreator(USER_PREFERENCES_UPDATE_FAILURE, payload);
+export const userPreferencesUpdateFailureAction = payload =>
+  actionCreator(USER_PREFERENCES_UPDATE_FAILURE, payload);
 // #endregion

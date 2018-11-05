@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import ReactGA from 'react-ga';
-import sampleSize from 'lodash.samplesize';
 import firebase from 'firebase/app';
-import Text from './components/Text';
+import sampleSize from 'lodash.samplesize';
+import React, { Component } from 'react';
+import ReactGA from 'react-ga';
+import { connect } from 'react-redux';
 import words from '../../data/words';
+import Text from './components/Text';
 
 import { User } from 'firebase';
 
 import './style.css';
 
-type TypingTestProps = {
+interface TypingTestProps {
   user: User;
   preferencesLoading: boolean;
   preferences: {
-    totalWords: number
+    totalWords: number;
   };
-};
+}
 
-type TypingTestState = {
+interface TypingTestState {
   size?: number;
   text?: string;
   typed?: string;
@@ -35,29 +35,28 @@ type TypingTestState = {
   score?: number;
   error?: string;
   sessionsCompleted?: number;
-};
+}
 
 class TypingTest extends Component<TypingTestProps, TypingTestState> {
-
   constructor(props) {
     super(props);
     this.state = {
-      size: 5,
-      stats: {
-        keys: [],
-        success: [],
-        fails: []
-      },
-      text: '',
+      error: '',
       index: 0,
       letters: [],
-      typed: '',
-      start: new Date(),
-      wpm: [],
-      wordList: [],
       score: 0,
-      error: '',
       sessionsCompleted: 0,
+      size: 5,
+      start: new Date(),
+      stats: {
+        fails: [],
+        keys: [],
+        success: [],
+      },
+      text: '',
+      typed: '',
+      wordList: [],
+      wpm: [],
     };
   }
 
@@ -65,7 +64,9 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
     ReactGA.pageview('/');
     document.addEventListener('keypress', this.keyPressHandler);
     document.addEventListener('keydown', this.keyDownHandler);
-    if (!this.props.preferencesLoading) this.completed();
+    if (!this.props.preferencesLoading) {
+      this.completed();
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -83,14 +84,14 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
     document.removeEventListener('keydown', this.keyDownHandler);
   }
 
-  keyPressHandler = (e) => {
+  keyPressHandler = e => {
     const charCode = typeof e.which === 'number' ? e.which : e.keyCode;
     const char = String.fromCharCode(charCode);
     this.register(char);
   };
 
-  keyDownHandler = (e) => {
-    const charCode = (typeof e.which === 'number') ? e.which : e.keyCode;
+  keyDownHandler = e => {
+    const charCode = typeof e.which === 'number' ? e.which : e.keyCode;
 
     if (charCode === 8) {
       this.backspace();
@@ -103,26 +104,27 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
 
   generateText(wordList) {
     const text = wordList.join(' ');
-    const letters = text.split('')
-      .map(letter => ({ letter, done: false }));
+    const letters = text.split('').map(letter => ({ letter, done: false }));
 
     this.setState({
       text,
       letters,
-      wordList
+      wordList,
     });
   }
 
   backspace() {
-    let { index,letters } = this.state;
-    if (index === 0) return;
+    const { index, letters } = this.state;
+    if (index === 0) {
+      return;
+    }
 
-    let newIdx = index - 1;
+    const newIdx = index - 1;
     letters[newIdx].done = false;
 
     this.setState({
       index: newIdx,
-      letters
+      letters,
     });
   }
 
@@ -133,7 +135,7 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
     this.setState({
       index: 0,
       typed: '',
-      start: new Date()
+      start: new Date(),
     });
   }
 
@@ -156,8 +158,8 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
       index,
       stats: {
         ...stats,
-        keys: stats.keys.concat(stat)
-      }
+        keys: stats.keys.concat(stat),
+      },
     };
 
     if (char !== charAtIndex) {
@@ -174,9 +176,7 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
         const { totalWords } = this.props.preferences;
         const calc = this.calcTime(start, new Date(), totalWords);
         state.wpm = wpm.concat(calc);
-        const score = Math.round(
-          state.wpm.reduce((a, b) => a + b) / state.wpm.length
-        );
+        const score = Math.round(state.wpm.reduce((a, b) => a + b) / state.wpm.length);
         state.score = score;
         isCompleted = true;
       }
@@ -191,23 +191,26 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
   updateScoreboard(user, score) {
     const limit = 10;
     const topScorersRef = firebase.database().ref('top-scorers');
-      topScorersRef.once('value', snapshot => {
-        let topScores = snapshot.val() || [];
-        topScores.push({user: {
-          uid: user.uid,
-          displayName: user.displayName,
-        }, score: score})
-        topScores.sort((a, b) => {
-          if(a.score === b.score) { return 0; }
-          return a.score > b.score ? -1 : 1;
-        });
-        topScores = topScores.slice(0, limit);
-        topScorersRef.set(topScores);
-      })
+    topScorersRef.once('value', snapshot => {
+      let topScores = snapshot.val() || [];
+      topScores.push({
+        score,
+        user: { displayName: user.displayName, uid: user.uid },
+      });
+      topScores.sort((a, b) => {
+        if (a.score === b.score) {
+          return 0;
+        }
+        return a.score > b.score ? -1 : 1;
+      });
+      topScores = topScores.slice(0, limit);
+      topScorersRef.set(topScores);
+    });
   }
 
   setSessionsCompleted(user) {
-    const sessionsCompletedRef = firebase.database()
+    const sessionsCompletedRef = firebase
+      .database()
       .ref('user-score')
       .child(user.uid);
 
@@ -216,8 +219,10 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
     sessionsCompletedRef.on('value', snapshot => {
       const data = snapshot.val();
       const dates = Object.keys(data);
-      const sessionsCompleted = dates
-        .reduce((totalSessions, date) =>  totalSessions + Object.keys(data[date]).length, 0)
+      const sessionsCompleted = dates.reduce(
+        (totalSessions, date) => totalSessions + Object.keys(data[date]).length,
+        0
+      );
       if (sessionCount !== sessionsCompleted) {
         this.setState({ sessionsCompleted });
       }
@@ -235,7 +240,7 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
       const { score } = this.state;
 
       // a string in the format 2018-10-26
-      const sessionId = (new Date()).toISOString().slice(0,10);
+      const sessionId = new Date().toISOString().slice(0, 10);
 
       // store record in Firebase
       await firebase
@@ -245,16 +250,13 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
         .child(sessionId)
         .push({
           score,
-          timestamp: firebase.database.ServerValue.TIMESTAMP
+          timestamp: firebase.database.ServerValue.TIMESTAMP,
         });
 
-      this.updateScoreboard(user, score)
-
+      this.updateScoreboard(user, score);
     } catch (err) {
-      console.error(err);
       this.setState({
-        error:
-          'Something went wrong while saving score, please contact support!'
+        error: 'Something went wrong while saving score, please contact support!',
       });
     }
   }
@@ -271,20 +273,21 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
         <p>Last score: {score}</p>
         <p>Sessions completed: {sessionsCompleted}</p>
 
-        {!loggedIn && (
-          <div className="error center">Please log in to save your score!</div>
-        )}
+        {!loggedIn && <div className="error center">Please log in to save your score!</div>}
         {error && <div className="error center">{error}</div>}
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   preferences: state.userPreferences.preferences,
   preferencesLoading: state.userPreferences.loading,
 });
 
 export const Unwrapped = TypingTest;
 
-export default connect(mapStateToProps, null)(TypingTest);
+export default connect(
+  mapStateToProps,
+  null
+)(TypingTest);

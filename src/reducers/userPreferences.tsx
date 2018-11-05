@@ -13,7 +13,11 @@ const userPreferencesReducer = (state = defaultState, action) => {
     case actions.USER_PREFERENCES_FETCH_REQUEST:
       return { ...state, loading: true, error: undefined };
     case actions.USER_PREFERENCES_FETCH_SUCCESS:
-      return { ...state, loading: false, preferences: action.payload.preferences || defaultState.preferences };
+      return {
+        ...state,
+        loading: false,
+        preferences: action.payload.preferences || defaultState.preferences,
+      };
     case actions.USER_PREFERENCES_FETCH_FAILURE:
       return { ...state, loading: false, error: action.payload.error };
 
@@ -23,7 +27,8 @@ const userPreferencesReducer = (state = defaultState, action) => {
       return { ...state, loading: false, preferences: action.payload.preferences };
     case actions.USER_PREFERENCES_UPDATE_FAILURE:
       return { ...state, loading: false, error: action.payload.error };
-    default: return state;
+    default:
+      return state;
   }
 };
 

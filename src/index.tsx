@@ -1,18 +1,18 @@
+import firebase from 'firebase/app';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import firebase from 'firebase/app';
 import ReactGA from 'react-ga';
-import { Provider } from 'react-redux';
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { Container } from 'react-grid-system';
+import { Provider } from 'react-redux';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Header from './components/Header';
-import TypingTest from './pages/TypingTest';
 import About from './pages/About';
 import Profile from './pages/Profile';
+import ScoreBoard from './pages/ScoreBoard';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
-import ScoreBoard from './pages/ScoreBoard';
+import TypingTest from './pages/TypingTest';
 
 import 'firebase/auth';
 import 'firebase/database';
@@ -21,39 +21,38 @@ import { User } from 'firebase';
 
 import './index.scss';
 
+import { userPreferencesFetchRequestAction } from './actions/userPreferences';
 import firebaseCred from './firebase-cred.json';
-import configureStore from './store/configureStore';
-import { userPreferencesFetchRequestAction } from './actions/userPreferences'
 import ga from './ga-cred.json';
+import configureStore from './store/configureStore';
 
 const config = firebaseCred;
 const store = configureStore();
 
-ReactGA.initialize(ga, {debug: false});
+ReactGA.initialize(ga, { debug: false });
 firebase.initializeApp(config);
 
-firebase.auth().onAuthStateChanged((user) => {
-  user = user || {} as User;
+firebase.auth().onAuthStateChanged(user => {
+  user = user || ({} as User);
   store.dispatch(userPreferencesFetchRequestAction({ uid: user.uid }));
-  ReactDOM.render((
+  ReactDOM.render(
     <BrowserRouter>
       <Provider store={store}>
         <div>
           <Header user={user} />
           <Container className="main">
             <Switch>
-              <Route exact path='/' render={() => <TypingTest user={user}/>}/>
-              <Route exact path='/about' component={About}/>
-              <Route exact path='/profile' render={() => <Profile user={user}/>}/>
-              <Route exact path='/signin' component={Signin}/>
-              <Route exact path='/signup' component={Signup}/>
-              <Route exact path='/scoreboard' component={ScoreBoard}/>
+              <Route exact={true} path="/" render={() => <TypingTest user={user} />} />
+              <Route exact={true} path="/about" component={About} />
+              <Route exact={true} path="/profile" render={() => <Profile user={user} />} />
+              <Route exact={true} path="/signin" component={Signin} />
+              <Route exact={true} path="/signup" component={Signup} />
+              <Route exact={true} path="/scoreboard" component={ScoreBoard} />
             </Switch>
           </Container>
         </div>
       </Provider>
-    </BrowserRouter>
-    ),
+    </BrowserRouter>,
     document.getElementById('root')
   );
 });
