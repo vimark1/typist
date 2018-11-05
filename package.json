@@ -5,7 +5,7 @@
   "scripts": {
     "start": "react-scripts start",
     "lint": "tslint 'src/**/*.ts?(x)'",
-    "prettier": "prettier 'src/**/*.ts?(x)'",
+    "prettier": "prettier --write 'src/**/*.ts?(x)'",
     "deploy:firebase": "node scripts/write-firebase-file.js",
     "prebuild": "run-s lint deploy:firebase",
     "build": "react-scripts build",
