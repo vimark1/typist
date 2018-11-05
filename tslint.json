@@ -8,6 +8,10 @@
   "rules": {
     "object-literal-sort-keys": false,
     "interface-name": false,
+    "only-arrow-functions": false,
+    "no-console": false,
+    "jsx-no-bind": false,
+    "jsx-no-lambda": false,
     "member-access": false
   },
   "linterOptions": {

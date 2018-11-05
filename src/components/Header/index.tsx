@@ -53,7 +53,7 @@ export default class Header extends Component<HeaderProps> {
       <ul className="menu">
         <MenuItem path="/signup" display={!loggedIn}>Register</MenuItem>
         <MenuItem path="/signin" display={!loggedIn}>Log in</MenuItem>
-        <li className={cx("menu-item", {hidden: !loggedIn})} onClick={this.signout}>Logout</li>
+        <li role="button" className={cx("menu-item", {hidden: !loggedIn})} onClick={this.signout}>Logout</li>
         <MenuItem path="/profile" display={loggedIn}>
           <Avatar user={user} round={true} size="40"/>
         </MenuItem>

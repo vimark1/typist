@@ -10,9 +10,7 @@ interface FormItemProps {
   disabled?: boolean;
 }
 
-interface FormItemState {}
-
-class FormItem extends React.Component<FormItemProps, FormItemState> {
+class FormItem extends React.Component<FormItemProps> {
   render() {
     const {
       type = 'text',
