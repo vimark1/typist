@@ -1,40 +1,37 @@
-import firebase from 'firebase/app';
 import React from 'react';
 import ReactGA from 'react-ga';
+import { connect } from 'react-redux';
 
 import { User } from 'firebase';
+
+import { scoreboardFetchRequestAction } from '../../actions/scoreboard';
 
 interface UserScore {
   user: User;
   score: number;
 }
 
-interface ScoreBoardState {
-  top10: UserScore[];
+interface ScoreBoardProps {
+  scoreboard: {
+    data: UserScore[];
+  },
+  fetchScoreboard: () => any;
 }
 
-class ScoreBoard extends React.Component<{}, ScoreBoardState> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      top10: [
-        // {user: (user object), score: "12"}
-      ],
-    };
-  }
+class ScoreBoard extends React.Component<ScoreBoardProps> {
 
   componentDidMount() {
     ReactGA.pageview('/scoreboard');
-    const topScorersRef = firebase.database().ref('top-scorers');
-    topScorersRef.on('value', snapshot => {
-      this.setState({
-        top10: snapshot.val(),
-      });
-    });
+    this.props.fetchScoreboard();
   }
 
   render() {
-    const tableData = this.state.top10.map((row, idx) => {
+    const { scoreboard } = this.props;
+    if (!scoreboard) {
+      return;
+    }
+
+    const tableData = scoreboard.data.map((row, idx) => {
       return { rank: idx + 1, name: row.user.displayName, score: row.score };
     });
 
@@ -63,4 +60,16 @@ class ScoreBoard extends React.Component<{}, ScoreBoardState> {
   }
 }
 
-export default ScoreBoard;
+const mapStateToProps = state => ({
+  scoreboard: state.scoreboard,
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchScoreboard: () =>
+    dispatch(scoreboardFetchRequestAction({})),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ScoreBoard);
