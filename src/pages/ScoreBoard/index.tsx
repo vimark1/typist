@@ -66,7 +66,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchScoreboard: () =>
-    dispatch(scoreboardFetchRequestAction({})),
+    dispatch(scoreboardFetchRequestAction()),
 });
 
 export default connect(
