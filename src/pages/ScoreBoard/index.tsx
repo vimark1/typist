@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { User } from 'firebase';
 
-import { scoreboardFetchRequestAction } from '../../actions/scoreboard';
+import * as actionTypes from '../../actions/actionTypes';
 
 interface UserScore {
   user: User;
@@ -13,6 +13,8 @@ interface UserScore {
 
 interface ScoreBoardProps {
   scoreboard: UserScore[];
+  loading: boolean;
+  error: any;
   fetchScoreboard: () => any;
 }
 
@@ -24,7 +26,15 @@ class ScoreBoard extends React.Component<ScoreBoardProps> {
   }
 
   render() {
-    const { scoreboard } = this.props;
+    const { scoreboard, loading, error } = this.props;
+    if (loading) {
+      return <p>Loading...</p>;
+    }
+
+    if (error) {
+      return <p>Error: {error}</p>;
+    }
+
     if (!scoreboard) {
       return;
     }
@@ -59,12 +69,12 @@ class ScoreBoard extends React.Component<ScoreBoardProps> {
 }
 
 const mapStateToProps = state => ({
-  scoreboard: state.scoreboard,
+  ...state.scoreboard
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchScoreboard: () =>
-    dispatch(scoreboardFetchRequestAction({})),
+    dispatch({ type: actionTypes.SCOREBOARD_FETCH_REQUEST }),
 });
 
 export default connect(

@@ -4,7 +4,6 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import { User } from 'firebase';
 
 import * as actionTypes from '../actions/actionTypes';
-import * as actions from '../actions/scoreboard';
 
 const fetchScoreboard = () => {
   const topScorersRef = firebase.database().ref('top-scorers');
@@ -35,9 +34,9 @@ const updateScoreboard = async (user: User, score: number) => {
 function* executeScoreboardFetch(action) {
   try {
     const scoreboard = yield call(fetchScoreboard);
-    yield put(actions.scoreboardFetchSuccessAction({ scoreboard }));
+    yield put({ type: actionTypes.SCOREBOARD_FETCH_SUCCESS, payload: { scoreboard } });
   } catch (error) {
-    yield put(actions.scoreboardFetchFailureAction({ error }));
+    yield put({ type: actionTypes.SCOREBOARD_FETCH_FAILURE, error });
   }
 }
 
@@ -52,7 +51,7 @@ function* executeScoreboardUpdate(action) {
 }
 
 export function* watchScoreboardFetch() {
-  yield takeLatest(actions.SCOREBOARD_FETCH_REQUEST, executeScoreboardFetch);
+  yield takeLatest(actionTypes.SCOREBOARD_FETCH_REQUEST, executeScoreboardFetch);
 }
 
 export function* watchScoreboardUpdate() {
