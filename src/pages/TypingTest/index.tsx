@@ -16,6 +16,7 @@ interface TypingTestProps {
   user: User;
   preferencesLoading: boolean;
   updateScoreboard: (user: User, score: number) => any;
+  saveScore: (userId: string, score: number) => any;
   preferences: {
     totalWords: number;
   };
@@ -213,30 +214,16 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
   }
 
   async saveScore() {
+    const { user } = this.props;
+    if (!(user && user.uid)) {
+      return;
+    }
+    this.setState({ error: '' });
+    const { score } = this.state;
+
     try {
-      const { user } = this.props;
-      if (!(user && user.uid)) {
-        return;
-      }
-      this.setState({ error: '' });
-
-      const { score } = this.state;
-
-      // a string in the format 2018-10-26
-      const sessionId = new Date().toISOString().slice(0, 10);
-
-      // store record in Firebase
-      await firebase
-        .database()
-        .ref('user-score')
-        .child(user.uid)
-        .child(sessionId)
-        .push({
-          score,
-          timestamp: firebase.database.ServerValue.TIMESTAMP,
-        });
-
-      this.props.updateScoreboard(user, score);
+      await this.props.saveScore(user.uid, score);
+      await this.props.updateScoreboard(user, score);
     } catch (err) {
       this.setState({
         error: 'Something went wrong while saving score, please contact support!',
@@ -269,6 +256,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  saveScore: (userId: string, score: number) =>
+    dispatch({ type: actionTypes.SCORE_SAVE_REQUEST, payload: { userId, score } }),
   updateScoreboard: (user: User, score: number) =>
     dispatch({ type: actionTypes.SCOREBOARD_UPDATE_REQUEST, payload: { user, score } }),
 });
