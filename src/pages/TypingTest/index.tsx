@@ -8,11 +8,14 @@ import Text from './components/Text';
 
 import { User } from 'firebase';
 
+import * as actionTypes from '../../actions/actionTypes';
+
 import './style.css';
 
 interface TypingTestProps {
   user: User;
   preferencesLoading: boolean;
+  updateScoreboard: (user: User, score: number) => any;
   preferences: {
     totalWords: number;
   };
@@ -188,26 +191,6 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
     this.setState(state, () => isCompleted && this.completed());
   }
 
-  updateScoreboard(user, score) {
-    const limit = 10;
-    const topScorersRef = firebase.database().ref('top-scorers');
-    topScorersRef.once('value', snapshot => {
-      let topScores = snapshot.val() || [];
-      topScores.push({
-        score,
-        user: { displayName: user.displayName, uid: user.uid },
-      });
-      topScores.sort((a, b) => {
-        if (a.score === b.score) {
-          return 0;
-        }
-        return a.score > b.score ? -1 : 1;
-      });
-      topScores = topScores.slice(0, limit);
-      topScorersRef.set(topScores);
-    });
-  }
-
   setSessionsCompleted(user) {
     const sessionsCompletedRef = firebase
       .database()
@@ -253,7 +236,7 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
           timestamp: firebase.database.ServerValue.TIMESTAMP,
         });
 
-      this.updateScoreboard(user, score);
+      this.props.updateScoreboard(user, score);
     } catch (err) {
       this.setState({
         error: 'Something went wrong while saving score, please contact support!',
@@ -285,9 +268,14 @@ const mapStateToProps = state => ({
   preferencesLoading: state.userPreferences.loading,
 });
 
+const mapDispatchToProps = dispatch => ({
+  updateScoreboard: (user: User, score: number) =>
+    dispatch({ type: actionTypes.SCOREBOARD_UPDATE_REQUEST, payload: { user, score } }),
+});
+
 export const Unwrapped = TypingTest;
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps,
 )(TypingTest);

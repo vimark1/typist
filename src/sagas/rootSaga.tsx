@@ -5,6 +5,7 @@ import * as userPreferencesSagas from './userPreferences';
 export default function* rootSaga() {
   yield all([
     scoreboardSagas.watchScoreboardFetch(),
+    scoreboardSagas.watchScoreboardUpdate(),
     userPreferencesSagas.watchUserPreferencesFetch(),
     userPreferencesSagas.watchUserPreferencesUpdate(),
   ]);

@@ -16,4 +16,5 @@ export const scoreboardFetchSuccessAction = payload =>
 
 export const scoreboardFetchFailureAction = payload =>
   actionCreator(SCOREBOARD_FETCH_FAILURE, payload);
+
 // #endregion

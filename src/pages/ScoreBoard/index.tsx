@@ -12,9 +12,7 @@ interface UserScore {
 }
 
 interface ScoreBoardProps {
-  scoreboard: {
-    data: UserScore[];
-  },
+  scoreboard: UserScore[];
   fetchScoreboard: () => any;
 }
 
@@ -31,7 +29,7 @@ class ScoreBoard extends React.Component<ScoreBoardProps> {
       return;
     }
 
-    const tableData = scoreboard.data.map((row, idx) => {
+    const tableData = scoreboard.map((row, idx) => {
       return { rank: idx + 1, name: row.user.displayName, score: row.score };
     });
 

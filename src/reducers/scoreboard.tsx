@@ -1,7 +1,8 @@
+import * as actionTypes from '../actions/actionTypes';
 import * as actions from '../actions/scoreboard';
 
 const defaultState = {
-  data: [],
+  scoreboard: [],
   loading: false,
   error: undefined,
 };
@@ -14,9 +15,20 @@ const scoreboardReducer = (state = defaultState, action) => {
       return {
         ...state,
         loading: false,
-        data: action.payload.scoreboard || defaultState.data,
+        scoreboard: action.payload.scoreboard || defaultState.scoreboard,
       };
     case actions.SCOREBOARD_FETCH_FAILURE:
+      return { ...state, loading: false, error: action.payload.error };
+
+    case actionTypes.SCOREBOARD_UPDATE_REQUEST:
+      return { ...state, loading: true, error: undefined };
+    case actionTypes.SCOREBOARD_UPDATE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        scoreboard: action.payload.scoreboard || defaultState.scoreboard,
+      };
+    case actionTypes.SCOREBOARD_UPDATE_FAILURE:
       return { ...state, loading: false, error: action.payload.error };
     default:
       return state;
