@@ -1,4 +1,3 @@
-import firebase from 'firebase/app';
 import sampleSize from 'lodash.samplesize';
 import React, { Component } from 'react';
 import ReactGA from 'react-ga';
@@ -14,12 +13,15 @@ import './style.css';
 
 interface TypingTestProps {
   user: User;
-  preferencesLoading: boolean;
   updateScoreboard: (user: User, score: number) => any;
   saveScore: (userId: string, score: number) => any;
   preferences: {
     totalWords: number;
   };
+  preferencesLoading: boolean;
+  fetchSessionsCompleted: (userId: string) => any;
+  sessionsCompleted: number;
+  sessionsCompletedLoading: boolean;
 }
 
 interface TypingTestState {
@@ -38,7 +40,6 @@ interface TypingTestState {
   wordList?: any[];
   score?: number;
   error?: string;
-  sessionsCompleted?: number;
 }
 
 class TypingTest extends Component<TypingTestProps, TypingTestState> {
@@ -49,7 +50,6 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
       index: 0,
       letters: [],
       score: 0,
-      sessionsCompleted: 0,
       size: 5,
       start: new Date(),
       stats: {
@@ -64,20 +64,20 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     ReactGA.pageview('/');
     document.addEventListener('keypress', this.keyPressHandler);
     document.addEventListener('keydown', this.keyDownHandler);
     if (!this.props.preferencesLoading) {
       this.completed();
     }
+    const { user } = this.props;
+    if (user && user.uid) {
+      await this.props.fetchSessionsCompleted(user.uid);
+    }
   }
 
   componentDidUpdate(prevProps) {
-    const { user } = this.props;
-    if (user && user.uid) {
-      this.setSessionsCompleted(user);
-    }
     if (!this.props.preferencesLoading && prevProps.preferencesLoading) {
       this.completed();
     }
@@ -192,27 +192,6 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
     this.setState(state, () => isCompleted && this.completed());
   }
 
-  setSessionsCompleted(user) {
-    const sessionsCompletedRef = firebase
-      .database()
-      .ref('user-score')
-      .child(user.uid);
-
-    const sessionCount = this.state.sessionsCompleted;
-
-    sessionsCompletedRef.on('value', snapshot => {
-      const data = snapshot.val();
-      const dates = Object.keys(data);
-      const sessionsCompleted = dates.reduce(
-        (totalSessions, date) => totalSessions + Object.keys(data[date]).length,
-        0
-      );
-      if (sessionCount !== sessionsCompleted) {
-        this.setState({ sessionsCompleted });
-      }
-    });
-  }
-
   async saveScore() {
     const { user } = this.props;
     if (!(user && user.uid)) {
@@ -224,6 +203,7 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
     try {
       await this.props.saveScore(user.uid, score);
       await this.props.updateScoreboard(user, score);
+      await this.props.fetchSessionsCompleted(user.uid);
     } catch (err) {
       this.setState({
         error: 'Something went wrong while saving score, please contact support!',
@@ -232,8 +212,8 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
   }
 
   render() {
-    const { letters, index, score, error, sessionsCompleted } = this.state;
-    const { user } = this.props;
+    const { letters, index, score, error } = this.state;
+    const { user, sessionsCompleted } = this.props;
     const loggedIn = user && user.uid;
 
     return (
@@ -253,9 +233,13 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
 const mapStateToProps = state => ({
   preferences: state.userPreferences.preferences,
   preferencesLoading: state.userPreferences.loading,
+  sessionsCompleted: state.sessionsCompleted.sessionsCompleted,
+  sessionsCompletedLoading: state.sessionsCompleted.loading,
 });
 
 const mapDispatchToProps = dispatch => ({
+  fetchSessionsCompleted: (userId: string) =>
+    dispatch({ type: actionTypes.SESSIONS_COMPLETED_FETCH_REQUEST, payload: { userId } }),
   saveScore: (userId: string, score: number) =>
     dispatch({ type: actionTypes.SCORE_SAVE_REQUEST, payload: { userId, score } }),
   updateScoreboard: (user: User, score: number) =>
