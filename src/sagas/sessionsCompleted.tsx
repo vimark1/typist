@@ -19,13 +19,16 @@ const fetchSessionsCompleted = async (userId: string) => {
     0
   );
   return sessionsCompleted;
-}
+};
 
 function* executeFetchSessionsCompleted(action) {
   const { userId } = action.payload;
   try {
     const sessionsCompleted = yield call(fetchSessionsCompleted, userId);
-    yield put({ type: actionTypes.SESSIONS_COMPLETED_FETCH_SUCCESS, payload: { sessionsCompleted } });
+    yield put({
+      type: actionTypes.SESSIONS_COMPLETED_FETCH_SUCCESS,
+      payload: { sessionsCompleted },
+    });
   } catch (error) {
     yield put({ type: actionTypes.SESSIONS_COMPLETED_FETCH_FAILURE, error });
   }
@@ -34,4 +37,3 @@ function* executeFetchSessionsCompleted(action) {
 export function* watchFetchSessionsCompleted() {
   yield takeLatest(actionTypes.SESSIONS_COMPLETED_FETCH_REQUEST, executeFetchSessionsCompleted);
 }
-

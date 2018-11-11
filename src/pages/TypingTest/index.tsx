@@ -250,5 +250,5 @@ export const Unwrapped = TypingTest;
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(TypingTest);

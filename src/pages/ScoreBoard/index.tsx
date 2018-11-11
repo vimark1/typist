@@ -19,7 +19,6 @@ interface ScoreBoardProps {
 }
 
 class ScoreBoard extends React.Component<ScoreBoardProps> {
-
   componentDidMount() {
     ReactGA.pageview('/scoreboard');
     this.props.fetchScoreboard();
@@ -69,12 +68,11 @@ class ScoreBoard extends React.Component<ScoreBoardProps> {
 }
 
 const mapStateToProps = state => ({
-  ...state.scoreboard
+  ...state.scoreboard,
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchScoreboard: () =>
-    dispatch({ type: actionTypes.SCOREBOARD_FETCH_REQUEST }),
+  fetchScoreboard: () => dispatch({ type: actionTypes.SCOREBOARD_FETCH_REQUEST }),
 });
 
 export default connect(

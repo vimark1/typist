@@ -8,7 +8,6 @@ const defaultState = {
 
 const scoreReducer = (state = defaultState, action) => {
   switch (action.type) {
-
     case actionTypes.SCORE_SAVE_REQUEST:
       return { ...state, loading: true, error: undefined };
     case actionTypes.SCORE_SAVE_SUCCESS:

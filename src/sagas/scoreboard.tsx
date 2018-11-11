@@ -7,8 +7,7 @@ import * as actionTypes from '../actions/actionTypes';
 
 const fetchScoreboard = () => {
   const topScorersRef = firebase.database().ref('top-scorers');
-  return topScorersRef.once('value')
-    .then(snapshot => snapshot.val() || []);
+  return topScorersRef.once('value').then(snapshot => snapshot.val() || []);
 };
 
 const updateScoreboard = async (user: User, score: number) => {
@@ -57,4 +56,3 @@ export function* watchScoreboardFetch() {
 export function* watchScoreboardUpdate() {
   yield takeLatest(actionTypes.SCOREBOARD_UPDATE_REQUEST, executeScoreboardUpdate);
 }
-

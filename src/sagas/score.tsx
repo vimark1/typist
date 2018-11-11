@@ -21,7 +21,7 @@ const saveScore = async (userId: string, score: number) => {
     });
 
   return score;
-}
+};
 
 function* executeScoreSave(action) {
   const { userId, score } = action.payload;
@@ -36,4 +36,3 @@ function* executeScoreSave(action) {
 export function* watchScoreSave() {
   yield takeLatest(actionTypes.SCORE_SAVE_REQUEST, executeScoreSave);
 }
-
