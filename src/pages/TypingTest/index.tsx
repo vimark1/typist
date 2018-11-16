@@ -4,6 +4,7 @@ import ReactGA from 'react-ga';
 import { connect } from 'react-redux';
 import words from '../../data/words';
 import Text from './components/Text';
+import { translate, Trans } from 'react-i18next';
 
 import { User } from 'firebase';
 
@@ -12,6 +13,7 @@ import * as actionTypes from '../../actions/actionTypes';
 import './style.css';
 
 interface TypingTestProps {
+  t: (key: string) => string;
   user: User;
   updateScoreboard: (user: User, score: number) => any;
   saveScore: (userId: string, score: number) => any;
@@ -213,15 +215,15 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
 
   render() {
     const { letters, index, score, error } = this.state;
-    const { user, sessionsCompleted } = this.props;
+    const { t, user, sessionsCompleted } = this.props;
     const loggedIn = user && user.uid;
 
     return (
       <div className="App">
         <Text letters={letters} index={index} />
 
-        <p>Last score: {score}</p>
-        <p>Sessions completed: {sessionsCompleted}</p>
+        <p>{t('LastScore')}: {score}</p>
+        <p>{t('SessionsCompleted')}: {sessionsCompleted}</p>
 
         {!loggedIn && <div className="error center">Please log in to save your score!</div>}
         {error && <div className="error center">{error}</div>}
@@ -251,4 +253,4 @@ export const Unwrapped = TypingTest;
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(TypingTest);
+)(translate('translations')(TypingTest));

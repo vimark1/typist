@@ -26,6 +26,9 @@ import firebaseCred from './firebase-cred.json';
 import ga from './ga-cred.json';
 import configureStore from './store/configureStore';
 
+import { I18nextProvider } from "react-i18next";
+import i18n from "./i18n";
+
 const config = firebaseCred;
 const store = configureStore();
 
@@ -35,9 +38,11 @@ firebase.initializeApp(config);
 firebase.auth().onAuthStateChanged(user => {
   user = user || ({} as User);
   store.dispatch(userPreferencesFetchRequestAction({ uid: user.uid }));
-  ReactDOM.render(
+
+  const App = () => (
     <BrowserRouter>
       <Provider store={store}>
+        <I18nextProvider i18n={i18n}>
         <div>
           <Header user={user} />
           <Container className="main">
@@ -51,8 +56,13 @@ firebase.auth().onAuthStateChanged(user => {
             </Switch>
           </Container>
         </div>
+        </I18nextProvider>
       </Provider>
-    </BrowserRouter>,
+    </BrowserRouter>
+  );
+
+  ReactDOM.render(
+    <App />,
     document.getElementById('root')
   );
 });
