@@ -6,35 +6,34 @@ i18n.use(LanguageDetector).init({
   resources: {
     en: {
       translations: {
-        "LastScore": "Last score",
-        "SessionsCompleted": "Sessions completed"
-      }
+        LastScore: 'Last score',
+        SessionsCompleted: 'Sessions completed',
+      },
     },
     de: {
       translations: {
-        "LastScore": "Letzter Punktestand",
-        "SessionsCompleted": "Sitzungen abgeschlossen"
-      }
-    }
+        LastScore: 'Letzter Punktestand',
+        SessionsCompleted: 'Sitzungen abgeschlossen',
+      },
+    },
   },
-  fallbackLng: "en",
+  fallbackLng: 'en',
   debug: false,
 
   // have a common namespace used around the full app
-  ns: ["translations"],
-  defaultNS: "translations",
+  ns: ['translations'],
+  defaultNS: 'translations',
 
   keySeparator: false, // we use content as keys
 
   interpolation: {
     escapeValue: false, // not needed for react!!
-    formatSeparator: ","
+    formatSeparator: ',',
   },
 
   react: {
-    wait: true
-  }
+    wait: true,
+  },
 });
 
 export default i18n;
-
