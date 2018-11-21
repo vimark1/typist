@@ -7,8 +7,8 @@
     word-spacing: 10px;
     font-weight: bold;
     font-family: Monaco, Menlo;
-}
 
-.text.typed {
-    background: rgba(149, 249, 249, 0.5);
+    &.typed {
+        background: rgba(149, 249, 249, 0.5);
+    }
 }
