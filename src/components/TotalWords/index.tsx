@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import './style.css';
+import './style.scss';
 
 const TotalWords = props => {
   const { size, increment, decrement } = props;

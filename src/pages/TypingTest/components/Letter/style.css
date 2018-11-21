@@ -1,9 +1,0 @@
-.letter {
-  opacity: 0.6;
-}
-.letter.current {
-  background: lightblue;
-}
-.letter.done {
-  opacity: 1;
-}

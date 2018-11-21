@@ -9,7 +9,7 @@ import { User } from 'firebase';
 
 import * as actionTypes from '../../actions/actionTypes';
 
-import './style.css';
+import './style.scss';
 
 interface TypingTestProps {
   user: User;

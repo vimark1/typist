@@ -1,0 +1,17 @@
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.forgot-password {
+    width: 50%;
+    text-align: left;
+    text-decoration: underline;
+    color: #888;
+    font-size: 0.75rem;
+}
+
+.error {
+    color: red;
+}

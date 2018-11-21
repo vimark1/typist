@@ -2,7 +2,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import './style.css';
+import './style.scss';
 
 const Text = ({ done, letter, isCurrent }) => (
   <span className={cx('letter', { done, current: isCurrent })}>{letter}</span>
