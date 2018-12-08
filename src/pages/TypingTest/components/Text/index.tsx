@@ -3,7 +3,7 @@ import React from 'react';
 
 import Letter from '../Letter';
 
-import './style.css';
+import './style.scss';
 
 const Text = ({ letters, index }) => (
   <div className="text">
