@@ -5,7 +5,7 @@ import Letter from '../Letter';
 
 import './style.scss';
 
-const Text = ({ letters, index }) => (
+const Text = ({ letters, index, completedSessions }) => (
   <div className="text">
     {letters.map((letter, idx) => (
       <Letter key={idx} isCurrent={idx === index} {...letter} />
@@ -21,6 +21,7 @@ Text.propTypes = {
     })
   ).isRequired,
   index: PropTypes.number.isRequired,
+  completedSessions: PropTypes.number.isRequired
 };
 
 export default Text;
