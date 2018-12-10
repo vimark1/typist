@@ -20,7 +20,7 @@ Text.propTypes = {
       letter: PropTypes.string.isRequired,
     })
   ).isRequired,
-  index: PropTypes.number.isRequired
+  index: PropTypes.number.isRequired,
 };
 
 export default Text;
