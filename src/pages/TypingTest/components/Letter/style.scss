@@ -1,0 +1,11 @@
+.letter {
+    opacity: 0.6;
+
+    &.current {
+        background: lightblue;
+    }
+
+    &.done {
+        opacity: 1;
+    }
+}

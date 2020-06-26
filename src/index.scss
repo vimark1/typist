@@ -1,0 +1,84 @@
+body {
+  margin: 0 auto;
+  padding: 0;
+  font-family: Lato;
+  -webkit-font-smoothing: antialiased;
+  background-color: whitesmoke;
+  font-weight: 400;
+  color: rgb(50, 54, 72);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.header {
+  display: flex;
+  background: #fff;
+  margin: 0;
+  padding: 0 4vw;
+  margin-bottom: 10vh;
+  flex-direction: row;
+  min-height: 68px;
+  .logo {
+    width: 25%;
+    align-self: center;
+    h1 {
+      margin: 0;
+    }
+    a {
+      background: #1c299d;
+      color: #fff !important;
+      text-decoration: none;
+      padding: 2px 20px;
+    }
+  }
+  .menu {
+    width: 75%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}
+
+.menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  &.options {
+    justify-content: flex-start;
+  }
+}
+
+.menu-item {
+  color: #666;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  cursor: pointer;
+  align-self: center;
+  a {
+    color: #666;
+    text-decoration: none;
+  }
+  &:hover:not(.active) {
+    background-color: #ddd;
+  }
+  &.active {
+    color: white;
+    background-color: #4caf50;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.email-signin, .email-signup {
+  position: relative;
+  float: left;
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+  text-align: center;
+}

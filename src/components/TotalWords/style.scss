@@ -1,0 +1,12 @@
+.container {
+    display: flex;
+    width: 160px;
+    justify-content: space-between;
+}
+
+.btn {
+    background-color: grey;
+    color: white;
+    border: none;
+    border-radius: 50%;
+}
