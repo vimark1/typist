@@ -15,7 +15,7 @@ class LineChartStat extends React.Component {
     }
     
     componentDidMount() {
-        ReactGA.pageview('/scoreboard');
+        ReactGA.pageview('/chart');
           const topScorersRef = firebase.database().ref('top-scorers');
           topScorersRef.on('value', snapshot => {
               this.setState({

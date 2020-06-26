@@ -31,11 +31,10 @@ export default class App extends Component {
           <Route exact path='/signin' component={Signin} />
           <Route exact path='/signup' component={Signup} />
           <Route exact path='/scoreboard' component={ScoreBoard} />
-          <Route exact path='/linechart' component={LineChartStat} />
+          <Route exact path='/chart' component={LineChartStat} />
         </Switch>
       </div>
       </div>
     );
   }
 }
-
