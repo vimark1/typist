@@ -13,6 +13,7 @@ import ScoreBoard from './pages/ScoreBoard';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import TypingTest from './pages/TypingTest';
+import LineChartStat from './pages/LineChartStat';
 
 import 'firebase/auth';
 import 'firebase/database';
@@ -48,6 +49,7 @@ firebase.auth().onAuthStateChanged(user => {
               <Route exact={true} path="/signin" component={Signin} />
               <Route exact={true} path="/signup" component={Signup} />
               <Route exact={true} path="/scoreboard" component={ScoreBoard} />
+              <Route exact path='/chart' component={LineChartStat} />
             </Switch>
           </Container>
         </div>

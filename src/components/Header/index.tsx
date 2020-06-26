@@ -51,6 +51,9 @@ export default class Header extends Component<HeaderProps> {
           <NavLink className="menu-item" to="/scoreboard">
             Scoreboard
           </NavLink>
+          <NavLink className="menu-item" to="/chart">
+            Chart
+          </NavLink>
         </div>
         <ul className="menu">
           <MenuItem path="/signup" display={!loggedIn}>
