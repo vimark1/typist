@@ -2,7 +2,7 @@ import React from 'react';
 import ReactGA from 'react-ga';
 import firebase from 'firebase/app';
 import LineChart from 'react-linechart';
-import '../../node_modules/react-linechart/dist/styles.css';
+import '../../../node_modules/react-linechart/dist/styles.css';
 
 class LineChartStat extends React.Component {
   constructor(props) {

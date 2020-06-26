@@ -49,7 +49,7 @@ firebase.auth().onAuthStateChanged(user => {
               <Route exact={true} path="/signin" component={Signin} />
               <Route exact={true} path="/signup" component={Signup} />
               <Route exact={true} path="/scoreboard" component={ScoreBoard} />
-              <Route exact path='/chart' component={LineChartStat} />
+              <Route exact={true} path="/chart" component={LineChartStat} />
             </Switch>
           </Container>
         </div>
