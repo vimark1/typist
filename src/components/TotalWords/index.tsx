@@ -3,8 +3,19 @@ import React from 'react';
 
 import './style.scss';
 
+export interface Props {
+  size: number;
+  increment: () => void;
+  decrement: () => void;
+}
+
 const TotalWords = props => {
-  const { size, increment, decrement } = props;
+  const {
+    size,
+    increment,
+    decrement
+  } = props as Props;
+
   return (
     <div className="container">
       nº of words:

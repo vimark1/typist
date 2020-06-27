@@ -1,7 +1,7 @@
 {
   "name": "typist",
   "version": "0.8.0",
-  "homepage": "https://typistapp.netlify.com",
+  "homepage": "https://typistapp.netlify.app",
   "scripts": {
     "start": "react-scripts start",
     "lint": "tslint 'src/**/*.ts?(x)'",
@@ -9,7 +9,7 @@
     "deploy:firebase": "node scripts/write-firebase-file.js",
     "prebuild": "run-s lint deploy:firebase",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "npm run lint && react-scripts test",
     "eject": "react-scripts eject",
     "postversion": "run-s changelog",
     "changelog": "auto-changelog -p -t .changelog.hbs"
@@ -26,8 +26,9 @@
     "react-ga": "^2.5.3",
     "react-google-button": "^0.5.3",
     "react-grid-system": "^4.3.1",
+    "react-linechart": "^1.1.12",
     "react-redux": "^5.1.0",
-    "react-router-dom": "^4.3.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "2.1.0",
     "react-timeago": "^4.1.9",
     "redux": "^4.0.1",
