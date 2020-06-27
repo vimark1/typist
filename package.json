@@ -1,7 +1,7 @@
 {
   "name": "typist",
   "version": "0.8.0",
-  "homepage": "https://typistapp.netlify.com",
+  "homepage": "https://typistapp.netlify.app",
   "scripts": {
     "start": "react-scripts start",
     "lint": "tslint 'src/**/*.ts?(x)'",
