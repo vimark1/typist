@@ -221,7 +221,7 @@ class TypingTest extends Component<TypingTestProps, TypingTestState> {
         {!loggedIn && <div className="error center">Please log in to save your score!</div>}
         {error && <div className="error center">{error}</div>}
 
-        <Text letters={letters} index={index} completedSessions={sessionsCompleted} />
+        <Text letters={letters} index={index} />
 
         <p>Last score: <b className="bold">{score}</b></p>
         <p>Sessions completed: <b className="bold">{sessionsCompleted}</b></p>
