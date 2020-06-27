@@ -9,7 +9,7 @@
     "deploy:firebase": "node scripts/write-firebase-file.js",
     "prebuild": "run-s lint deploy:firebase",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "npm run lint && react-scripts test",
     "eject": "react-scripts eject",
     "postversion": "run-s changelog",
     "changelog": "auto-changelog -p -t .changelog.hbs"
