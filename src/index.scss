@@ -62,11 +62,12 @@ code {
     text-decoration: none;
   }
   &:hover:not(.active) {
-    background-color: #ddd;
+    transition-duration: 500ms;
+    color: #000;
   }
   &.active {
-    color: white;
-    background-color: #4caf50;
+    color: #000;
+    font-weight: bold;
   }
 }
 
