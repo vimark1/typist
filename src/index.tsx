@@ -8,12 +8,12 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Header from './components/Header';
 import About from './pages/About';
+import LineChartStat from './pages/LineChartStat';
 import Profile from './pages/Profile';
 import ScoreBoard from './pages/ScoreBoard';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import TypingTest from './pages/TypingTest';
-import LineChartStat from './pages/LineChartStat';
 
 import 'firebase/auth';
 import 'firebase/database';

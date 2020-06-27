@@ -1,6 +1,6 @@
+import firebase from 'firebase/app';
 import React from 'react';
 import ReactGA from 'react-ga';
-import firebase from 'firebase/app';
 import LineChart from 'react-linechart';
 import '../../../node_modules/react-linechart/dist/styles.css';
 
@@ -8,9 +8,7 @@ class LineChartStat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      top10: [
-        //{user: (user object), score: "12"}
-      ],
+      top10: [],
     };
   }
 
@@ -25,7 +23,7 @@ class LineChartStat extends React.Component {
   }
 
   render() {
-    let tableData = this.state.top10.map((row, idx) => {
+    const tableData = ((this.state as any).top10 || []).map((row, idx) => {
       return { x: idx + 1, y: row.score };
     });
     const data = [
