@@ -5,7 +5,7 @@ import { Col, Row } from 'react-grid-system';
 import { connect } from 'react-redux';
 import TimeAgo from 'react-timeago';
 import Avatar from '../../components/Avatar';
-import TotalWords from '../../components/TotalWords';
+import TotalWords, { Props } from '../../components/TotalWords';
 
 import { User } from 'firebase';
 
@@ -89,6 +89,14 @@ class Profile extends Component<ProfileProps, ProfileState> {
     }
   }
 
+  get totalWordsProps(): Props {
+    return {
+      size: this.state.totalWords,
+      increment: this.increment,
+      decrement: this.decrement
+    };
+  }
+
   render() {
     const { user } = this.props;
     return (
@@ -128,9 +136,7 @@ class Profile extends Component<ProfileProps, ProfileState> {
 
               <h2>Preferences</h2>
               <TotalWords
-                size={this.state.totalWords}
-                increment={this.increment}
-                decrement={this.decrement}
+                {...this.totalWordsProps }
               />
               <button onClick={this.doUpdatePreferences.bind(this)}>Update preferences</button>
             </Col>

@@ -4,7 +4,7 @@
 
 Touch typing practice web app in which you type short words and aim to achieve better scores.
 
-**Demo: https://typistapp.netlify.com/**
+**Demo: https://typistapp.netlify.app/**
 
 ## Getting Started
 

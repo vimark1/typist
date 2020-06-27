@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Header from './components/Header';
 import About from './pages/About';
+import LineChartStat from './pages/LineChartStat';
 import Profile from './pages/Profile';
 import ScoreBoard from './pages/ScoreBoard';
 import Signin from './pages/Signin';
@@ -48,6 +49,7 @@ firebase.auth().onAuthStateChanged(user => {
               <Route exact={true} path="/signin" component={Signin} />
               <Route exact={true} path="/signup" component={Signup} />
               <Route exact={true} path="/scoreboard" component={ScoreBoard} />
+              <Route exact={true} path="/chart" component={LineChartStat} />
             </Switch>
           </Container>
         </div>
