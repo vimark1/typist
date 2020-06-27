@@ -28,16 +28,15 @@ class LineChartStat extends React.Component {
     });
     const data = [
       {
+        name: 'Top scorers',
         color: 'steelblue',
         points: tableData,
       },
     ];
     return (
       <div>
-        <div className="App">
-          <h1>My First LineChart</h1>
-          <LineChart width={600} height={400} data={data} />
-        </div>
+        <h1>Top scorers chart</h1>
+        <LineChart width={600} height={400} data={data} yMin={0} yLabel={'Score'} />
       </div>
     );
   }
