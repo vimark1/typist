@@ -29,7 +29,7 @@
     "react-linechart": "^1.1.12",
     "react-redux": "^5.1.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "2.1.0",
+    "react-scripts": "2.1.8",
     "react-timeago": "^4.1.9",
     "redux": "^4.0.1",
     "redux-saga": "^0.16.2"
